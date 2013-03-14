@@ -26,8 +26,9 @@ import javax.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class DtoBuilder {
 
-    DiskUsageDto buildDiskUsageDto(Long timestamp, String path, Long total, Long free, Long usable) {
+    DiskUsageDto buildDiskUsageDto(Long id, Long timestamp, String path, Long total, Long free, Long usable) {
         return new DiskUsageDto(
+                id: id,
                 timestamp: timestamp,
                 path: path,
                 total: total,
@@ -36,8 +37,9 @@ class DtoBuilder {
         )
     }
 
-    MemoryUsageDto buildMemUsageDto(Long currentTs, Long total, Long free) {
+    MemoryUsageDto buildMemUsageDto(Long id, Long currentTs, Long total, Long free) {
         return new MemoryUsageDto(
+                id: id,
                 timestamp: currentTs,
                 total: total,
                 free: free

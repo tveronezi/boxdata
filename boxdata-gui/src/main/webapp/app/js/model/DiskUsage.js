@@ -16,27 +16,28 @@
  *  limitations under the License.
  */
 
-(function () {
-    'use strict';
+Ext.define('boxdata.model.DiskUsage', {
+    extend: 'Ext.data.Model',
+    fields: ['id', {
+        name: 'timestamp',
+        type: 'int'
+    }, {
+        name: 'total',
+        type: 'int'
+    }, {
+        name: 'free',
+        type: 'int'
+    }, {
+        name: 'usable',
+        type: 'int'
+    }, 'path'],
 
-    Ext.define('boxdata.controller.Placeholder', {
-        extend: 'Ext.app.Controller',
-
-        views: [
-            'ApplicationContainer'
-        ],
-
-        stores: [
-            'Placeholder'
-        ],
-
-        init: function () {
-            var self = this;
-
-            self.control({
-
-            });
-        }
-    });
-
-}());
+    proxy: {
+        type: 'rest',
+        reader: {
+            type: 'json',
+            root: 'diskUsageDto'
+        },
+        url: 'rest/disk-usage'
+    }
+});

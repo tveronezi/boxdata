@@ -32,6 +32,7 @@ import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Singleton
 @Startup
@@ -41,6 +42,7 @@ public class ApplicationUsage {
     @Inject
     private DtoBuilder builder;
 
+    private AtomicLong id = new AtomicLong();
     private List<DiskUsageDto> diskUsage = new ArrayList<DiskUsageDto>();
     private List<MemoryUsageDto> memoryUsage = new ArrayList<MemoryUsageDto>();
 
@@ -50,6 +52,7 @@ public class ApplicationUsage {
         Long currentTs = System.currentTimeMillis();
         for (File root : roots) {
             DiskUsageDto dto = this.builder.buildDiskUsageDto(
+                    id.getAndIncrement(),
                     currentTs,
                     root.getAbsolutePath(),
                     root.getTotalSpace(),
@@ -67,6 +70,7 @@ public class ApplicationUsage {
         Long free = Runtime.getRuntime().freeMemory();
         Long total = Runtime.getRuntime().totalMemory();
         final MemoryUsageDto dto = this.builder.buildMemUsageDto(
+                id.getAndIncrement(),
                 currentTs,
                 total,
                 free

@@ -16,15 +16,7 @@
  *  limitations under the License.
  */
 
-Ext.define('boxdata.model.Placeholder', {
-    extend: 'Ext.data.Model',
-    fields: ['id', {
-        name: 'timestamp',
-        type: 'int'
-    }, 'account', 'type'],
-
-    proxy: {
-        type: 'localstorage',
-        id  : 'placeholder'
-    }
+Ext.define('boxdata.store.DiskUsage', {
+    extend: 'Ext.data.Store',
+    model: 'boxdata.model.DiskUsage'
 });

@@ -22,10 +22,7 @@
     // Add your messages to this list.
     // This is a list of extjs Templates, therefore you can use parameters in it.
     var messages = {
-        'ok': 'Ok',
-        'cancel': 'Cancel',
         'application.name': 'boxdata',
-
         'test.with.param': 'This is for test only. {myParam}!'
     };
 

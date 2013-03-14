@@ -16,7 +16,37 @@
  *  limitations under the License.
  */
 
-Ext.define('boxdata.store.Placeholder', {
-    extend: 'Ext.data.Store',
-    model: 'boxdata.model.Placeholder'
-});
+(function () {
+    'use strict';
+
+    Ext.define('boxdata.controller.DiskUsage', {
+        extend: 'Ext.app.Controller',
+
+        views: [
+            'ApplicationContainer',
+            'DiskUsage'
+        ],
+
+        stores: [
+            'DiskUsage'
+        ],
+
+        init: function () {
+            var self = this;
+
+            self.control({
+                'boxdata-disk-usage-panel': {
+                    render: function() {
+                        self.getDiskUsageStore().load();
+                    }
+                },
+                'boxdata-disk-usage-panel button[action=refresh]': {
+                    click: function() {
+                        self.getDiskUsageStore().load();
+                    }
+                }
+            });
+        }
+    });
+
+}());

@@ -28,14 +28,13 @@
             align: 'stretch'
         },
         border: false,
-        requires: ['boxdata.view.ChartPanel'],
         items: [
             {
                 xtype: 'panel',
                 layout: 'fit',
                 items: [
                     {
-                        xtype: 'boxdata-chart-panel'
+                        xtype: 'boxdata-disk-usage-panel'
                     }
                 ],
                 flex: 2

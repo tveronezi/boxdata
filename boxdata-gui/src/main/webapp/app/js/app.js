@@ -36,7 +36,11 @@
         ],
 
         controllers: [
-            'Placeholder'
+            'DiskUsage'
+        ],
+
+        stores: [
+            'DiskUsage'
         ],
 
         launch: function () {
