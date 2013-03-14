@@ -19,6 +19,7 @@
 package boxdata.cdi.util
 
 import boxdata.data.dto.DiskUsageDto
+import boxdata.data.dto.MemoryUsageDto
 
 import javax.enterprise.context.ApplicationScoped
 
@@ -35,4 +36,11 @@ class DtoBuilder {
         )
     }
 
+    MemoryUsageDto buildMemUsageDto(Long currentTs, Long total, Long free) {
+        return new MemoryUsageDto(
+                timestamp: currentTs,
+                total: total,
+                free: free
+        )
+    }
 }

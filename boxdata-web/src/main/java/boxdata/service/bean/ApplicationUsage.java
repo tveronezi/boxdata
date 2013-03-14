@@ -20,6 +20,7 @@ package boxdata.service.bean;
 
 import boxdata.cdi.util.DtoBuilder;
 import boxdata.data.dto.DiskUsageDto;
+import boxdata.data.dto.MemoryUsageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +42,7 @@ public class ApplicationUsage {
     private DtoBuilder builder;
 
     private List<DiskUsageDto> diskUsage = new ArrayList<DiskUsageDto>();
+    private List<MemoryUsageDto> memoryUsage = new ArrayList<MemoryUsageDto>();
 
     private List<DiskUsageDto> getCurrentDiskUsage() {
         final List<DiskUsageDto> result = new ArrayList<DiskUsageDto>();
@@ -60,13 +62,31 @@ public class ApplicationUsage {
         return result;
     }
 
+    private MemoryUsageDto getCurrentMemUsage() {
+        Long currentTs = System.currentTimeMillis();
+        Long free = Runtime.getRuntime().freeMemory();
+        Long total = Runtime.getRuntime().totalMemory();
+        final MemoryUsageDto dto = this.builder.buildMemUsageDto(
+                currentTs,
+                total,
+                free
+        );
+        LOG.info(dto.toString());
+        return dto;
+    }
+
     @Schedule(minute = "*/5", hour = "*", persistent = false)
     public void readData() {
         LOG.info("Reading system information....");
 
-        diskUsage.addAll(this.getCurrentDiskUsage());
-        while (diskUsage.size() > 200) {
-            diskUsage.remove(0);
+        this.diskUsage.addAll(this.getCurrentDiskUsage());
+        while (this.diskUsage.size() > 200) {
+            this.diskUsage.remove(0);
+        }
+
+        this.memoryUsage.add(this.getCurrentMemUsage());
+        if (this.memoryUsage.size() > 200) {
+            this.memoryUsage.remove(0);
         }
     }
 
@@ -74,8 +94,13 @@ public class ApplicationUsage {
         return diskUsage;
     }
 
+    public List<MemoryUsageDto> getMemoryUsageDto() {
+        return memoryUsage;
+    }
+
     @PostConstruct
     public void applicationStartup() {
         readData();
     }
+
 }

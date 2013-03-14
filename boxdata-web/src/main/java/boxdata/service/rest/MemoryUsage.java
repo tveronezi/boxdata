@@ -16,22 +16,28 @@
  *  limitations under the License.
  */
 
-package boxdata.service;
+package boxdata.service.rest;
 
-import boxdata.service.rest.DiskUsage;
-import boxdata.service.rest.MemoryUsage;
+import boxdata.data.dto.DiskUsageDto;
+import boxdata.data.dto.MemoryUsageDto;
+import boxdata.service.bean.ApplicationUsage;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-import java.util.HashSet;
-import java.util.Set;
+import javax.ejb.EJB;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import java.util.List;
 
-@ApplicationPath("/rest")
-public class ApplicationConfig extends Application {
-    public Set<Class<?>> getClasses() {
-        final Set<Class<?>> classSet = new HashSet<Class<?>>();
-        classSet.add(DiskUsage.class);
-        classSet.add(MemoryUsage.class);
-        return classSet;
+@Path("/mem-usage")
+public class MemoryUsage {
+
+    @EJB
+    private ApplicationUsage usage;
+
+    @GET
+    @Produces("application/json")
+    public List<MemoryUsageDto> get() {
+        return usage.getMemoryUsageDto();
     }
+
 }

@@ -16,22 +16,28 @@
  *  limitations under the License.
  */
 
-package boxdata.service;
+package boxdata.data.dto
 
-import boxdata.service.rest.DiskUsage;
-import boxdata.service.rest.MemoryUsage;
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlElement
+import javax.xml.bind.annotation.XmlRootElement
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-import java.util.HashSet;
-import java.util.Set;
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement
+class MemoryUsageDto {
 
-@ApplicationPath("/rest")
-public class ApplicationConfig extends Application {
-    public Set<Class<?>> getClasses() {
-        final Set<Class<?>> classSet = new HashSet<Class<?>>();
-        classSet.add(DiskUsage.class);
-        classSet.add(MemoryUsage.class);
-        return classSet;
+    @XmlElement
+    Long timestamp
+
+    @XmlElement
+    Long total
+
+    @XmlElement
+    Long free
+
+    @Override
+    public String toString() {
+        return "MemoryUsageDto{timestamp=${timestamp}, total=${total}, free=${free}}"
     }
 }
