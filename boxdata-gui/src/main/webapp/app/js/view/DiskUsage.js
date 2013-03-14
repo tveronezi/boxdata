@@ -42,6 +42,12 @@
                     type: 'datetime'
                 },
                 yAxis: {
+                    min: 0,
+                    labels: {
+                        formatter: function() {
+                            return Ext.util.Format.number((this.value / 1024 / 1024), '0.00') + ' GB';
+                        }
+                    },
                     title: {
                         text: ''
                     },

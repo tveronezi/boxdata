@@ -19,6 +19,12 @@
 (function () {
     'use strict';
 
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+
     Ext.Loader.setConfig({
         enabled: true,
         disableCaching: false,
