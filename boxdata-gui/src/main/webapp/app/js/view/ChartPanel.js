@@ -36,6 +36,8 @@
 
         setData: function (records) {
             var me = this;
+            me.chart.showLoading('...');
+
             var series = {};
             Ext.each(records, function (rec) {
                 me.buildData(series, rec);
@@ -54,6 +56,8 @@
                     data: value
                 }, true);
             });
+
+            me.chart.hideLoading();
         },
 
         showChart: function () {
