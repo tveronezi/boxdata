@@ -31,7 +31,13 @@
         requires: ['boxdata.view.ChartPanel'],
         items: [
             {
-                xtype: 'boxdata-chart-panel',
+                xtype: 'panel',
+                layout: 'fit',
+                items: [
+                    {
+                        xtype: 'boxdata-chart-panel'
+                    }
+                ],
                 flex: 2
             },
             {

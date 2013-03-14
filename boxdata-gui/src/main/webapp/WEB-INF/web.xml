@@ -25,29 +25,4 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
-    <!-- ... -->
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Rest services</web-resource-name>
-            <url-pattern>/rest/*</url-pattern>
-        </web-resource-collection>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Secure Content</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>solution-admin</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <!-- ... -->
-    <login-config>
-        <auth-method>BASIC</auth-method>
-    </login-config>
-    <!-- ... -->
-    <security-role>
-        <role-name>solution-admin</role-name>
-    </security-role>
-
 </web-app>

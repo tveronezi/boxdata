@@ -33,7 +33,7 @@
         window.ux.SESSION_ID = "<%=request.getSession().getId()%>";
         window.ux.ROOT_URL = "<c:url value='/'/>".replace(';jsessionid=' + window.ux.SESSION_ID, '');
     </script>
-    <script type="text/javascript" charset="utf-8" src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all-debug.js"></script>
     <script type="text/javascript" src="<c:url value='/app/js/app.js'/>"></script>
 </head>
 <body></body>
