@@ -24,6 +24,7 @@
     var messages = {
         'application.name': 'boxdata',
         'application.disk.usage': 'Disk Usage',
+        'application.mem.usage': 'Memory Usage',
         'test.with.param': 'This is for test only. {myParam}!'
     };
 

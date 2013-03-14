@@ -26,7 +26,6 @@
         alias: 'widget.boxdata-disk-usage-panel',
         requires: ['boxdata.view.ChartPanel'],
         layout: 'fit',
-        border: false,
         tools: [
             {
                 itemId: 'refresh',
@@ -75,13 +74,6 @@
                     this.addData(series, rec, 'total');
                     this.addData(series, rec, 'usable');
                 }
-            }
-        ],
-
-        refs: [
-            {
-                ref: 'chart',
-                selector: 'boxdata-chart-panel'
             }
         ],
 

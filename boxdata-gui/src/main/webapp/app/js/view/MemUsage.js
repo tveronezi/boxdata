@@ -16,41 +16,32 @@
  *  limitations under the License.
  */
 
+
 (function () {
     'use strict';
 
-    Ext.Loader.setConfig({
-        enabled: true,
-        disableCaching: false,
-        paths: {
-            'boxdata': 'app/js'
+    Ext.define('boxdata.view.MemUsage', {
+        title: boxdata.i18n.get('application.mem.usage'),
+        extend: 'Ext.panel.Panel',
+        alias: 'widget.boxdata-mem-usage-panel',
+        requires: ['boxdata.view.ChartPanel'],
+        layout: 'fit',
+        tools: [
+            {
+                itemId: 'refresh',
+                type: 'refresh',
+                handler: function (event, target, owner) {
+                    owner.ownerCt.fireEvent('refresh');
+                }
+            }
+        ],
+
+        initComponent: function () {
+            var me = this;
+            Ext.panel.Panel.prototype.initComponent.apply(me, arguments);
         }
     });
 
-    Ext.application({
-        name: 'boxdata',
-        appFolder: 'app/js',
-
-        requires: [
-            'boxdata.i18n'
-        ],
-
-        controllers: [
-            'DiskUsage',
-            'MemUsage'
-        ],
-
-        stores: [
-            'DiskUsage'
-        ],
-
-        launch: function () {
-            console.log('init application...');
-
-            var title = Ext.get(Ext.dom.Query.selectNode('title'));
-            title.update(boxdata.i18n.get('application.name'));
-
-            Ext.create('boxdata.view.ApplicationViewport');
-        }
-    });
 }());
+
+

@@ -32,6 +32,7 @@
             {
                 xtype: 'panel',
                 layout: 'fit',
+                border: false,
                 items: [
                     {
                         xtype: 'boxdata-disk-usage-panel'
@@ -41,12 +42,12 @@
             },
             {
                 xtype: 'panel',
-                title: 'A',
-                flex: 1
-            },
-            {
-                xtype: 'panel',
-                title: 'B',
+                border: false,
+                items: [
+                    {
+                        xtype: 'boxdata-mem-usage-panel'
+                    }
+                ],
                 flex: 1
             }
         ]

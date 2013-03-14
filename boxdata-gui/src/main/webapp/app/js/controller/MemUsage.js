@@ -19,38 +19,21 @@
 (function () {
     'use strict';
 
-    Ext.Loader.setConfig({
-        enabled: true,
-        disableCaching: false,
-        paths: {
-            'boxdata': 'app/js'
-        }
-    });
+    Ext.define('boxdata.controller.MemUsage', {
+        extend: 'Ext.app.Controller',
 
-    Ext.application({
-        name: 'boxdata',
-        appFolder: 'app/js',
-
-        requires: [
-            'boxdata.i18n'
-        ],
-
-        controllers: [
-            'DiskUsage',
+        views: [
+            'ApplicationContainer',
             'MemUsage'
         ],
 
-        stores: [
-            'DiskUsage'
-        ],
+        init: function () {
+            var self = this;
 
-        launch: function () {
-            console.log('init application...');
+            self.control({
 
-            var title = Ext.get(Ext.dom.Query.selectNode('title'));
-            title.update(boxdata.i18n.get('application.name'));
-
-            Ext.create('boxdata.view.ApplicationViewport');
+            });
         }
     });
+
 }());
