@@ -18,7 +18,6 @@
 
 package boxdata.service.rest;
 
-import boxdata.data.dto.DiskUsageDto;
 import boxdata.data.dto.MemoryUsageDto;
 import boxdata.service.bean.ApplicationUsage;
 
@@ -38,6 +37,13 @@ public class MemoryUsage {
     @Produces("application/json")
     public List<MemoryUsageDto> get() {
         return usage.getMemoryUsageDto();
+    }
+
+    @GET
+    @Path("/current")
+    @Produces("application/json")
+    public MemoryUsageDto getCurrent() {
+        return usage.getCurrentMemoryUsageDto();
     }
 
 }

@@ -107,4 +107,7 @@ public class ApplicationUsage {
         readData();
     }
 
+    public MemoryUsageDto getCurrentMemoryUsageDto() {
+        return this.getCurrentMemUsage();
+    }
 }
