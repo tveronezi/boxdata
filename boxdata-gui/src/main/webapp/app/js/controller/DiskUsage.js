@@ -36,12 +36,10 @@
 
             self.control({
                 'boxdata-disk-usage-panel': {
-                    render: function() {
+                    render: function () {
                         self.getDiskUsageStore().load();
-                    }
-                },
-                'boxdata-disk-usage-panel button[action=refresh]': {
-                    click: function() {
+                    },
+                    refreshpanel: function () {
                         self.getDiskUsageStore().load();
                     }
                 }

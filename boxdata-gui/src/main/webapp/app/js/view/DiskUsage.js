@@ -31,7 +31,7 @@
                 itemId: 'refresh',
                 type: 'refresh',
                 handler: function (event, target, owner) {
-                    owner.ownerCt.fireEvent('refresh');
+                    owner.ownerCt.fireEvent('refreshpanel');
                 }
             }
         ],

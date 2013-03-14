@@ -41,6 +41,13 @@
                 me.buildData(series, rec);
             });
 
+            var deleteMe = Ext.Array.map(me.chart.series, function(item) {
+                return item;
+            });
+            Ext.each(deleteMe, function(item) {
+                item.remove();
+            });
+
             Ext.Object.each(series, function (key, value) {
                 me.chart.addSeries({
                     name: key,
