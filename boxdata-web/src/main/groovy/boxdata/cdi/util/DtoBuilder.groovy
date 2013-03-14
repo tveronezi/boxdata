@@ -18,47 +18,21 @@
 
 package boxdata.cdi.util
 
-import boxdata.data.dto.AuthenticationDto
-import boxdata.data.dto.UserDto
-import boxdata.data.entity.AuthenticationLog
-import boxdata.data.entity.User
+import boxdata.data.dto.DiskUsageDto
 
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class DtoBuilder {
 
-    UserDto buildUser(User user) {
-        if (user == null) {
-            return null
-        }
-        UserDto result = new UserDto()
-        result.setId(user.getUid())
-        result.setName(user.getName())
-        result.setAccount(user.getAccount())
-
-        Set<String> groups = user.getSecurityGroups()
-        if (groups == null) {
-            result.setGroups("")
-        } else {
-            String groupsStr = groups.toString()
-            groupsStr = groupsStr.substring(1, groupsStr.length() - 1)
-            groupsStr.replaceAll("\\s", "")
-            result.setGroups(groupsStr)
-        }
-        return result
-    }
-
-    AuthenticationDto buildAuthenticationLog(AuthenticationLog log) {
-        if (log == null) {
-            return null
-        }
-        AuthenticationDto result = new AuthenticationDto()
-        result.setId(log.getUid())
-        result.setAccount(log.getAccount())
-        result.setTimestamp(log.getDate().getTime())
-        result.setType(log.getLogType().name())
-        return result
+    DiskUsageDto buildDiskUsageDto(Long timestamp, String path, Long total, Long free, Long usable) {
+        return new DiskUsageDto(
+                timestamp: timestamp,
+                path: path,
+                total: total,
+                free: free,
+                usable: usable
+        )
     }
 
 }

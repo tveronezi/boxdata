@@ -18,9 +18,7 @@
 
 package boxdata.service;
 
-import boxdata.service.rest.Authentication;
-import boxdata.service.rest.AuthenticationLog;
-import boxdata.service.rest.Users;
+import boxdata.service.rest.DiskUsage;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -31,9 +29,7 @@ import java.util.Set;
 public class ApplicationConfig extends Application {
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classSet = new HashSet<Class<?>>();
-        classSet.add(Users.class);
-        classSet.add(Authentication.class);
-        classSet.add(AuthenticationLog.class);
+        classSet.add(DiskUsage.class);
         return classSet;
     }
 }

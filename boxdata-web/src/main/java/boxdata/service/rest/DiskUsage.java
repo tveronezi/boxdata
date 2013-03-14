@@ -16,23 +16,27 @@
  *  limitations under the License.
  */
 
-package boxdata.data.execution.command;
+package boxdata.service.rest;
 
-import boxdata.data.entity.User;
-import boxdata.data.entity.UserConfirmation;
-import boxdata.data.execution.BaseEAO;
-import boxdata.data.execution.DbCommand;
+import boxdata.data.dto.DiskUsageDto;
+import boxdata.service.bean.ApplicationUsage;
 
-public class CreateUserConfirmation implements DbCommand<UserConfirmation> {
+import javax.ejb.EJB;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import java.util.List;
 
-    public User user;
-    public String key;
+@Path("/disk-usage")
+public class DiskUsage {
 
-    @Override
-    public UserConfirmation execute(BaseEAO eao) {
-        UserConfirmation confirmation = new UserConfirmation();
-        confirmation.setUser(this.user);
-        confirmation.setKey(this.key);
-        return eao.create(confirmation);
+    @EJB
+    private ApplicationUsage usage;
+
+    @GET
+    @Produces("application/json")
+    public List<DiskUsageDto> get() {
+        return usage.getDiskUsage();
     }
+
 }

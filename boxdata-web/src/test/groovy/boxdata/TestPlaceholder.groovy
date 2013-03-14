@@ -16,23 +16,24 @@
  *  limitations under the License.
  */
 
-package boxdata.service;
+package boxdata
 
-import boxdata.service.bean.UserImpl;
+import org.junit.Before
+import org.junit.Test
 
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.ejb.embeddable.EJBContainer
 
-@Singleton
-@Startup
-public class ApplicationStartup {
-    @EJB
-    private UserImpl userService;
+class TestPlaceholder {
+    private EJBContainer container
 
-    @PostConstruct
-    public void applicationStartup() {
-        // placeholder
+    @Before
+    public void setUp() {
+        def p = [:] as Properties
+        this.container = EJBContainer.createEJBContainer(p)
+    }
+
+    @Test
+    void testPlaceholder() {
+
     }
 }
