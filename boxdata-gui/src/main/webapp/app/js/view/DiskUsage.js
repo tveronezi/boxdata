@@ -20,6 +20,10 @@
 (function () {
     'use strict';
 
+    function getValueInGB(value) {
+        return Ext.util.Format.number((value / 1024 / 1024), '0.00') + ' GB';
+    };
+
     Ext.define('boxdata.view.DiskUsage', {
         title: boxdata.i18n.get('application.disk.usage'),
         extend: 'Ext.panel.Panel',
@@ -44,8 +48,8 @@
                 yAxis: {
                     min: 0,
                     labels: {
-                        formatter: function() {
-                            return Ext.util.Format.number((this.value / 1024 / 1024), '0.00') + ' GB';
+                        formatter: function () {
+                            return getValueInGB(this.value);
                         }
                     },
                     title: {
@@ -61,8 +65,8 @@
                 },
                 tooltip: {
                     formatter: function () {
-                        return '<b>' + this.series.name + '</b><br/>' +
-                            this.x + ': ' + this.y + '°C';
+                        return '<b>"' + this.series.name + '"</b><br/>' +
+                            Ext.util.Format.date(new Date(this.x)) + ': ' + getValueInGB(this.y);
                     }
                 },
 
