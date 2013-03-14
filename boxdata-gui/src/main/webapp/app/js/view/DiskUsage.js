@@ -21,10 +21,12 @@
     'use strict';
 
     Ext.define('boxdata.view.DiskUsage', {
+        title: boxdata.i18n.get('application.disk.usage'),
         extend: 'Ext.panel.Panel',
         alias: 'widget.boxdata-disk-usage-panel',
         requires: ['boxdata.view.ChartPanel'],
         layout: 'fit',
+        border: false,
         tools: [
             {
                 itemId: 'refresh',

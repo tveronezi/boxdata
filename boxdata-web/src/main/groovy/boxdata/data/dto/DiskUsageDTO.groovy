@@ -28,6 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement
 class DiskUsageDto {
 
     @XmlElement
+    Long id
+
+    @XmlElement
     Long timestamp
 
     @XmlElement

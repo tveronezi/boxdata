@@ -23,6 +23,7 @@
     // This is a list of extjs Templates, therefore you can use parameters in it.
     var messages = {
         'application.name': 'boxdata',
+        'application.disk.usage': 'Disk Usage',
         'test.with.param': 'This is for test only. {myParam}!'
     };
 
