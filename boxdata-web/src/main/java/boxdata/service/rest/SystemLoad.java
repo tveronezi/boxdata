@@ -16,28 +16,27 @@
  *  limitations under the License.
  */
 
-package boxdata.data.dto
+package boxdata.service.rest;
 
-import javax.xml.bind.annotation.XmlAccessType
-import javax.xml.bind.annotation.XmlAccessorType
-import javax.xml.bind.annotation.XmlElement
-import javax.xml.bind.annotation.XmlRootElement
+import boxdata.data.dto.SystemLoadDto;
+import boxdata.service.bean.ApplicationUsage;
 
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement
-class SystemLoadDto {
+import javax.ejb.EJB;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import java.util.List;
 
-    @XmlElement
-    Long id
+@Path("/system-load")
+public class SystemLoad {
 
-    @XmlElement
-    Long timestamp
+    @EJB
+    private ApplicationUsage usage;
 
-    @XmlElement
-    Double load
-
-    @Override
-    public String toString() {
-        return "SystemLoadDto{timestamp=${timestamp}, total=${load}}"
+    @GET
+    @Produces("application/json")
+    public List<SystemLoadDto> get() {
+        return usage.getSystemLoad();
     }
+
 }

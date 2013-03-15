@@ -128,6 +128,10 @@ public class ApplicationUsage {
         return memoryUsage;
     }
 
+    public List<SystemLoadDto> getSystemLoad() {
+        return systemLoad;
+    }
+
     @PostConstruct
     public void applicationStartup() {
         readDiskUsageData();

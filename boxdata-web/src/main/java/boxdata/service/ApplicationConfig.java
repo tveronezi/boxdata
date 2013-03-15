@@ -20,6 +20,7 @@ package boxdata.service;
 
 import boxdata.service.rest.DiskUsage;
 import boxdata.service.rest.MemoryUsage;
+import boxdata.service.rest.SystemLoad;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -32,6 +33,7 @@ public class ApplicationConfig extends Application {
         final Set<Class<?>> classSet = new HashSet<Class<?>>();
         classSet.add(DiskUsage.class);
         classSet.add(MemoryUsage.class);
+        classSet.add(SystemLoad.class);
         return classSet;
     }
 }
