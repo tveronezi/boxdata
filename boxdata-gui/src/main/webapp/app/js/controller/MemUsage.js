@@ -32,7 +32,7 @@
         loadUsage: function (panel) {
             var me = this;
             Ext.Ajax.request({
-                url: 'rest/mem-usage/current',
+                url: 'rest/mem-usage',
                 success: function (response) {
                     var usage = Ext.JSON.decode(response.responseText);
                     panel.loadData([usage.memoryUsageDto]);

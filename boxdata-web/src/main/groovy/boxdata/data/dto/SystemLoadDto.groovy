@@ -16,26 +16,27 @@
  *  limitations under the License.
  */
 
-package boxdata.service.rest;
+package boxdata.data.dto
 
-import boxdata.data.dto.MemoryUsageDto;
-import boxdata.service.bean.ApplicationUsage;
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlElement
+import javax.xml.bind.annotation.XmlRootElement
 
-import javax.ejb.EJB;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement
+class SystemLoadDto {
 
-@Path("/mem-usage")
-public class MemoryUsage {
+    @XmlElement
+    Long id
 
-    @EJB
-    private ApplicationUsage usage;
+    @XmlElement
+    Long timestamp
 
-    @GET
-    @Produces("application/json")
-    public MemoryUsageDto get() {
-        return usage.getMemoryUsageDto();
+    Double load
+
+    @Override
+    public String toString() {
+        return "SystemLoadDto{timestamp=${timestamp}, total=${load}}"
     }
-
 }

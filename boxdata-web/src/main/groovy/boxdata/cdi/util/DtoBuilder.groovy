@@ -20,6 +20,7 @@ package boxdata.cdi.util
 
 import boxdata.data.dto.DiskUsageDto
 import boxdata.data.dto.MemoryUsageDto
+import boxdata.data.dto.SystemLoadDto
 
 import javax.enterprise.context.ApplicationScoped
 
@@ -37,12 +38,20 @@ class DtoBuilder {
         )
     }
 
-    MemoryUsageDto buildMemUsageDto(Long id, Long currentTs, Long total, Long free) {
+    MemoryUsageDto buildMemUsageDto(Long id, Long timestamp, Long total, Long free) {
         return new MemoryUsageDto(
                 id: id,
-                timestamp: currentTs,
+                timestamp: timestamp,
                 total: total,
                 free: free
+        )
+    }
+
+    SystemLoadDto buildSystemLoadDto(Long id, Long timestamp, Double value) {
+        return new SystemLoadDto(
+                id: id,
+                timestamp: timestamp,
+                load: value
         )
     }
 }

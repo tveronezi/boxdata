@@ -21,6 +21,7 @@ package boxdata.service.bean;
 import boxdata.cdi.util.DtoBuilder;
 import boxdata.data.dto.DiskUsageDto;
 import boxdata.data.dto.MemoryUsageDto;
+import boxdata.data.dto.SystemLoadDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,8 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -46,7 +49,10 @@ public class ApplicationUsage {
 
     private AtomicLong id = new AtomicLong();
     private List<DiskUsageDto> diskUsage = new ArrayList<DiskUsageDto>();
-    private List<MemoryUsageDto> memoryUsage = new ArrayList<MemoryUsageDto>();
+    private List<SystemLoadDto> systemLoad = new ArrayList<SystemLoadDto>();
+    private MemoryUsageDto memoryUsage;
+
+    private OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
 
     private List<DiskUsageDto> getCurrentDiskUsage() {
         final List<DiskUsageDto> result = new ArrayList<DiskUsageDto>();
@@ -95,18 +101,30 @@ public class ApplicationUsage {
     @Schedule(minute = "*/1", hour = "*", persistent = false)
     public void readMemUsageData() {
         LOG.info("Reading system information (mem)...");
+        this.memoryUsage = this.getCurrentMemUsage();
+    }
 
-        this.memoryUsage.add(this.getCurrentMemUsage());
-        while (this.memoryUsage.size() > MAX_RECORDS) {
-            this.memoryUsage.remove(0);
+    @Schedule(minute = "*/1", hour = "*", persistent = false)
+    public void readSystemLoadData() {
+        LOG.info("Reading system information (load)...");
+
+        final SystemLoadDto dto = this.builder.buildSystemLoadDto(
+                this.id.getAndIncrement(),
+                System.currentTimeMillis(),
+                this.osBean.getSystemLoadAverage()
+        );
+        this.systemLoad.add(dto);
+        while (this.systemLoad.size() > MAX_RECORDS) {
+            this.systemLoad.remove(0);
         }
     }
+
 
     public List<DiskUsageDto> getDiskUsage() {
         return diskUsage;
     }
 
-    public List<MemoryUsageDto> getMemoryUsageDto() {
+    public MemoryUsageDto getMemoryUsageDto() {
         return memoryUsage;
     }
 
@@ -114,9 +132,7 @@ public class ApplicationUsage {
     public void applicationStartup() {
         readDiskUsageData();
         readMemUsageData();
+        readSystemLoadData();
     }
 
-    public MemoryUsageDto getCurrentMemoryUsageDto() {
-        return this.getCurrentMemUsage();
-    }
 }
