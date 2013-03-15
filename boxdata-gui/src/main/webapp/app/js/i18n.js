@@ -38,7 +38,7 @@
                 cfg = {
                     key: key
                 };
-                console.error('Missing i18n message.', key);
+                window.console.error('Missing i18n message.', key);
             }
             return template.apply(cfg);
         },

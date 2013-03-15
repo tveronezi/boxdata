@@ -77,7 +77,7 @@
                     <failOnError>true</failOnError>
                     <options>
                         <vars>true</vars>
-                        <predef>Ext,boxdata,console</predef>
+                        <predef>Ext,boxdata,window,Highcharts</predef>
                         <indent>4</indent>
                     </options>
                     <sourceFolders>

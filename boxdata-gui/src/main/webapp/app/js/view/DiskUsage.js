@@ -22,7 +22,7 @@
 
     function getValueInGB(value) {
         return Ext.util.Format.number((value / 1024 / 1024), '0.00') + ' GB';
-    };
+    }
 
     Ext.define('boxdata.view.DiskUsage', {
         title: boxdata.i18n.get('application.disk.usage'),
@@ -43,9 +43,12 @@
             {
                 xtype: 'boxdata-chart-panel',
                 xAxis: {
-                    type: 'datetime'
+                    type: 'datetime',
+                    lineWidth: 1
                 },
                 yAxis: {
+                    opposite: true,
+                    lineWidth: 1,
                     min: 0,
                     labels: {
                         formatter: function () {

@@ -46,9 +46,9 @@
             var deleteMe = [];
 
             // update existing series
-            Ext.each(me.chart.series, function(serie) {
+            Ext.each(me.chart.series, function (serie) {
                 var myData = series[serie.name];
-                if(!myData) {
+                if (!myData) {
                     deleteMe.push(serie);
                     return;
                 }
@@ -57,7 +57,7 @@
             });
 
             // remove empty series
-            Ext.each(deleteMe, function(item) {
+            Ext.each(deleteMe, function (item) {
                 item.remove();
             });
 
@@ -120,7 +120,7 @@
                 var legendEl = Ext.get(me.el.query('.highcharts-legend')[0]);
                 var rectangle = Ext.get(legendEl.child('rect'));
                 rectangle.on('click', function () {
-                    me.toggleLegend()
+                    me.toggleLegend();
                 });
             }
         },
