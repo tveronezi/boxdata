@@ -42,6 +42,7 @@
         items: [
             {
                 xtype: 'boxdata-chart-panel',
+                chartType: 'line',
                 xAxis: {
                     type: 'datetime',
                     lineWidth: 1

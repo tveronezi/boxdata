@@ -38,6 +38,7 @@
         items: [
             {
                 xtype: 'boxdata-chart-panel',
+                chartType: 'area',
                 legendPosition: 'bottom',
                 xAxis: {
                     type: 'datetime',

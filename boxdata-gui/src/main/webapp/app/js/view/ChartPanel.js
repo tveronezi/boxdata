@@ -82,7 +82,7 @@
                 },
                 chart: {
                     renderTo: me.id,
-                    type: 'line'
+                    type: me.chartType
                 },
                 title: {
                     text: ''
