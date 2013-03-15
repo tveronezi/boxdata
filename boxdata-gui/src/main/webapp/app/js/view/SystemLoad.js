@@ -69,17 +69,6 @@
                     }
                 },
 
-                addData: function (series, rec, key) {
-                    var name = rec.get('path') + ' ' + key;
-                    if (!series[name]) {
-                        series[name] = {
-                            data: []
-                        };
-                    }
-                    var data = series[name].data;
-                    data.push([rec.get('timestamp'), rec.get(key)]);
-                },
-
                 buildData: function (series, rec) {
                     if (!series.load) {
                         series.load = {

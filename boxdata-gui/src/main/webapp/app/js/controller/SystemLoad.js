@@ -19,7 +19,7 @@
 (function () {
     'use strict';
 
-    var TIMEOUT = 5000;
+    var TIMEOUT = 60000;
 
     Ext.define('boxdata.controller.SystemLoad', {
         extend: 'Ext.app.Controller',
@@ -33,8 +33,15 @@
             'SystemLoad'
         ],
 
-        loadData: function (panel) {
-
+        loadData: function () {
+            var self = this;
+            self.getSystemLoadStore().load({
+                callback: function () {
+                    window.setTimeout(function () {
+                        seld.loadData();
+                    }, TIMEOUT);
+                }
+            });
         },
 
         init: function () {
@@ -43,7 +50,10 @@
             self.control({
                 'boxdata-system-load-panel': {
                     render: function (panel) {
-                        self.loadData(panel);
+                        self.loadData();
+                    },
+                    refreshpanel: function () {
+                        self.getSystemLoadStore().load();
                     }
                 }
             });
