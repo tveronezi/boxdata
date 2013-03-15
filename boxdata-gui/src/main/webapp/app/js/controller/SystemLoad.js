@@ -38,7 +38,7 @@
             self.getSystemLoadStore().load({
                 callback: function () {
                     window.setTimeout(function () {
-                        seld.loadData();
+                        self.loadData();
                     }, TIMEOUT);
                 }
             });
