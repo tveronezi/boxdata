@@ -39,6 +39,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ApplicationUsage {
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationUsage.class);
 
+    private static final Integer MAX_RECORDS = 1000;
+
     @Inject
     private DtoBuilder builder;
 
@@ -79,17 +81,23 @@ public class ApplicationUsage {
         return dto;
     }
 
-    @Schedule(minute = "*/5", hour = "*", persistent = false)
-    public void readData() {
-        LOG.info("Reading system information....");
+    @Schedule(minute = "*/3", hour = "*", persistent = false)
+    public void readDiskUsageData() {
+        LOG.info("Reading system information (disk)...");
 
         this.diskUsage.addAll(this.getCurrentDiskUsage());
-        while (this.diskUsage.size() > 200) {
+        while (this.diskUsage.size() > MAX_RECORDS) {
             this.diskUsage.remove(0);
         }
 
+    }
+
+    @Schedule(minute = "*/1", hour = "*", persistent = false)
+    public void readMemUsageData() {
+        LOG.info("Reading system information (mem)...");
+
         this.memoryUsage.add(this.getCurrentMemUsage());
-        if (this.memoryUsage.size() > 200) {
+        while (this.memoryUsage.size() > MAX_RECORDS) {
             this.memoryUsage.remove(0);
         }
     }
@@ -104,7 +112,8 @@ public class ApplicationUsage {
 
     @PostConstruct
     public void applicationStartup() {
-        readData();
+        readDiskUsageData();
+        readMemUsageData();
     }
 
     public MemoryUsageDto getCurrentMemoryUsageDto() {

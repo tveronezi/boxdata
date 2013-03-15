@@ -19,6 +19,8 @@
 (function () {
     'use strict';
 
+    var TIMEOUT = 60000;
+
     Ext.define('boxdata.controller.DiskUsage', {
         extend: 'Ext.app.Controller',
 
@@ -31,13 +33,24 @@
             'DiskUsage'
         ],
 
+        loadData: function () {
+            var self = this;
+            this.getDiskUsageStore().load({
+                callback: function () {
+                    window.setTimeout(function () {
+                        self.loadData();
+                    }, TIMEOUT);
+                }
+            });
+        },
+
         init: function () {
             var self = this;
 
             self.control({
                 'boxdata-disk-usage-panel': {
                     render: function () {
-                        self.getDiskUsageStore().load();
+                        self.loadData();
                     },
                     refreshpanel: function () {
                         self.getDiskUsageStore().load();
