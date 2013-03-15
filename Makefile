@@ -62,11 +62,9 @@ tail:
 	tail -f $(TOMEE_DIR)/tomee-runtime/logs/catalina.out
 
 restart-tomee: kill-tomee
-	cp -rf ./src/main/config/tomcat-users.xml $(TOMEE_DIR)/tomee-runtime/conf
 	cd $(TOMEE_DIR)/tomee-runtime/ && \
 	export JPDA_SUSPEND=n && \
 	export CATALINA_PID=$(HOME_DIR)/tomee-pid.txt && \
-	export CATALINA_OPTS="-Djava.security.auth.login.config=$(shell pwd)/src/main/config/login.config" && \
 	./bin/catalina.sh jpda start
 
 run-jasmine:

@@ -19,6 +19,8 @@
 (function () {
     'use strict';
 
+    var TIMEOUT = 5000;
+
     Ext.define('boxdata.controller.MemUsage', {
         extend: 'Ext.app.Controller',
 
@@ -27,11 +29,31 @@
             'MemUsage'
         ],
 
+        loadUsage: function (panel) {
+            var me = this;
+            Ext.Ajax.request({
+                url: 'rest/mem-usage/current',
+                success: function (response) {
+                    var usage = Ext.JSON.decode(response.responseText);
+                    panel.loadData([usage.memoryUsageDto]);
+                },
+                callback: function () {
+                    window.setTimeout(function () {
+                        me.loadUsage(panel);
+                    }, TIMEOUT);
+                }
+            });
+        },
+
         init: function () {
             var self = this;
 
             self.control({
-
+                'boxdata-mem-usage-panel': {
+                    render: function (panel) {
+                        self.loadUsage(panel);
+                    }
+                }
             });
         }
     });

@@ -42,6 +42,7 @@
             },
             {
                 xtype: 'panel',
+                layout: 'fit',
                 border: false,
                 items: [
                     {

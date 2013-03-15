@@ -31,11 +31,54 @@
                 itemId: 'refresh',
                 type: 'refresh',
                 handler: function (event, target, owner) {
-                    owner.ownerCt.fireEvent('refresh');
+                    owner.ownerCt.fireEvent('refreshpanel');
+                }
+            }
+        ],
+        items: [
+            {
+                xtype: 'boxdata-chart-panel',
+                legendPosition: 'bottom',
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            color: '#000000',
+                            connectorColor: '#000000',
+                            formatter: function () {
+                                return '<b>' + this.point.name + '</b>';
+                            }
+                        }
+                    }
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                    percentageDecimals: 1
+                },
+
+                buildData: function (series, rec) {
+                    if (!series.pie) {
+                        series.pie = {
+                            data: [],
+                            type: 'pie'
+                        };
+                    }
+                    var used = rec.total - rec.free;
+                    var data = series.pie.data;
+                    data.push(['used', used]);
+                    data.push(['free', rec.free]);
                 }
             }
         ],
 
+        loadData: function (records) {
+            var me = this;
+            var chart = me.child('boxdata-chart-panel');
+            chart.setData(records);
+
+        },
         initComponent: function () {
             var me = this;
             Ext.panel.Panel.prototype.initComponent.apply(me, arguments);

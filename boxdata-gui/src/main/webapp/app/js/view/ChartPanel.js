@@ -43,17 +43,30 @@
                 me.buildData(series, rec);
             });
 
-            var deleteMe = Ext.Array.map(me.chart.series, function(item) {
-                return item;
+            var deleteMe = [];
+
+            // update existing series
+            Ext.each(me.chart.series, function(serie) {
+                var myData = series[serie.name];
+                if(!myData) {
+                    deleteMe.push(serie);
+                    return;
+                }
+                serie.setData(myData.data);
+                delete series[serie.name];
             });
+
+            // remove empty series
             Ext.each(deleteMe, function(item) {
                 item.remove();
             });
 
+            // add new series
             Ext.Object.each(series, function (key, value) {
                 me.chart.addSeries({
                     name: key,
-                    data: value
+                    data: value.data,
+                    type: value.type
                 }, true);
             });
 
@@ -74,6 +87,7 @@
                 title: {
                     text: ''
                 },
+                plotOptions: me.plotOptions,
                 xAxis: me.xAxis,
                 yAxis: me.yAxis,
                 tooltip: me.tooltip,
