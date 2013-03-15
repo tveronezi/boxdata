@@ -54,7 +54,7 @@
                         height: 150
                     },
                     {
-                        xtype: 'panel',
+                        xtype: 'boxdata-system-load-panel',
                         flex: 1
                     }
                 ],

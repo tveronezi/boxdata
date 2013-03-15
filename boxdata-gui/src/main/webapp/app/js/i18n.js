@@ -25,6 +25,7 @@
         'application.name': 'boxdata',
         'application.disk.usage': 'Disk Usage',
         'application.mem.usage': 'Memory Usage',
+        'application.system.load': 'System Load',
         'test.with.param': 'This is for test only. {myParam}!'
     };
 

@@ -20,12 +20,8 @@
 (function () {
     'use strict';
 
-    function getValueInGB(value) {
-        return Ext.util.Format.number((value / 1024 / 1024), '0.00') + ' GB';
-    }
-
     Ext.define('boxdata.view.SystemLoad', {
-        title: boxdata.i18n.get('application.disk.usage'),
+        title: boxdata.i18n.get('application.system.load'),
         extend: 'Ext.panel.Panel',
         alias: 'widget.boxdata-system-load-panel',
         requires: ['boxdata.view.ChartPanel'],
@@ -42,6 +38,7 @@
         items: [
             {
                 xtype: 'boxdata-chart-panel',
+                legendPosition: 'bottom',
                 xAxis: {
                     type: 'datetime',
                     lineWidth: 1
@@ -52,7 +49,7 @@
                     min: 0,
                     labels: {
                         formatter: function () {
-                            return getValueInGB(this.value);
+                            return this.value;
                         }
                     },
                     title: {

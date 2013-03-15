@@ -38,7 +38,6 @@
         items: [
             {
                 xtype: 'boxdata-chart-panel',
-                legendPosition: 'bottom',
                 plotOptions: {
                     pie: {
                         allowPointSelect: true,

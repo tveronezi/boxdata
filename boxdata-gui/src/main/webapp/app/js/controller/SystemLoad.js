@@ -29,6 +29,10 @@
             'SystemLoad'
         ],
 
+        stores: [
+            'SystemLoad'
+        ],
+
         loadData: function (panel) {
 
         },
