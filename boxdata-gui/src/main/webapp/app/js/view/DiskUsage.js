@@ -47,7 +47,6 @@
                     lineWidth: 1
                 },
                 yAxis: {
-                    opposite: true,
                     lineWidth: 1,
                     min: 0,
                     labels: {

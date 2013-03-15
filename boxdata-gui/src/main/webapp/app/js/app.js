@@ -44,7 +44,8 @@
 
         controllers: [
             'DiskUsage',
-            'MemUsage'
+            'MemUsage',
+            'SystemLoad'
         ],
 
         launch: function () {

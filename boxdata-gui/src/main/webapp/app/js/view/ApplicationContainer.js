@@ -42,11 +42,20 @@
             },
             {
                 xtype: 'panel',
-                layout: 'fit',
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch',
+                    pack: 'start'
+                },
                 border: false,
                 items: [
                     {
-                        xtype: 'boxdata-mem-usage-panel'
+                        xtype: 'boxdata-mem-usage-panel',
+                        height: 150
+                    },
+                    {
+                        xtype: 'panel',
+                        flex: 1
                     }
                 ],
                 flex: 1

@@ -24,7 +24,7 @@
         return Ext.util.Format.number((value / 1024 / 1024), '0.00') + ' GB';
     }
 
-    Ext.define('boxdata.view.DiskUsage', {
+    Ext.define('boxdata.view.SystemLoad', {
         title: boxdata.i18n.get('application.disk.usage'),
         extend: 'Ext.panel.Panel',
         alias: 'widget.boxdata-system-load-panel',
