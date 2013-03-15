@@ -21,7 +21,7 @@
 <head>
     <meta charset="utf-8">
     <title>boxdata</title>
-    <link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.1.0-gpl/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.2.0-gpl/resources/ext-theme-neptune/ext-theme-neptune-all.css">
     <link rel="stylesheet" type="text/css" href="<c:url value='/app/app.css'/>">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
@@ -33,7 +33,7 @@
         window.ux.SESSION_ID = "<%=request.getSession().getId()%>";
         window.ux.ROOT_URL = "<c:url value='/'/>".replace(';jsessionid=' + window.ux.SESSION_ID, '');
     </script>
-    <script type="text/javascript" charset="utf-8" src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all-debug.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdn.sencha.io/ext-4.2.0-gpl/ext-all.js"></script>
     <script type="text/javascript" src="<c:url value='/app/js/app.js'/>"></script>
 </head>
 <body></body>
