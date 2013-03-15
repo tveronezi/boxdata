@@ -19,41 +19,31 @@
 (function () {
     'use strict';
 
-    Highcharts.setOptions({
-        global: {
-            useUTC: false
-        }
-    });
+    var TIMEOUT = 5000;
 
-    Ext.Loader.setConfig({
-        enabled: true,
-        disableCaching: false,
-        paths: {
-            'boxdata': 'app/js'
-        }
-    });
+    Ext.define('boxdata.controller.SystemLoad', {
+        extend: 'Ext.app.Controller',
 
-    Ext.application({
-        name: 'boxdata',
-        appFolder: 'app/js',
-
-        requires: [
-            'boxdata.console',
-            'boxdata.i18n'
+        views: [
+            'ApplicationContainer',
+            'SystemLoad'
         ],
 
-        controllers: [
-            'DiskUsage',
-            'MemUsage'
-        ],
+        loadData: function (panel) {
 
-        launch: function () {
-            window.console.log('init application...');
+        },
 
-            var title = Ext.get(Ext.dom.Query.selectNode('title'));
-            title.update(boxdata.i18n.get('application.name'));
+        init: function () {
+            var self = this;
 
-            Ext.create('boxdata.view.ApplicationViewport');
+            self.control({
+                'boxdata-system-load-panel': {
+                    render: function (panel) {
+                        self.loadData(panel);
+                    }
+                }
+            });
         }
     });
+
 }());
