@@ -21,7 +21,7 @@
     'use strict';
 
     function getValueInGB(value) {
-        return Ext.util.Format.number((value / 1024 / 1024), '0.00') + ' GB';
+        return Ext.util.Format.number((value / 1024 / 1024 / 1024), '0.00') + ' GB';
     }
 
     Ext.define('boxdata.view.DiskUsage', {
