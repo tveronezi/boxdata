@@ -24,7 +24,7 @@
         title: boxdata.i18n.get('application.mem.usage'),
         extend: 'Ext.panel.Panel',
         alias: 'widget.boxdata-mem-usage-panel',
-        requires: ['boxdata.view.ChartPanel', 'boxdata.view.ExtChartPanel'],
+        requires: ['boxdata.view.ChartPanel'],
         layout: 'fit',
         tools: [
             {

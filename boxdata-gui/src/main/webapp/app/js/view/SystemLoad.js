@@ -24,7 +24,7 @@
         title: boxdata.i18n.get('application.system.load'),
         extend: 'Ext.panel.Panel',
         alias: 'widget.boxdata-system-load-panel',
-        requires: ['boxdata.view.ChartPanel', 'boxdata.view.ExtChartPanel'],
+        requires: ['boxdata.view.ChartPanel'],
         layout: 'fit',
         tools: [
             {
