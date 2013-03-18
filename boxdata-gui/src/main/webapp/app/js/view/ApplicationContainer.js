@@ -35,6 +35,7 @@
                 border: false,
                 items: [
                     {
+                        padding: '5 5 5 5',
                         xtype: 'boxdata-disk-usage-panel'
                     }
                 ],
@@ -50,10 +51,12 @@
                 border: false,
                 items: [
                     {
+                        padding: '5 5 0 0',
                         xtype: 'boxdata-mem-usage-panel',
-                        height: 150
+                        height: 200
                     },
                     {
+                        padding: '5 5 5 0',
                         xtype: 'boxdata-system-load-panel',
                         flex: 1
                     }

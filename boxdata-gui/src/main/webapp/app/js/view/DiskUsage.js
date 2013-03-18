@@ -28,7 +28,7 @@
         title: boxdata.i18n.get('application.disk.usage'),
         extend: 'Ext.panel.Panel',
         alias: 'widget.boxdata-disk-usage-panel',
-        requires: ['boxdata.view.ChartPanel'],
+        requires: ['boxdata.view.ChartPanel', 'boxdata.view.ExtChartPanel'],
         layout: 'fit',
         tools: [
             {
