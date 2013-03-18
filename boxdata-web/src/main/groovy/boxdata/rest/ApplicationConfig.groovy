@@ -16,24 +16,14 @@
  *  limitations under the License.
  */
 
-package boxdata.service;
+package boxdata.rest
 
-import boxdata.service.rest.DiskUsage;
-import boxdata.service.rest.MemoryUsage;
-import boxdata.service.rest.SystemLoad;
-
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-import java.util.HashSet;
-import java.util.Set;
+import javax.ws.rs.ApplicationPath
+import javax.ws.rs.core.Application
 
 @ApplicationPath("/rest")
-public class ApplicationConfig extends Application {
+class ApplicationConfig extends Application {
     public Set<Class<?>> getClasses() {
-        final Set<Class<?>> classSet = new HashSet<Class<?>>();
-        classSet.add(DiskUsage.class);
-        classSet.add(MemoryUsage.class);
-        classSet.add(SystemLoad.class);
-        return classSet;
+        return [DiskUsage, MemoryUsage, SystemLoad];
     }
 }

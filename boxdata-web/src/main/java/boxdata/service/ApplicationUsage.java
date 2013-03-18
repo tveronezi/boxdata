@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package boxdata.service.bean;
+package boxdata.service;
 
 import boxdata.cdi.util.DtoBuilder;
 import boxdata.data.dto.DiskUsageDto;

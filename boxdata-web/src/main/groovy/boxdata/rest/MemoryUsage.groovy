@@ -16,27 +16,24 @@
  *  limitations under the License.
  */
 
-package boxdata.service.rest;
+package boxdata.rest
 
-import boxdata.data.dto.SystemLoadDto;
-import boxdata.service.bean.ApplicationUsage;
+import boxdata.data.dto.MemoryUsageDto
+import boxdata.service.ApplicationUsage
 
-import javax.ejb.EJB;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import java.util.List;
+import javax.ejb.EJB
+import javax.ws.rs.GET
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
 
-@Path("/system-load")
-public class SystemLoad {
-
+@Path("/mem-usage")
+class MemoryUsage {
     @EJB
-    private ApplicationUsage usage;
+    private ApplicationUsage usage
 
     @GET
     @Produces("application/json")
-    public List<SystemLoadDto> get() {
-        return usage.getSystemLoad();
+    MemoryUsageDto get() {
+        return usage.getMemoryUsageDto()
     }
-
 }
