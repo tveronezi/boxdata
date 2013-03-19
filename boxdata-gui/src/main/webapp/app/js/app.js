@@ -29,7 +29,7 @@
         enabled: true,
         disableCaching: false,
         paths: {
-            'boxdata': 'app/js'
+            'boxdata': window.ux.ROOT_URL + 'app/js'
         }
     });
 
