@@ -31,8 +31,10 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 import java.io.File;
+import java.lang.management.ClassLoadingMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
+import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -53,6 +55,8 @@ public class ApplicationUsage {
     private MemoryUsageDto memoryUsage;
 
     private OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
+    private ClassLoadingMXBean clBean = ManagementFactory.getClassLoadingMXBean();
+    private ThreadMXBean threadBean = ManagementFactory.getThreadMXBean();
 
     private List<DiskUsageDto> getCurrentDiskUsage() {
         final List<DiskUsageDto> result = new ArrayList<DiskUsageDto>();

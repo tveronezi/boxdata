@@ -24,8 +24,6 @@
         title: boxdata.i18n.get('application.system.load'),
         extend: 'Ext.panel.Panel',
         alias: 'widget.boxdata-system-load-panel',
-        requires: ['boxdata.view.ChartPanel'],
-        layout: 'fit',
         tools: [
             {
                 itemId: 'refresh',
@@ -34,66 +32,7 @@
                     owner.ownerCt.fireEvent('refreshpanel');
                 }
             }
-        ],
-        items: [
-            {
-                xtype: 'boxdata-chart-panel',
-                chartType: 'area',
-                legendPosition: 'bottom',
-                xAxis: {
-                    type: 'datetime',
-                    lineWidth: 1
-                },
-                yAxis: {
-                    opposite: true,
-                    lineWidth: 1,
-                    min: 0,
-                    labels: {
-                        formatter: function () {
-                            return this.value;
-                        }
-                    },
-                    title: {
-                        text: ''
-                    },
-                    plotLines: [
-                        {
-                            value: 0,
-                            width: 1,
-                            color: '#808080'
-                        }
-                    ]
-                },
-                tooltip: {
-                    formatter: function () {
-                        return this.y;
-                    }
-                },
-
-                buildData: function (series, rec) {
-                    if (!series.load) {
-                        series.load = {
-                            data: []
-                        };
-                    }
-                    var data = series.load.data;
-                    data.push([rec.get('timestamp'), rec.get('load')]);
-                }
-            }
-        ],
-
-        loadRemoteData: function (store, records) {
-            var me = this;
-            var chart = me.child('boxdata-chart-panel');
-            chart.setData(records);
-        },
-
-        initComponent: function () {
-            var me = this;
-            me.store = Ext.data.StoreManager.lookup('SystemLoad');
-            me.store.on('load', me.loadRemoteData, me);
-            Ext.panel.Panel.prototype.initComponent.apply(me, arguments);
-        }
+        ]
     });
 
 }());

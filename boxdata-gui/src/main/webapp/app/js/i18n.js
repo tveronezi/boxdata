@@ -23,6 +23,7 @@
     // This is a list of extjs Templates, therefore you can use parameters in it.
     var messages = {
         'application.name': 'boxdata',
+        'gigabyte': 'GB',
         'application.disk.usage': 'Disk Usage',
         'application.mem.usage': 'Memory Usage',
         'application.system.load': 'System Load',

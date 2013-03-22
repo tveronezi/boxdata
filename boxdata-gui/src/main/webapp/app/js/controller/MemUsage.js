@@ -29,20 +29,8 @@
             'MemUsage'
         ],
 
-        loadUsage: function (panel) {
-            var me = this;
-            Ext.Ajax.request({
-                url: 'rest/mem-usage',
-                success: function (response) {
-                    var usage = Ext.JSON.decode(response.responseText);
-                    panel.loadData([usage.memoryUsageDto]);
-                },
-                callback: function () {
-                    window.setTimeout(function () {
-                        me.loadUsage(panel);
-                    }, TIMEOUT);
-                }
-            });
+        loadUsage: function () {
+
         },
 
         init: function () {
@@ -51,7 +39,7 @@
             self.control({
                 'boxdata-mem-usage-panel': {
                     render: function (panel) {
-                        self.loadUsage(panel);
+                        self.loadUsage();
                     }
                 }
             });

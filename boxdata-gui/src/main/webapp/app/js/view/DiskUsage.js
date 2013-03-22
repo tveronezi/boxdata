@@ -16,19 +16,13 @@
  *  limitations under the License.
  */
 
-
 (function () {
     'use strict';
 
-    function getValueInGB(value) {
-        return Ext.util.Format.number((value / 1024 / 1024 / 1024), '0.00') + ' GB';
-    }
-
     Ext.define('boxdata.view.DiskUsage', {
         title: boxdata.i18n.get('application.disk.usage'),
-        extend: 'Ext.panel.Panel',
+        extend: 'boxdata.ux.ChartPanel',
         alias: 'widget.boxdata-disk-usage-panel',
-        requires: ['boxdata.view.ChartPanel'],
         layout: 'fit',
         tools: [
             {
@@ -39,73 +33,43 @@
                 }
             }
         ],
-        items: [
-            {
-                xtype: 'boxdata-chart-panel',
-                chartType: 'line',
-                xAxis: {
-                    type: 'datetime',
-                    lineWidth: 1
-                },
-                yAxis: {
-                    lineWidth: 1,
-                    min: 0,
-                    labels: {
-                        formatter: function () {
-                            return getValueInGB(this.value);
-                        }
-                    },
-                    title: {
-                        text: ''
-                    },
-                    plotLines: [
-                        {
-                            value: 0,
-                            width: 1,
-                            color: '#808080'
-                        }
-                    ]
-                },
-                tooltip: {
-                    formatter: function () {
-                        return '<b>"' + this.series.name + '"</b><br/>' +
-                            Ext.util.Format.date(new Date(this.x)) + ': ' + getValueInGB(this.y);
-                    }
-                },
 
-                addData: function (series, rec, key) {
-                    var name = rec.get('path') + ' ' + key;
-                    if (!series[name]) {
-                        series[name] = {
-                            data: []
-                        };
-                    }
-                    var data = series[name].data;
-                    data.push([rec.get('timestamp'), rec.get(key)]);
-                },
+        store: 'DiskUsage',
+        legendPosition: 'bottom',
 
-                buildData: function (series, rec) {
-                    this.addData(series, rec, 'free');
-                    this.addData(series, rec, 'total');
-                    this.addData(series, rec, 'usable');
-                }
-            }
-        ],
-
-        loadRemoteData: function (store, records) {
-            var me = this;
-            var chart = me.child('boxdata-chart-panel');
-            chart.setData(records);
+        leftRenderer: function(v) {
+            return Ext.util.Format.number(v / 1024 / 1024 / 1024, '0.00') + ' ' + boxdata.i18n.get('gigabyte');
         },
 
-        initComponent: function () {
+        getSeriesValues: function (rec) {
             var me = this;
-            me.store = Ext.data.StoreManager.lookup('DiskUsage');
-            me.store.on('load', me.loadRemoteData, me);
-            Ext.panel.Panel.prototype.initComponent.apply(me, arguments);
+            var path = rec.get('path');
+            var timestamp = new Date(rec.get('timestamp'));
+            return [
+                {
+                    name: path + ' total',
+                    xValue: timestamp,
+                    type: 'line',
+                    left: rec.get('total')
+                },
+                {
+                    name: path + ' free',
+                    xValue: timestamp,
+                    type: 'line',
+                    left: rec.get('free')
+                },
+                {
+                    name: path + ' usable',
+                    xValue: timestamp,
+                    type: 'line',
+                    left: rec.get('usable')
+                }
+            ];
         }
     });
 
 }());
+
+
 
 

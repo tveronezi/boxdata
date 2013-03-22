@@ -17,9 +17,4 @@
     limitations under the License.
 -->
 <Context antiJARLocking="true" path="/boxdata">
-    <!-- This Realm uses the "tomcat-users.xml" file. -->
-    <Realm className="org.apache.catalina.realm.LockOutRealm">
-        <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
-               resourceName="UserDatabase"/>
-    </Realm>
 </Context>
