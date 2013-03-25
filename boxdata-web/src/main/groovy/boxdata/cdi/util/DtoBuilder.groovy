@@ -27,29 +27,26 @@ import javax.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class DtoBuilder {
 
-    DiskUsageDto buildDiskUsageDto(Long id, Long timestamp, String path, Long total, Long free, Long usable) {
+    DiskUsageDto buildDiskUsageDto(String path, Long total, Long free, Long usable) {
+        def resourcePath = path.replaceAll('[^A-Za-z0-9]', '')
         return new DiskUsageDto(
-                id: id,
-                timestamp: timestamp,
-                path: path,
+                path: resourcePath,
                 total: total,
                 free: free,
                 usable: usable
         )
     }
 
-    MemoryUsageDto buildMemUsageDto(Long id, Long timestamp, Long total, Long free) {
+    MemoryUsageDto buildMemUsageDto(Long timestamp, Long total, Long free) {
+        Double used = (total - free) / total
         return new MemoryUsageDto(
-                id: id,
                 timestamp: timestamp,
-                total: total,
-                free: free
+                used: used
         )
     }
 
-    SystemLoadDto buildSystemLoadDto(Long id, Long timestamp, Double value) {
+    SystemLoadDto buildSystemLoadDto(Long timestamp, Double value) {
         return new SystemLoadDto(
-                id: id,
                 timestamp: timestamp,
                 load: value
         )

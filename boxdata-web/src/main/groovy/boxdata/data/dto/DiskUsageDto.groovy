@@ -28,12 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement
 class DiskUsageDto {
 
     @XmlElement
-    Long id
-
-    @XmlElement
-    Long timestamp
-
-    @XmlElement
     String path
 
     @XmlElement
@@ -47,6 +41,6 @@ class DiskUsageDto {
 
     @Override
     public String toString() {
-        return "DiskUsageDto{timestamp=${timestamp}, path='${path}', total=${total}, free=${free}, usable=${usable}}"
+        return "DiskUsageDto{path='${path}', total=${total}, free=${free}, usable=${usable}}"
     }
 }

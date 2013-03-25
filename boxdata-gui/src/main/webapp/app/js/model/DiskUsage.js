@@ -18,19 +18,21 @@
 
 Ext.define('boxdata.model.DiskUsage', {
     extend: 'Ext.data.Model',
-    fields: ['id', {
-        name: 'timestamp',
-        type: 'int'
-    }, {
-        name: 'total',
-        type: 'int'
-    }, {
-        name: 'free',
-        type: 'int'
-    }, {
-        name: 'usable',
-        type: 'int'
-    }, 'path'],
+    fields: [
+        {
+            name: 'total',
+            type: 'int'
+        },
+        {
+            name: 'free',
+            type: 'int'
+        },
+        {
+            name: 'usable',
+            type: 'int'
+        },
+        'path'
+    ],
 
     proxy: {
         type: 'rest',

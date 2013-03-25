@@ -21,9 +21,9 @@
 
     Ext.define('boxdata.view.DiskUsage', {
         title: boxdata.i18n.get('application.disk.usage'),
-        extend: 'boxdata.ux.ChartPanel',
+        extend: 'boxdata.ux.chart.CategoryStackedBar',
         alias: 'widget.boxdata-disk-usage-panel',
-        layout: 'fit',
+
         tools: [
             {
                 itemId: 'refresh',
@@ -35,37 +35,29 @@
         ],
 
         store: 'DiskUsage',
-        legendPosition: 'bottom',
 
-        leftRenderer: function(v) {
-            return Ext.util.Format.number(v / 1024 / 1024 / 1024, '0.00') + ' ' + boxdata.i18n.get('gigabyte');
-        },
-
-        getSeriesValues: function (rec) {
+        getValue: function (rec) {
             var me = this;
             var path = rec.get('path');
-            var timestamp = new Date(rec.get('timestamp'));
+            if ('' === path) {
+                path = '\\';
+            }
+
+            var used = rec.get('total') - rec.get('free');
             return [
                 {
-                    name: path + ' total',
-                    xValue: timestamp,
-                    type: 'line',
-                    left: rec.get('total')
+                    seriesName: 'free',
+                    value: rec.get('free'),
+                    category: path
                 },
                 {
-                    name: path + ' free',
-                    xValue: timestamp,
-                    type: 'line',
-                    left: rec.get('free')
-                },
-                {
-                    name: path + ' usable',
-                    xValue: timestamp,
-                    type: 'line',
-                    left: rec.get('usable')
+                    seriesName: 'used',
+                    value: used,
+                    category: path
                 }
             ];
         }
+
     });
 
 }());

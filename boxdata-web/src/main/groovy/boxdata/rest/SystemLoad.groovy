@@ -19,7 +19,7 @@
 package boxdata.rest
 
 import boxdata.data.dto.SystemLoadDto
-import boxdata.service.ApplicationUsage
+import boxdata.service.SystemLoadBean
 
 import javax.ejb.EJB
 import javax.ws.rs.GET
@@ -29,11 +29,11 @@ import javax.ws.rs.Produces
 @Path("/system-load")
 class SystemLoad {
     @EJB
-    private ApplicationUsage usage
+    private SystemLoadBean usage
 
     @GET
     @Produces("application/json")
     List<SystemLoadDto> get() {
-        return usage.getSystemLoad()
+        return usage.systemLoad
     }
 }

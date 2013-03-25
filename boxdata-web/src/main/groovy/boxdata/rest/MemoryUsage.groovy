@@ -19,7 +19,7 @@
 package boxdata.rest
 
 import boxdata.data.dto.MemoryUsageDto
-import boxdata.service.ApplicationUsage
+import boxdata.service.MemoryUsageBean
 
 import javax.ejb.EJB
 import javax.ws.rs.GET
@@ -29,11 +29,11 @@ import javax.ws.rs.Produces
 @Path("/mem-usage")
 class MemoryUsage {
     @EJB
-    private ApplicationUsage usage
+    private MemoryUsageBean usage
 
     @GET
     @Produces("application/json")
-    MemoryUsageDto get() {
-        return usage.getMemoryUsageDto()
+    List<MemoryUsageDto> get() {
+        return usage.memoryUsage
     }
 }

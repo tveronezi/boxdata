@@ -16,25 +16,35 @@
  *  limitations under the License.
  */
 
-package boxdata.data.dto
+package boxdata.service;
 
-import javax.xml.bind.annotation.XmlAccessType
-import javax.xml.bind.annotation.XmlAccessorType
-import javax.xml.bind.annotation.XmlElement
-import javax.xml.bind.annotation.XmlRootElement
+import boxdata.cdi.util.DtoBuilder;
+import boxdata.data.dto.DiskUsageDto;
 
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement
-class MemoryUsageDto {
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-    @XmlElement
-    Long timestamp
+@Stateless
+public class DiskUsageBean {
 
-    @XmlElement
-    Double used
+    @Inject
+    private DtoBuilder builder;
 
-    @Override
-    public String toString() {
-        return "MemoryUsageDto{timestamp=${timestamp}, used=${used}}"
+    public List<DiskUsageDto> getDiskUsage() {
+        final List<DiskUsageDto> result = new ArrayList<DiskUsageDto>();
+        File[] roots = File.listRoots();
+        for (File root : roots) {
+            DiskUsageDto dto = this.builder.buildDiskUsageDto(
+                    root.getAbsolutePath(),
+                    root.getTotalSpace(),
+                    root.getFreeSpace(),
+                    root.getUsableSpace()
+            );
+            result.add(dto);
+        }
+        return result;
     }
 }
