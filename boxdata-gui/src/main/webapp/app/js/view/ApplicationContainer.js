@@ -39,29 +39,18 @@
                         xtype: 'boxdata-disk-usage-panel'
                     }
                 ],
-                flex: 2
+                flex: 1
             },
             {
-                xtype: 'panel',
-                layout: {
-                    type: 'vbox',
-                    align: 'stretch',
-                    pack: 'start'
-                },
+                layout: 'fit',
                 border: false,
                 items: [
                     {
-                        padding: '5 5 0 0',
-                        xtype: 'boxdata-mem-usage-panel',
-                        height: 200
-                    },
-                    {
                         padding: '5 5 5 0',
-                        xtype: 'boxdata-system-load-panel',
-                        flex: 1
+                        xtype: 'boxdata-system-load-panel'
                     }
                 ],
-                flex: 1
+                flex: 2
             }
         ]
     });

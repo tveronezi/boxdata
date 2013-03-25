@@ -44,7 +44,6 @@
 
         controllers: [
             'DiskUsage',
-            'MemUsage',
             'SystemLoad'
         ],
 

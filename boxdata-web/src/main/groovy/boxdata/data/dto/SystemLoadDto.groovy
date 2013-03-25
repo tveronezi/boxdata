@@ -36,8 +36,11 @@ class SystemLoadDto {
     @XmlElement
     Double load
 
+    @XmlElement(name = 'used-mem')
+    Double usedMemory
+
     @Override
     public String toString() {
-        return "SystemLoadDto{timestamp=${timestamp}, total=${load}}"
+        return "SystemLoadDto{timestamp=${timestamp}, load=${load}, used-mem=${usedMemory}}"
     }
 }

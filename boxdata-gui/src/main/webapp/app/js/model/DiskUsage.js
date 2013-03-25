@@ -27,10 +27,6 @@ Ext.define('boxdata.model.DiskUsage', {
             name: 'free',
             type: 'int'
         },
-        {
-            name: 'usable',
-            type: 'int'
-        },
         'path'
     ],
 

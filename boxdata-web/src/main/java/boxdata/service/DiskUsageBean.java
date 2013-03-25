@@ -40,8 +40,7 @@ public class DiskUsageBean {
             DiskUsageDto dto = this.builder.buildDiskUsageDto(
                     root.getAbsolutePath(),
                     root.getTotalSpace(),
-                    root.getFreeSpace(),
-                    root.getUsableSpace()
+                    root.getFreeSpace()
             );
             result.add(dto);
         }

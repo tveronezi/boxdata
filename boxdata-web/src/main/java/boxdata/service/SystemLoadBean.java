@@ -51,9 +51,14 @@ public class SystemLoadBean {
     public void readSystemLoadData() {
         LOG.info("Reading system information (load)...");
 
+        Long free = Runtime.getRuntime().freeMemory();
+        Long total = Runtime.getRuntime().totalMemory();
+
         final SystemLoadDto dto = this.builder.buildSystemLoadDto(
                 System.currentTimeMillis(),
-                this.osBean.getSystemLoadAverage()
+                this.osBean.getSystemLoadAverage(),
+                total,
+                free
         );
         this.systemLoad.add(dto);
         while (this.systemLoad.size() > MAX_RECORDS) {

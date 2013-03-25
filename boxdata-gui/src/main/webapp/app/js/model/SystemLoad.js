@@ -18,13 +18,20 @@
 
 Ext.define('boxdata.model.SystemLoad', {
     extend: 'Ext.data.Model',
-    fields: ['id', {
-        name: 'timestamp',
-        type: 'int'
-    }, {
-        name: 'load',
-        type: 'double'
-    }],
+    fields: [
+        {
+            name: 'timestamp',
+            type: 'int'
+        },
+        {
+            name: 'load',
+            type: 'double'
+        },
+        {
+            name: 'used-mem',
+            type: 'double'
+        }
+    ],
 
     proxy: {
         type: 'rest',

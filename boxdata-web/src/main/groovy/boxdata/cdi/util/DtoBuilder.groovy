@@ -19,7 +19,6 @@
 package boxdata.cdi.util
 
 import boxdata.data.dto.DiskUsageDto
-import boxdata.data.dto.MemoryUsageDto
 import boxdata.data.dto.SystemLoadDto
 
 import javax.enterprise.context.ApplicationScoped
@@ -27,28 +26,21 @@ import javax.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class DtoBuilder {
 
-    DiskUsageDto buildDiskUsageDto(String path, Long total, Long free, Long usable) {
+    DiskUsageDto buildDiskUsageDto(String path, Long total, Long free) {
         def resourcePath = path.replaceAll('[^A-Za-z0-9]', '')
         return new DiskUsageDto(
                 path: resourcePath,
                 total: total,
-                free: free,
-                usable: usable
+                free: free
         )
     }
 
-    MemoryUsageDto buildMemUsageDto(Long timestamp, Long total, Long free) {
-        Double used = (total - free) / total
-        return new MemoryUsageDto(
-                timestamp: timestamp,
-                used: used
-        )
-    }
-
-    SystemLoadDto buildSystemLoadDto(Long timestamp, Double value) {
+    SystemLoadDto buildSystemLoadDto(Long timestamp, Double value, Long totalMem, Long freeMem) {
+        Double used = (totalMem - freeMem) / totalMem
         return new SystemLoadDto(
                 timestamp: timestamp,
-                load: value
+                load: value,
+                usedMemory: used
         )
     }
 }

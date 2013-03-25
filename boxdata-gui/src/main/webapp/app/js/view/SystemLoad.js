@@ -22,7 +22,7 @@
 
     Ext.define('boxdata.view.SystemLoad', {
         title: boxdata.i18n.get('application.system.load'),
-        extend: 'Ext.panel.Panel',
+        extend: 'boxdata.ux.chart.LineAndBarByTime',
         alias: 'widget.boxdata-system-load-panel',
         tools: [
             {
@@ -32,7 +32,28 @@
                     owner.ownerCt.fireEvent('refreshpanel');
                 }
             }
-        ]
+        ],
+
+        store: 'SystemLoad',
+
+        columnSeriesName: 'used memory',
+        columnLabelsFormatter: function(value) {
+            return (value * 100) + '%';
+        },
+
+        areaSeriesName: 'system load',
+
+        getColumnValue: function (rec) {
+            var timestamp = rec.get('timestamp');
+            var value = rec.get('used-mem');
+            return [timestamp, value];
+        },
+
+        getAreaValue: function (rec) {
+            var timestamp = rec.get('timestamp');
+            var value = rec.get('load');
+            return [timestamp, value];
+        }
     });
 
 }());
