@@ -69,6 +69,11 @@
 
         columnLabelsFormatter: function (value) {
             return (value * 100) + '%';
+        },
+
+        columnAxisAtRight: function(params) {
+            var chartData = params.chartData;
+            return chartData.series.length > 1;
         }
     });
 

@@ -83,6 +83,16 @@
             var me = this;
             var data = me.getChartData();
 
+            function getOppositeValue(propertyName) {
+                var property = me[propertyName];
+                if (Ext.isFunction(property)) {
+                    property = property({
+                        chartData: data
+                    });
+                }
+                return property;
+            }
+
             var lineAxis = {
                 id: 'lineAxis',
                 title: {
@@ -91,7 +101,7 @@
                         color: '#89A54E'
                     }
                 },
-                opposite: me.lineAxisAtRight
+                opposite: getOppositeValue('lineAxisAtRight')
             };
 
             var columnAxis = {
@@ -102,7 +112,7 @@
                         color: '#4572A7'
                     }
                 },
-                opposite: me.columnAxisAtRight
+                opposite: getOppositeValue('columnAxisAtRight')
             };
 
             function setLabelsConfig(labelFormatterFunctionName, config) {
