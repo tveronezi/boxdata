@@ -36,6 +36,24 @@
 
         store: 'DiskUsage',
 
+        getValueInGB: function (v) {
+            var number = Ext.util.Format.number((v / 1024 / 1024 / 1024), '0,000.00');
+            return number + ' ' + boxdata.i18n.get('gigabyte');
+        },
+
+        tooltipFormatter: function (points) {
+            var point = points[0];
+            return point.series.name + ' - ' + this.getValueInGB(point.y);
+        },
+
+        dataLabelsFormatter: function (v) {
+            return this.getValueInGB(v);
+        },
+
+        axisLabelsFormatter: function (v) {
+            return this.getValueInGB(v);
+        },
+
         getValue: function (rec) {
             var me = this;
             var path = rec.get('path');

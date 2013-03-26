@@ -31,7 +31,9 @@
             }
         ],
 
-        getChartConfig: function() {
+        tooltipFormatter: undefined,
+
+        getChartConfig: function () {
             throw 'You should override the getChartConfig method';
         },
 
@@ -40,8 +42,24 @@
             var container = me.child('panel');
             container.removeAll(true);
             var config = me.getChartConfig();
+
             config.chart = config.chart || {};
-            config.chart.renderTo =  container.id;
+            config.chart.renderTo = container.id;
+
+            if (me.tooltipFormatter) {
+                config.tooltip = config.tooltip || {};
+                config.tooltip.formatter = function () {
+                    var points;
+                    if (this.point) {
+                        points = [this.point];
+
+                    } else {
+                        points = this.points;
+                    }
+                    return me.tooltipFormatter.call(me, points);
+                };
+            }
+
             me.chart = new Highcharts.Chart(config);
         },
 

@@ -31,6 +31,10 @@
             throw 'You should override the getValue method';
         },
 
+        dataLabelsFormatter: undefined,
+
+        axisLabelsFormatter: undefined,
+
         getChartData: function () {
             var me = this;
             var categories = [];
@@ -82,6 +86,35 @@
             var me = this;
             var data = me.getChartData();
 
+            var columnConfig = {
+                stacking: 'normal'
+            };
+
+            if (me.dataLabelsFormatter) {
+                columnConfig.dataLabels = {
+                    enabled: true,
+                    formatter: function () {
+                        return me.dataLabelsFormatter.call(me, this.y);
+                    }
+                };
+            }
+
+            var yAxis = {
+                min: data.min,
+                max: data.max,
+                title: {
+                    text: ''
+                }
+            };
+
+            if (me.axisLabelsFormatter) {
+                yAxis.labels = {
+                    formatter: function () {
+                        return me.axisLabelsFormatter.call(me, this.value);
+                    }
+                };
+            }
+
             return {
                 chart: {
                     type: 'column'
@@ -92,21 +125,9 @@
                 xAxis: {
                     categories: data.categories
                 },
-                yAxis: {
-                    min: data.min,
-                    max: data.max,
-                    title: {
-                        text: ''
-                    }
-                },
+                yAxis: yAxis,
                 plotOptions: {
-                    column: {
-                        stacking: 'normal',
-                        dataLabels: {
-                            enabled: true,
-                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                        }
-                    }
+                    column: columnConfig
                 },
                 series: data.series
             };
