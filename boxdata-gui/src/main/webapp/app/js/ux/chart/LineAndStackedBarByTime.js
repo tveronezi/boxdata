@@ -23,7 +23,7 @@
         extend: 'boxdata.ux.chart.Panel',
 
         columnLabelsFormatter: undefined,
-        areaLabelsFormatter: undefined,
+        lineLabelsFormatter: undefined,
 
         /**
          * This method should return an object or an array of objects with the following format:
@@ -114,7 +114,7 @@
             }
 
             setLabelsConfig('columnLabelsFormatter', rightAxis);
-            setLabelsConfig('areaLabelsFormatter', leftAxis);
+            setLabelsConfig('lineLabelsFormatter', leftAxis);
 
             return {
                 chart: {

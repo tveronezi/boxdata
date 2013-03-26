@@ -64,12 +64,8 @@
             var result = [];
             var timestamp = rec.get('timestamp');
             this.pushStackedValue(result, rec, timestamp, 'heapCommitted');
-            this.pushStackedValue(result, rec, timestamp, 'heapInit');
-            this.pushStackedValue(result, rec, timestamp, 'heapMax');
             this.pushStackedValue(result, rec, timestamp, 'heapUsed');
             this.pushStackedValue(result, rec, timestamp, 'nonHeapCommitted');
-            this.pushStackedValue(result, rec, timestamp, 'nonHeapInit');
-            this.pushStackedValue(result, rec, timestamp, 'nonHeapMax');
             this.pushStackedValue(result, rec, timestamp, 'nonHeapUsed');
 
             return result;
