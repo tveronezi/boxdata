@@ -42,12 +42,23 @@
                 flex: 1
             },
             {
-                layout: 'fit',
+                xtype: 'panel',
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch',
+                    pack: 'start'
+                },
                 border: false,
                 items: [
                     {
+                        padding: '5 5 0 0',
+                        xtype: 'boxdata-system-load-panel',
+                        flex: 1
+                    },
+                    {
                         padding: '5 5 5 0',
-                        xtype: 'boxdata-system-load-panel'
+                        xtype: 'boxdata-jvm-mem-panel',
+                        flex: 1
                     }
                 ],
                 flex: 2

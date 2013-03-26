@@ -26,7 +26,8 @@
 
         views: [
             'ApplicationContainer',
-            'SystemLoad'
+            'SystemLoad',
+            'JvmMemory'
         ],
 
         stores: [

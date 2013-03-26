@@ -131,7 +131,12 @@
                     leftAxis,
                     rightAxis
                 ],
-                series: data.series
+                series: data.series,
+                plotOptions: {
+                    column: {
+                        stacking: 'normal'
+                    }
+                }
             };
 
         }

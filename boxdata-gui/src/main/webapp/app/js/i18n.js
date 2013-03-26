@@ -24,9 +24,11 @@
     var messages = {
         'application.name': 'boxdata',
         'gigabyte': 'GB',
+        'megabyte': 'MB',
         'application.disk.usage': 'Disk Usage',
         'application.mem.usage': 'Memory Usage',
         'application.system.load': 'System Load',
+        'application.system.jvm.memory': 'JVM Memory',
         'test.with.param': 'This is for test only. {myParam}!'
     };
 
