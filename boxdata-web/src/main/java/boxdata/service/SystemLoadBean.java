@@ -29,6 +29,8 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,22 +45,28 @@ public class SystemLoadBean {
     private List<SystemLoadDto> systemLoad = new ArrayList<SystemLoadDto>();
 
     private OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
+    private MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
 
     @Inject
     private DtoBuilder builder;
 
-    @Schedule(minute = "*/1", hour = "*", persistent = false)
+    @Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
     public void readSystemLoadData() {
         LOG.info("Reading system information (load)...");
 
         Long free = Runtime.getRuntime().freeMemory();
         Long total = Runtime.getRuntime().totalMemory();
 
+        MemoryUsage heap = this.memoryBean.getHeapMemoryUsage();
+        MemoryUsage nonHeap = this.memoryBean.getNonHeapMemoryUsage();
+
         final SystemLoadDto dto = this.builder.buildSystemLoadDto(
                 System.currentTimeMillis(),
                 this.osBean.getSystemLoadAverage(),
                 total,
-                free
+                free,
+                heap,
+                nonHeap
         );
         this.systemLoad.add(dto);
         while (this.systemLoad.size() > MAX_RECORDS) {

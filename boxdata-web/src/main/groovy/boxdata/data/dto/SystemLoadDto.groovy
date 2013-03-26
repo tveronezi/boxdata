@@ -39,8 +39,28 @@ class SystemLoadDto {
     @XmlElement(name = 'used-mem')
     Double usedMemory
 
-    @Override
-    public String toString() {
-        return "SystemLoadDto{timestamp=${timestamp}, load=${load}, used-mem=${usedMemory}}"
-    }
+    @XmlElement
+    Long heapInit
+
+    @XmlElement
+    Long heapUsed
+
+    @XmlElement
+    Long heapCommitted
+
+    @XmlElement
+    Long heapMax
+
+    @XmlElement
+    Long nonHeapInit
+
+    @XmlElement
+    Long nonHeapUsed
+
+    @XmlElement
+    Long nonHeapCommitted
+
+    @XmlElement
+    Long nonHeapMax
+
 }

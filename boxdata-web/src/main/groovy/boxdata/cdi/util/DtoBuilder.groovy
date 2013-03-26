@@ -22,6 +22,7 @@ import boxdata.data.dto.DiskUsageDto
 import boxdata.data.dto.SystemLoadDto
 
 import javax.enterprise.context.ApplicationScoped
+import java.lang.management.MemoryUsage
 
 @ApplicationScoped
 class DtoBuilder {
@@ -35,12 +36,23 @@ class DtoBuilder {
         )
     }
 
-    SystemLoadDto buildSystemLoadDto(Long timestamp, Double value, Long totalMem, Long freeMem) {
+    SystemLoadDto buildSystemLoadDto(Long timestamp, Double value, Long totalMem, Long freeMem,
+                                     MemoryUsage heap, MemoryUsage nonHeap) {
         Double used = (totalMem - freeMem) / totalMem
         return new SystemLoadDto(
                 timestamp: timestamp,
                 load: value,
-                usedMemory: used
+                usedMemory: used,
+
+                heapInit: heap.init,
+                heapMax: heap.max,
+                heapCommitted: heap.committed,
+                heapUsed: heap.used,
+
+                nonHeapInit: nonHeap.init,
+                nonHeapMax: nonHeap.max,
+                nonHeapCommitted: nonHeap.committed,
+                nonHeapUsed: nonHeap.used
         )
     }
 }

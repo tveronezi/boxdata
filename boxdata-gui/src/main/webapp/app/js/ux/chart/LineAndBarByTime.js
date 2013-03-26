@@ -54,7 +54,9 @@
         putValues: function (array, getMethodName, record) {
             var me = this;
             var newValues = me[getMethodName](record);
-            array.push(newValues);
+            if (!Ext.isEmpty(newValues)) {
+                array.push(newValues);
+            }
         },
 
         getChartData: function () {

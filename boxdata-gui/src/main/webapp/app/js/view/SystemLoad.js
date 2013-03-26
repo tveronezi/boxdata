@@ -52,6 +52,9 @@
         getAreaValue: function (rec) {
             var timestamp = rec.get('timestamp');
             var value = rec.get('load');
+            if(value < 0) {
+                return null;
+            }
             return [timestamp, value];
         }
     });
