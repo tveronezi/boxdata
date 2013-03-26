@@ -56,6 +56,11 @@
                     refreshpanel: function () {
                         self.getSystemLoadStore().load();
                     }
+                },
+                'boxdata-jvm-mem-panel': {
+                    refreshpanel: function () {
+                        self.getSystemLoadStore().load();
+                    }
                 }
             });
         }
