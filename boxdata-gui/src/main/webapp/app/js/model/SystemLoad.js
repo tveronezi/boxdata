@@ -30,6 +30,38 @@ Ext.define('boxdata.model.SystemLoad', {
         {
             name: 'used-mem',
             type: 'double'
+        },
+        {
+            name: 'heapInit',
+            type: 'int'
+        },
+        {
+            name: 'heapUsed',
+            type: 'int'
+        },
+        {
+            name: 'heapCommitted',
+            type: 'int'
+        },
+        {
+            name: 'heapMax',
+            type: 'int'
+        },
+        {
+            name: 'nonHeapInit',
+            type: 'int'
+        },
+        {
+            name: 'nonHeapUsed',
+            type: 'int'
+        },
+        {
+            name: 'nonHeapCommitted',
+            type: 'int'
+        },
+        {
+            name: 'nonHeapMax',
+            type: 'int'
         }
     ],
 

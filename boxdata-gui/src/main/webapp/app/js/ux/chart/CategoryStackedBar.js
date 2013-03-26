@@ -94,7 +94,8 @@
                 columnConfig.dataLabels = {
                     enabled: true,
                     formatter: function () {
-                        return me.dataLabelsFormatter.call(me, this.y);
+                        var formatter = me.dataLabelsFormatter;
+                        return formatter.apply(me, [this.y]);
                     }
                 };
             }
@@ -110,7 +111,8 @@
             if (me.axisLabelsFormatter) {
                 yAxis.labels = {
                     formatter: function () {
-                        return me.axisLabelsFormatter.call(me, this.value);
+                        var formatter = me.axisLabelsFormatter;
+                        return formatter.apply(me, [this.value]);
                     }
                 };
             }

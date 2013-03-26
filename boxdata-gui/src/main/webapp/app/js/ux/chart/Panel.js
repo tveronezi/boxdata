@@ -31,8 +31,8 @@
             }
         ],
 
+        store: undefined,
         tooltipFormatter: undefined,
-
         getChartConfig: function () {
             throw 'You should override the getChartConfig method';
         },
@@ -56,7 +56,8 @@
                     } else {
                         points = this.points;
                     }
-                    return me.tooltipFormatter.call(me, points);
+                    var formatter = me.tooltipFormatter;
+                    return formatter.apply(me, [points]);
                 };
             }
 
@@ -74,7 +75,7 @@
                     me.store = Ext.data.StoreManager.lookup(me.store);
                 }
 
-                me.store.on('load', function (thisStore, records) {
+                me.store.on('load', function () {
                     me.showChart();
                 });
             }

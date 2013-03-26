@@ -19,60 +19,61 @@
 (function () {
     'use strict';
 
-    Ext.define('boxdata.ux.chart.LineAndBarByTime', {
+    Ext.define('boxdata.ux.chart.LineAndStackedBarByTime', {
         extend: 'boxdata.ux.chart.Panel',
 
-
-        // rename it with the name of your series
-        columnSeriesName: 'column',
-
         columnLabelsFormatter: undefined,
-
-        // rename it with the name of your series
-        areaSeriesName: 'area',
-
         areaLabelsFormatter: undefined,
 
         /**
-         * This method should return an array of arrays with the following format:
-         * [[<date>, <number>], [<date>, <number>], ..., [<date>, <number>]]
+         * This method should return an object or an array of objects with the following format:
+         * [{timestamp: 0, value: 0, seriesName: 'a'}, ..., {timestamp: 0, value: 0, seriesName: 'a'}]
          * @param rec
          */
-        getAreaValue: function (rec) {
-            throw 'You should override the getAreaValue method';
+        getLineValue: function (rec) {
+            throw 'You should override the getLineValue method';
         },
 
         /**
-         * This method should return an array of arrays with the following format:
-         * [[<date>, <number>], [<date>, <number>], ..., [<date>, <number>]]
+         * This method should return an array of objects with the following format:
+         * [{timestamp: 0, value: 0, seriesName: 'a'}, ..., {timestamp: 0, value: 0, seriesName: 'a'}]
          * @param rec
          */
         getColumnValue: function (rec) {
             throw 'You should override the getColumnValue method';
         },
 
-        putValues: function (array, getMethodName, record) {
+        putValues: function (seriesMap, getMethodName, axisId, type, record) {
             var me = this;
             var newValues = me[getMethodName](record);
-            if (!Ext.isEmpty(newValues)) {
-                array.push(newValues);
-            }
+            Ext.Array.forEach(newValues, function (item) {
+                var seriesValue = seriesMap[item.seriesName];
+                if (!seriesValue) {
+                    seriesValue = {
+                        name: item.seriesName,
+                        yAxis: axisId,
+                        type: type,
+                        data: []
+                    };
+                    seriesMap[item.seriesName] = seriesValue;
+                }
+                var data = seriesValue.data;
+                data.push([item.timestamp, item.value]);
+            });
         },
 
         getChartData: function () {
             var me = this;
 
-            var columnValues = [];
-            var areaValues = [];
+            var seriesMap = {};
 
             me.store.each(function (record) {
-                me.putValues(columnValues, 'getColumnValue', record);
-                me.putValues(areaValues, 'getAreaValue', record);
+                me.putValues(seriesMap, 'getColumnValue', 'rightAxis', 'column', record);
+                me.putValues(seriesMap, 'getLineValue', 'leftAxis', 'line', record);
             });
 
             return {
-                columnValues: columnValues,
-                areaValues: areaValues
+                series: Ext.Object.getValues(seriesMap)
             };
         },
 
@@ -80,7 +81,8 @@
             var me = this;
             var data = me.getChartData();
 
-            var areaAxis = {
+            var leftAxis = {
+                id: 'leftAxis',
                 title: {
                     text: '',
                     style: {
@@ -89,7 +91,8 @@
                 }
             };
 
-            var columnAxis = {
+            var rightAxis = {
+                id: 'rightAxis',
                 title: {
                     text: '',
                     style: {
@@ -103,14 +106,15 @@
                 if (me[labelFormatterFunctionName]) {
                     config.labels = {
                         formatter: function () {
-                            return me[labelFormatterFunctionName].call(me, this.value);
+                            var customFormatter = me[labelFormatterFunctionName];
+                            return customFormatter.apply(me, [this.value]);
                         }
                     };
                 }
             }
 
-            setLabelsConfig('columnLabelsFormatter', columnAxis);
-            setLabelsConfig('areaLabelsFormatter', areaAxis);
+            setLabelsConfig('columnLabelsFormatter', rightAxis);
+            setLabelsConfig('areaLabelsFormatter', leftAxis);
 
             return {
                 chart: {
@@ -124,24 +128,10 @@
                     }
                 ],
                 yAxis: [
-                    areaAxis,
-                    columnAxis
+                    leftAxis,
+                    rightAxis
                 ],
-                series: [
-                    {
-                        name: me.columnSeriesName,
-                        color: '#4572A7',
-                        type: 'column',
-                        yAxis: 1,
-                        data: data.columnValues
-                    },
-                    {
-                        name: me.areaSeriesName,
-                        color: '#89A54E',
-                        type: 'area',
-                        data: data.areaValues
-                    }
-                ]
+                series: data.series
             };
 
         }

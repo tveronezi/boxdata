@@ -22,7 +22,7 @@
 
     Ext.define('boxdata.view.SystemLoad', {
         title: boxdata.i18n.get('application.system.load'),
-        extend: 'boxdata.ux.chart.LineAndBarByTime',
+        extend: 'boxdata.ux.chart.LineAndStackedBarByTime',
         alias: 'widget.boxdata-system-load-panel',
         tools: [
             {
@@ -36,26 +36,39 @@
 
         store: 'SystemLoad',
 
-        columnSeriesName: 'used memory',
-        columnLabelsFormatter: function(value) {
-            return (value * 100) + '%';
-        },
-
-        areaSeriesName: 'system load',
-
-        getColumnValue: function (rec) {
-            var timestamp = rec.get('timestamp');
-            var value = rec.get('used-mem');
-            return [timestamp, value];
-        },
-
-        getAreaValue: function (rec) {
+        getLineValue: function (rec) {
             var timestamp = rec.get('timestamp');
             var value = rec.get('load');
-            if(value < 0) {
-                return null;
+            if (value < 0) {
+                return [];
             }
-            return [timestamp, value];
+            return [
+                {
+                    timestamp: timestamp,
+                    value: value,
+                    seriesName: 'system load'
+                }
+            ];
+        },
+
+        pushStackedValue: function(array, rec, timestamp, columnName, seriesName) {
+            var value = rec.get(columnName);
+            array.push({
+                timestamp: timestamp,
+                value: value,
+                seriesName: seriesName
+            });
+        },
+
+        getColumnValue: function (rec) {
+            var result = [];
+            var timestamp = rec.get('timestamp');
+            this.pushStackedValue(result, rec, timestamp, 'used-mem', 'used memory');
+            return result;
+        },
+
+        columnLabelsFormatter: function (value) {
+            return (value * 100) + '%';
         }
     });
 
