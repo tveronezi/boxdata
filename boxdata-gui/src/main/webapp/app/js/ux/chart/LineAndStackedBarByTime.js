@@ -24,6 +24,8 @@
 
         columnLabelsFormatter: undefined,
         lineLabelsFormatter: undefined,
+        lineAxisAtRight: false,
+        columnAxisAtRight: true,
 
         /**
          * This method should return an object or an array of objects with the following format:
@@ -68,8 +70,8 @@
             var seriesMap = {};
 
             me.store.each(function (record) {
-                me.putValues(seriesMap, 'getColumnValue', 'rightAxis', 'column', record);
-                me.putValues(seriesMap, 'getLineValue', 'leftAxis', 'line', record);
+                me.putValues(seriesMap, 'getColumnValue', 'columnAxis', 'column', record);
+                me.putValues(seriesMap, 'getLineValue', 'lineAxis', 'line', record);
             });
 
             return {
@@ -81,25 +83,26 @@
             var me = this;
             var data = me.getChartData();
 
-            var leftAxis = {
-                id: 'leftAxis',
+            var lineAxis = {
+                id: 'lineAxis',
                 title: {
                     text: '',
                     style: {
                         color: '#89A54E'
                     }
-                }
+                },
+                opposite: me.lineAxisAtRight
             };
 
-            var rightAxis = {
-                id: 'rightAxis',
+            var columnAxis = {
+                id: 'columnAxis',
                 title: {
                     text: '',
                     style: {
                         color: '#4572A7'
                     }
                 },
-                opposite: true
+                opposite: me.columnAxisAtRight
             };
 
             function setLabelsConfig(labelFormatterFunctionName, config) {
@@ -113,8 +116,8 @@
                 }
             }
 
-            setLabelsConfig('columnLabelsFormatter', rightAxis);
-            setLabelsConfig('lineLabelsFormatter', leftAxis);
+            setLabelsConfig('columnLabelsFormatter', columnAxis);
+            setLabelsConfig('lineLabelsFormatter', lineAxis);
 
             return {
                 chart: {
@@ -128,8 +131,8 @@
                     }
                 ],
                 yAxis: [
-                    leftAxis,
-                    rightAxis
+                    lineAxis,
+                    columnAxis
                 ],
                 series: data.series,
                 plotOptions: {
