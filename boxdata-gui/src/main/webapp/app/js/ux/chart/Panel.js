@@ -75,7 +75,7 @@
                     me.store = Ext.data.StoreManager.lookup(me.store);
                 }
 
-                me.store.on('load', function () {
+                me.store.on('datachanged', function () {
                     me.showChart();
                 });
             }
