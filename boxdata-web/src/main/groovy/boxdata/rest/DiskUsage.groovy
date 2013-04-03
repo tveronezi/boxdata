@@ -19,7 +19,7 @@
 package boxdata.rest
 
 import boxdata.data.dto.DiskUsageDto
-import boxdata.service.DiskUsageBean
+import boxdata.ejb.DiskUsageEjb
 
 import javax.ejb.EJB
 import javax.ws.rs.GET
@@ -29,7 +29,7 @@ import javax.ws.rs.Produces
 @Path("/disk-usage")
 class DiskUsage {
     @EJB
-    private DiskUsageBean usage
+    private DiskUsageEjb usage
 
     @GET
     @Produces("application/json")

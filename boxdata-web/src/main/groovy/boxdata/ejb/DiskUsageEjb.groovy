@@ -16,34 +16,26 @@
  *  limitations under the License.
  */
 
-package boxdata.service;
+package boxdata.ejb
 
-import boxdata.cdi.util.DtoBuilder;
-import boxdata.data.dto.DiskUsageDto;
+import boxdata.cdi.util.DtoBuilder
+import boxdata.data.dto.DiskUsageDto
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import javax.ejb.Stateless
+import javax.inject.Inject
 
 @Stateless
-public class DiskUsageBean {
-
+class DiskUsageEjb {
     @Inject
-    private DtoBuilder builder;
+    DtoBuilder builder;
 
-    public List<DiskUsageDto> getDiskUsage() {
-        final List<DiskUsageDto> result = new ArrayList<DiskUsageDto>();
-        File[] roots = File.listRoots();
-        for (File root : roots) {
-            DiskUsageDto dto = this.builder.buildDiskUsageDto(
-                    root.getAbsolutePath(),
-                    root.getTotalSpace(),
-                    root.getFreeSpace()
-            );
-            result.add(dto);
+    List<DiskUsageDto> getDiskUsage() {
+        return File.listRoots().collect { File root ->
+            return this.builder.buildDiskUsageDto(
+                    root.absolutePath,
+                    root.totalSpace,
+                    root.freeSpace
+            )
         }
-        return result;
     }
 }
