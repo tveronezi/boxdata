@@ -114,6 +114,13 @@
                     me.rawData[index] = item;
                     index = index + 1;
 
+                    entry.marker = {
+                        enabled: false
+                    };
+                    if (chart.marker) {
+                        entry.marker.enabled = true;
+                    }
+
                     if (!Ext.isDefined(entry.x) || !Ext.isDefined(entry.y)) {
                         // There is a undefined value. Skip this line.
                         return;
@@ -131,7 +138,14 @@
                 });
 
             });
-            return Ext.Object.getValues(seriesMap);
+
+            var result = Ext.Object.getValues(seriesMap);
+            Ext.Array.forEach(result, function (series) {
+                if (Ext.isEmpty(series.data)) {
+                    series.showInLegend = false;
+                }
+            });
+            return result;
         },
 
         // private
@@ -194,6 +208,9 @@
                 plotOptions: {
                     column: {
                         stacking: 'normal'
+                    },
+                    area: {
+                        stacking: 'normal'
                     }
                 }
             };
@@ -227,7 +244,7 @@
                 config.tooltip.formatter = function () {
                     var points = this.points;
                     var rows = [];
-                    Ext.Array.forEach(points, function(item) {
+                    Ext.Array.forEach(points, function (item) {
                         rows.push(me.rawData[item.point.id]);
                     });
                     var formatter = me.tooltip;

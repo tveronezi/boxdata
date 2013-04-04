@@ -72,28 +72,28 @@
             {
                 xType: 'datetime',
                 xField: 'timestamp',
-                yType: 'column',
+                yType: 'area',
                 yField: 'heapCommitted',
                 seriesName: 'heapCommitted'
             },
             {
                 xType: 'datetime',
                 xField: 'timestamp',
-                yType: 'column',
+                yType: 'area',
                 yField: 'heapUsed',
                 seriesName: 'heapUsed'
             },
             {
                 xType: 'datetime',
                 xField: 'timestamp',
-                yType: 'column',
+                yType: 'area',
                 yField: 'nonHeapCommitted',
                 seriesName: 'nonHeapCommitted'
             },
             {
                 xType: 'datetime',
                 xField: 'timestamp',
-                yType: 'column',
+                yType: 'area',
                 yField: 'nonHeapUsed',
                 seriesName: 'nonHeapUsed'
             }

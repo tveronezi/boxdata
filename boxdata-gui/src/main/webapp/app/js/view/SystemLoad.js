@@ -51,7 +51,7 @@
             {
                 xType: 'datetime',
                 xField: 'timestamp',
-                yType: 'column',
+                yType: 'area',
                 yField: 'used-mem',
                 seriesName: 'used memory'
             }
