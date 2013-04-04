@@ -9,9 +9,7 @@
 
     Ext.define('boxdata.ux.Chart', {
         extend: 'Ext.panel.Panel',
-
         layout: 'fit',
-
         items: [
             {
                 xtype: 'panel',
@@ -21,6 +19,20 @@
 
         /**
          * It holds the configuration of all the charts shown by this component.
+         *
+         * {
+         *      xType: 'datetime',
+         *      xField: 'timestamp',
+         *      yType: 'line',
+         *      yField: function (row) {
+         *          var value = row.get('load');
+         *          if (value < 0) {
+         *              return undefined;
+         *          }
+         *          return value;
+         *      },
+         *      seriesName: 'load'
+         * }
          */
         charts: [],
 
@@ -70,6 +82,11 @@
                 data = me.series;
             }
 
+            delete me.rawData;
+            me.rawData = {};
+
+            var index = 0;
+
             var xAxesMap = {};
             Ext.Array.forEach(axes.xAxis, function (axis) {
                 xAxesMap[axis.id] = axis;
@@ -91,8 +108,11 @@
 
                     var entry = {
                         x: me.getRowFieldValue(chart.xField, item),
-                        y: me.getRowFieldValue(chart.yField, item)
+                        y: me.getRowFieldValue(chart.yField, item),
+                        id: index
                     };
+                    me.rawData[index] = item;
+                    index = index + 1;
 
                     if (!Ext.isDefined(entry.x) || !Ext.isDefined(entry.y)) {
                         // There is a undefined value. Skip this line.
@@ -103,7 +123,8 @@
                     if (chart.xType === 'category') {
                         var categories = xAxesMap['categoryAxis'].categories;
                         Ext.Array.include(categories, entry.x);
-                        data.push(entry.y);
+                        delete entry.x;
+                        data.push(entry);
                     } else {
                         data.push(entry);
                     }
@@ -138,7 +159,6 @@
                             id: xType + 'Axis'
                         };
                     }
-
                 }
 
                 if (!Ext.isDefined(yMap[yType])) {
@@ -202,25 +222,24 @@
             // preparing the 'tooltip' object that HighCharts understands.
             if (me.tooltip) {
                 config.tooltip = config.tooltip || {};
+                config.tooltip.shared = true;
+                config.tooltip.useHTML = true;
                 config.tooltip.formatter = function () {
-                    var points;
-                    if (this.point) {
-                        points = [this.point];
-                    } else {
-                        points = this.points;
-                    }
+                    var points = this.points;
+                    var rows = [];
+                    Ext.Array.forEach(points, function(item) {
+                        rows.push(me.rawData[item.point.id]);
+                    });
                     var formatter = me.tooltip;
-                    return formatter.apply(me, [points]);
+                    return formatter.call(me, rows);
                 };
             }
 
-            window.setTimeout(function () {
-                me.chart = new Highcharts.Chart(config);
-            }, 1000);
+            me.chart = new Highcharts.Chart(config);
         },
 
         listeners: {
-            render: function () {
+            afterrender: function () {
                 var me = this;
                 me.showChart();
             }

@@ -34,6 +34,27 @@
             }
         ],
 
+        statics: {
+            tooltipTemplate: (function () {
+                var arr = [
+                    '<b>heapCommitted</b>: {heapCommitted} <br/>',
+                    '<b>heapInit</b>: {heapInit} <br/>',
+                    '<b>heapMax</b>: {heapMax} <br/>',
+                    '<b>heapUsed</b>: {heapUsed} <br/>',
+                    '<b>load</b>: {load} <br/>',
+                    '<b>nonHeapCommitted</b>: {nonHeapCommitted} <br/>',
+                    '<b>nonHeapInit</b>: {nonHeapInit} <br/>',
+                    '<b>nonHeapMax</b>: {nonHeapMax} <br/>',
+                    '<b>nonHeapUsed</b>: {nonHeapUsed} <br/>',
+                    '<b>timestamp</b>: {timestamp} <br/>',
+                    '<b>used-mem</b>: {usedmem}'
+                ];
+                return new Ext.Template(arr.join(''), {
+                    compiled: true
+                });
+            }())
+        },
+
         charts: [
             {
                 xType: 'datetime',
@@ -77,6 +98,25 @@
                 seriesName: 'nonHeapUsed'
             }
         ],
+
+        tooltip: function (records) {
+            var first = records[0];
+            var template = boxdata.view.JvmMemory.tooltipTemplate;
+            var output = template.apply({
+                'heapCommitted': first.get('heapCommitted'),
+                'heapInit': first.get('heapInit'),
+                'heapMax': first.get('heapMax'),
+                'heapUsed': first.get('heapUsed'),
+                'load': first.get('load'),
+                'nonHeapCommitted': first.get('nonHeapCommitted'),
+                'nonHeapInit': first.get('nonHeapInit'),
+                'nonHeapMax': first.get('nonHeapMax'),
+                'nonHeapUsed': first.get('nonHeapUsed'),
+                'timestamp': first.get('timestamp'),
+                'usedmem': first.get('used-mem')
+            });
+            return output;
+        },
 
         beforeInit: function () {
             var me = this;
