@@ -22,7 +22,7 @@
 
     Ext.define('boxdata.view.SystemLoad', {
         title: boxdata.i18n.get('application.system.load'),
-        extend: 'boxdata.ux.chart.LineAndStackedBarByTime',
+        extend: 'boxdata.ux.Chart',
         alias: 'widget.boxdata-system-load-panel',
         tools: [
             {
@@ -34,46 +34,39 @@
             }
         ],
 
-        store: 'SystemLoad',
-
-        getLineValue: function (rec) {
-            var timestamp = rec.get('timestamp');
-            var value = rec.get('load');
-            if (value < 0) {
-                return [];
+        charts: [
+            {
+                xType: 'datetime',
+                xField: 'timestamp',
+                yType: 'line',
+                yField: function (row) {
+                    var value = row.get('load');
+                    if (value < 0) {
+                        return undefined;
+                    }
+                    return value;
+                },
+                seriesName: 'system load'
+            },
+            {
+                xType: 'datetime',
+                xField: 'timestamp',
+                yType: 'column',
+                yField: 'used-mem',
+                seriesName: 'used memory'
             }
-            return [
-                {
-                    timestamp: timestamp,
-                    value: value,
-                    seriesName: 'system load'
-                }
-            ];
-        },
-
-        pushStackedValue: function(array, rec, timestamp, columnName, seriesName) {
-            var value = rec.get(columnName);
-            array.push({
-                timestamp: timestamp,
-                value: value,
-                seriesName: seriesName
-            });
-        },
-
-        getColumnValue: function (rec) {
-            var result = [];
-            var timestamp = rec.get('timestamp');
-            this.pushStackedValue(result, rec, timestamp, 'used-mem', 'used memory');
-            return result;
-        },
+        ],
 
         columnLabelsFormatter: function (value) {
             return (value * 100) + '%';
         },
 
-        columnAxisAtRight: function(params) {
-            var chartData = params.chartData;
-            return chartData.series.length > 1;
+        beforeInit: function() {
+            var me = this;
+            var store = Ext.getStore('SystemLoad');
+            store.on('load', function (thisStore, records) {
+                me.setSeries(records);
+            });
         }
     });
 
