@@ -46,27 +46,23 @@
             {
                 xType: 'category',
                 xField: function (rec) {
-                    return 'free';
+                    return this.getPath(rec);
                 },
                 yType: 'column',
                 yField: 'free',
-                seriesName: function(rec) {
-                    return this.getPath(rec);
-                }
+                seriesName: 'free'
             },
             {
                 xType: 'category',
                 xField: function (rec) {
-                    return 'used';
+                    return this.getPath(rec);
                 },
                 yType: 'column',
                 yField: function (rec) {
                     var used = rec.get('total') - rec.get('free');
                     return used;
                 },
-                seriesName: function(rec) {
-                    return this.getPath(rec);
-                }
+                seriesName: 'used'
             }
         ],
 

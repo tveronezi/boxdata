@@ -61,7 +61,7 @@
         },
 
         // private
-        prepareData: function () {
+        prepareData: function (axes) {
             var me = this;
             var data;
             if (Ext.isFunction(me.series)) {
@@ -69,6 +69,11 @@
             } else {
                 data = me.series;
             }
+
+            var xAxesMap = {};
+            Ext.Array.forEach(axes.xAxis, function (axis) {
+                xAxesMap[axis.id] = axis;
+            });
 
             var seriesMap = {};
             Ext.Array.forEach(data, function (item) {
@@ -95,7 +100,13 @@
                     }
 
                     var data = seriesMap[seriesName].data;
-                    data.push(entry);
+                    if (chart.xType === 'category') {
+                        var categories = xAxesMap['categoryAxis'].categories;
+                        Ext.Array.include(categories, entry.x);
+                        data.push(entry.y);
+                    } else {
+                        data.push(entry);
+                    }
                 });
 
             });
@@ -113,11 +124,21 @@
                 var yType = Ext.valueFrom(chartConfig.yType, 'datetime'); // or category
 
                 if (!Ext.isDefined(xMap[xType])) {
-                    xMap[xType] = {
-                        title: '',
-                        type: xType,
-                        id: xType + 'Axis'
-                    };
+                    if (xType === 'category') {
+                        xMap[xType] = {
+                            title: '',
+                            categories: [],
+                            id: xType + 'Axis'
+                        };
+
+                    } else {
+                        xMap[xType] = {
+                            title: '',
+                            type: xType,
+                            id: xType + 'Axis'
+                        };
+                    }
+
                 }
 
                 if (!Ext.isDefined(yMap[yType])) {
@@ -139,7 +160,7 @@
         getChartConfig: function () {
             var me = this;
             var axes = me.prepareAxes();
-            var data = me.prepareData();
+            var data = me.prepareData(axes);
 
             return {
                 chart: {
