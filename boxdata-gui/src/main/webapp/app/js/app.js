@@ -16,6 +16,7 @@
  *  limitations under the License.
  */
 
+
 (function () {
     'use strict';
 
@@ -32,6 +33,17 @@
             'boxdata': window.ux.ROOT_URL + 'app/js'
         }
     });
+
+    // adding missing extjs callback
+    (function() {
+        var init = Ext.Panel.prototype.initComponent;
+        Ext.Panel.prototype.initComponent = function() {
+            if(this.beforeInit) {
+                this.beforeInit();
+            }
+            init.apply(this);
+        };
+    }());
 
     Ext.application({
         name: 'boxdata',

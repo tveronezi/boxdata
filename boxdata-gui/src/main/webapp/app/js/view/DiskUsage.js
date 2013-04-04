@@ -21,7 +21,7 @@
 
     Ext.define('boxdata.view.DiskUsage', {
         title: boxdata.i18n.get('application.disk.usage'),
-        extend: 'boxdata.ux.chart.CategoryStackedBar',
+        extend: 'boxdata.ux.Chart',
         alias: 'widget.boxdata-disk-usage-panel',
 
         tools: [
@@ -34,7 +34,42 @@
             }
         ],
 
-        store: 'DiskUsage',
+        getPath: function (rec) {
+            var path = rec.get('path');
+            if ('' === path) {
+                path = '\\';
+            }
+            return path;
+        },
+
+        charts: [
+            {
+                xType: 'category',
+                xField: function (rec) {
+                    return 'free';
+                },
+                yType: 'column',
+                yField: 'free',
+                seriesName: function(rec) {
+                    return this.getPath(rec);
+                }
+            },
+            {
+                xType: 'category',
+                xField: function (rec) {
+                    return 'used';
+                },
+                yType: 'column',
+                yField: function (rec) {
+                    var used = rec.get('total') - rec.get('free');
+                    return used;
+                },
+                seriesName: function(rec) {
+                    return this.getPath(rec);
+                }
+            }
+        ],
+
 
         getValueInGB: function (v) {
             var number = Ext.util.Format.number((v / 1024 / 1024 / 1024), '0,000.00');
@@ -54,26 +89,12 @@
             return this.getValueInGB(v);
         },
 
-        getValue: function (rec) {
+        beforeInit: function () {
             var me = this;
-            var path = rec.get('path');
-            if ('' === path) {
-                path = '\\';
-            }
-
-            var used = rec.get('total') - rec.get('free');
-            return [
-                {
-                    seriesName: 'free',
-                    value: rec.get('free'),
-                    category: path
-                },
-                {
-                    seriesName: 'used',
-                    value: used,
-                    category: path
-                }
-            ];
+            var store = Ext.getStore('DiskUsage');
+            store.on('load', function (thisStore, records) {
+                me.setSeries(records);
+            });
         }
 
     });

@@ -42,7 +42,7 @@
         // private
         getRowFieldValue: function (field, row) {
             if (Ext.isFunction(field)) {
-                return field(row);
+                return field.call(this, row);
             }
             if (row.isModel) {
                 // this is a extjs record object
@@ -55,7 +55,7 @@
         // private
         getSeriesName: function (chart, row) {
             if (Ext.isFunction(chart.seriesName)) {
-                return chart.seriesName(row);
+                return chart.seriesName.call(this, row);
             }
             return chart.seriesName;
         },

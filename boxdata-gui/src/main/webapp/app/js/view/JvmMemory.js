@@ -78,14 +78,12 @@
             }
         ],
 
-        listeners: {
-            render: function () {
-                var me = this;
-                var store = Ext.getStore('SystemLoad');
-                store.on('load', function (thisStore, records) {
-                    me.setSeries(records);
-                });
-            }
+        beforeInit: function() {
+            var me = this;
+            var store = Ext.getStore('SystemLoad');
+            store.on('load', function (thisStore, records) {
+                me.setSeries(records);
+            });
         }
     });
 
