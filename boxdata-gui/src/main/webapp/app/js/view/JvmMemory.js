@@ -78,7 +78,7 @@
             }
         ],
 
-        beforeInit: function() {
+        beforeInit: function () {
             var me = this;
             var store = Ext.getStore('SystemLoad');
             store.on('load', function (thisStore, records) {

@@ -35,10 +35,10 @@
     });
 
     // adding missing extjs callback
-    (function() {
+    (function () {
         var init = Ext.Panel.prototype.initComponent;
-        Ext.Panel.prototype.initComponent = function() {
-            if(this.beforeInit) {
+        Ext.Panel.prototype.initComponent = function () {
+            if (this.beforeInit) {
                 this.beforeInit();
             }
             init.apply(this);
