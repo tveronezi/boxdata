@@ -22,7 +22,7 @@
 
     Ext.define('boxdata.view.JvmMemory', {
         title: boxdata.i18n.get('application.system.jvm.memory'),
-        extend: 'boxdata.ux.chart.LineAndStackedBarByTime',
+        extend: 'boxdata.ux.Chart',
         alias: 'widget.boxdata-jvm-mem-panel',
         tools: [
             {
@@ -34,46 +34,58 @@
             }
         ],
 
-        store: 'SystemLoad',
-
-        getLineValue: function (rec) {
-            var timestamp = rec.get('timestamp');
-            var value = rec.get('load');
-            if (value < 0) {
-                return [];
+        charts: [
+            {
+                xType: 'datetime',
+                xField: 'timestamp',
+                yType: 'line',
+                yField: function (row) {
+                    var value = row.get('load');
+                    if (value < 0) {
+                        return undefined;
+                    }
+                    return value;
+                },
+                seriesName: 'load'
+            },
+            {
+                xType: 'datetime',
+                xField: 'timestamp',
+                yType: 'column',
+                yField: 'heapCommitted',
+                seriesName: 'heapCommitted'
+            },
+            {
+                xType: 'datetime',
+                xField: 'timestamp',
+                yType: 'column',
+                yField: 'heapUsed',
+                seriesName: 'heapUsed'
+            },
+            {
+                xType: 'datetime',
+                xField: 'timestamp',
+                yType: 'column',
+                yField: 'nonHeapCommitted',
+                seriesName: 'nonHeapCommitted'
+            },
+            {
+                xType: 'datetime',
+                xField: 'timestamp',
+                yType: 'column',
+                yField: 'nonHeapUsed',
+                seriesName: 'nonHeapUsed'
             }
-            return [
-                {
-                    timestamp: timestamp,
-                    value: value,
-                    seriesName: 'system load'
-                }
-            ];
-        },
+        ],
 
-        pushStackedValue: function(array, rec, timestamp, columnName) {
-            var value = rec.get(columnName);
-            array.push({
-                timestamp: timestamp,
-                value: value,
-                seriesName: columnName
-            });
-        },
-
-        getColumnValue: function (rec) {
-            var result = [];
-            var timestamp = rec.get('timestamp');
-            this.pushStackedValue(result, rec, timestamp, 'heapCommitted');
-            this.pushStackedValue(result, rec, timestamp, 'heapUsed');
-            this.pushStackedValue(result, rec, timestamp, 'nonHeapCommitted');
-            this.pushStackedValue(result, rec, timestamp, 'nonHeapUsed');
-
-            return result;
-        },
-
-        columnLabelsFormatter: function (value) {
-            var number = Ext.util.Format.number((value / 1024 / 1024), '0,000.00');
-            return number + ' ' + boxdata.i18n.get('megabyte');
+        listeners: {
+            render: function () {
+                var me = this;
+                var store = Ext.getStore('SystemLoad');
+                store.on('load', function (thisStore, records) {
+                    me.setSeries(records);
+                });
+            }
         }
     });
 
