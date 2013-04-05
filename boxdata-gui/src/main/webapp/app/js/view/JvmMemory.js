@@ -59,19 +59,6 @@
             {
                 xType: 'datetime',
                 xField: 'timestamp',
-                yType: 'line',
-                yField: function (row) {
-                    var value = row.get('load');
-                    if (value < 0) {
-                        return undefined;
-                    }
-                    return value;
-                },
-                seriesName: 'load'
-            },
-            {
-                xType: 'datetime',
-                xField: 'timestamp',
                 yType: 'area',
                 yField: 'heapCommitted',
                 seriesName: 'heapCommitted'
@@ -96,6 +83,19 @@
                 yType: 'area',
                 yField: 'nonHeapUsed',
                 seriesName: 'nonHeapUsed'
+            },
+            {
+                xType: 'datetime',
+                xField: 'timestamp',
+                yType: 'line',
+                yField: function (row) {
+                    var value = row.get('load');
+                    if (value < 0) {
+                        return undefined;
+                    }
+                    return value;
+                },
+                seriesName: 'load'
             }
         ],
 
