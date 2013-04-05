@@ -55,6 +55,7 @@
         ],
 
         controllers: [
+            'FileUsage',
             'DiskUsage',
             'SystemLoad',
             'SystemThreads'

@@ -16,27 +16,22 @@
  *  limitations under the License.
  */
 
-package boxdata.data.dto
+Ext.define('boxdata.model.FileUsage', {
+    extend: 'Ext.data.Model',
+    fields: [
+        'path',
+        {
+            name: 'size',
+            type: 'long'
+        }
+    ],
 
-import javax.xml.bind.annotation.XmlAccessType
-import javax.xml.bind.annotation.XmlAccessorType
-import javax.xml.bind.annotation.XmlElement
-import javax.xml.bind.annotation.XmlRootElement
-
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement
-class DiskUsageDto {
-
-    @XmlElement
-    String path
-
-    @XmlElement
-    Long total
-
-    @XmlElement
-    Long free
-
-    @XmlElement
-    Long usable
-
-}
+    proxy: {
+        type: 'rest',
+        reader: {
+            type: 'json',
+            root: 'fileUsageDto'
+        },
+        url: 'rest/file-usage'
+    }
+});

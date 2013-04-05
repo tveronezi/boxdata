@@ -23,6 +23,8 @@ import boxdata.data.dto.SystemLoadDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import javax.ejb.Lock
+import javax.ejb.LockType
 import javax.ejb.Schedule
 import javax.ejb.Singleton
 import javax.inject.Inject
@@ -42,8 +44,8 @@ class SystemLoadEjb {
     @Inject
     private DtoBuilder builder
 
-    @SuppressWarnings("unused")
     @Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
+    @Lock(LockType.WRITE)
     void readData() {
         LOG.debug("Reading system information (load)...")
 
@@ -66,6 +68,7 @@ class SystemLoadEjb {
         }
     }
 
+    @Lock(LockType.READ)
     public List<SystemLoadDto> getSystemLoad() {
         return this.systemLoad
     }

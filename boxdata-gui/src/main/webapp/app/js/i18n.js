@@ -27,6 +27,7 @@
         'megabyte': 'MB',
         'application.threads': 'System Threads',
         'application.disk.usage': 'Disk Usage',
+        'application.file.usage': 'File Usage',
         'application.mem.usage': 'Memory Usage',
         'application.system.load': 'System Load',
         'application.system.jvm.memory': 'JVM Memory',

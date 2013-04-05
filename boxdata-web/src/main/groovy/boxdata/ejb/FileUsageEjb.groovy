@@ -18,37 +18,37 @@
 
 package boxdata.ejb
 
-import boxdata.cdi.util.DtoBuilder
 import boxdata.data.dto.DirectoryUsageDto
-import boxdata.data.dto.DiskUsageDto
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-import javax.ejb.Stateless
-import javax.inject.Inject
+import javax.ejb.Lock
+import javax.ejb.LockType
+import javax.ejb.Schedule
 
-@Stateless
-class DiskUsageEjb {
-    @Inject
-    DtoBuilder builder;
+@Singleton
+class FileUsageEjb {
+    private static final Logger LOG = LoggerFactory.getLogger(FileUsageEjb)
 
-    List<DiskUsageDto> getDiskUsage() {
-        return File.listRoots().collect { File root ->
-            return this.builder.buildDiskUsageDto(
-                    root.absolutePath,
-                    root.totalSpace,
-                    root.freeSpace
+    private List<DirectoryUsageDto> data = []
+
+    @Schedule(minute = "*/15", hour = "*", persistent = false)
+    @Lock(LockType.WRITE)
+    void readData() {
+        LOG.debug("Reading system information (file usage)...")
+        def home = new File(System.getProperty("user.home"))
+        Integer index = home.absolutePath.size()
+        this.data.clear()
+        home.eachFileRecurse { File file ->
+            this.data << new DirectoryUsageDto(
+                    path: file.absolutePath.substring(index),
+                    size: file.length()
             )
         }
     }
 
+    @Lock(LockType.READ)
     List<DirectoryUsageDto> getDirectoryUsage() {
-        def home = new File(System.getProperty("user.home"))
-        def result = []
-        home.eachFileRecurse { File file ->
-            result << new DirectoryUsageDto(
-                    path: file.absolutePath,
-                    size: file.length()
-            )
-        }
-        return result
+        return this.data
     }
 }

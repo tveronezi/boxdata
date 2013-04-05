@@ -25,18 +25,12 @@ import javax.xml.bind.annotation.XmlRootElement
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement
-class DiskUsageDto {
+class DirectoryUsageDto {
 
     @XmlElement
     String path
 
     @XmlElement
-    Long total
-
-    @XmlElement
-    Long free
-
-    @XmlElement
-    Long usable
+    Long size
 
 }

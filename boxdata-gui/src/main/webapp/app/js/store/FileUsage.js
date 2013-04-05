@@ -16,27 +16,7 @@
  *  limitations under the License.
  */
 
-package boxdata.data.dto
-
-import javax.xml.bind.annotation.XmlAccessType
-import javax.xml.bind.annotation.XmlAccessorType
-import javax.xml.bind.annotation.XmlElement
-import javax.xml.bind.annotation.XmlRootElement
-
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement
-class DiskUsageDto {
-
-    @XmlElement
-    String path
-
-    @XmlElement
-    Long total
-
-    @XmlElement
-    Long free
-
-    @XmlElement
-    Long usable
-
-}
+Ext.define('boxdata.store.FileUsage', {
+    extend: 'Ext.data.Store',
+    model: 'boxdata.model.FileUsage'
+});

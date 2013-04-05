@@ -16,27 +16,24 @@
  *  limitations under the License.
  */
 
-package boxdata.data.dto
+package boxdata.rest
 
-import javax.xml.bind.annotation.XmlAccessType
-import javax.xml.bind.annotation.XmlAccessorType
-import javax.xml.bind.annotation.XmlElement
-import javax.xml.bind.annotation.XmlRootElement
+import boxdata.data.dto.DirectoryUsageDto
+import boxdata.ejb.DiskUsageEjb
 
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement
-class DiskUsageDto {
+import javax.ejb.EJB
+import javax.ws.rs.GET
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
 
-    @XmlElement
-    String path
+@Path("/file-usage")
+class FileUsage {
+    @EJB
+    private DiskUsageEjb usage
 
-    @XmlElement
-    Long total
-
-    @XmlElement
-    Long free
-
-    @XmlElement
-    Long usable
-
+    @GET
+    @Produces("application/json")
+    List<DirectoryUsageDto> get() {
+        return this.usage.getDirectoryUsage()
+    }
 }

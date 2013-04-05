@@ -74,8 +74,12 @@
             // build the categories array
             Ext.Array.forEach(data, function (item) {
                 Ext.Array.forEach(me.charts, function (chart) {
+                    if (chart.pieValue) {
+                        // This is a pie. No x or y applied.
+                        return;
+                    }
                     var x = me.getRowFieldValue(chart.xField, item);
-                    if(x) {
+                    if (x) {
                         if (chart.xType === 'category') {
                             Ext.Array.include(xAxesMap['categoryAxis'].categories, x);
                         }
@@ -91,46 +95,58 @@
                     var seriesName = me.getSeriesName(chart, item);
                     if (!seriesMap[seriesName]) {
                         var dataArray = [];
-                        seriesMap[seriesName] = {
-                            xAxis: chart.xType + 'Axis',
-                            yAxis: Ext.valueFrom(chart.yId, chart.yType + 'Axis'),
-                            type: chart.yType,
-                            data: dataArray,
-                            name: seriesName
-                        };
 
-                        Ext.Array.forEach(categories, function() {
-                            dataArray.push(null);
-                        });
-                    }
+                        if (chart.pieValue) {
+                            // This is a pie. No x or y applied.
+                            seriesMap[seriesName] = {
+                                type: 'pie',
+                                data: dataArray,
+                                name: seriesName
+                            };
 
-                    var entry = {
-                        x: me.getRowFieldValue(chart.xField, item),
-                        y: me.getRowFieldValue(chart.yField, item),
-                        id: index
-                    };
-                    me.rawData[index] = item;
-                    index = index + 1;
+                        } else {
+                            seriesMap[seriesName] = {
+                                xAxis: chart.xType + 'Axis',
+                                yAxis: Ext.valueFrom(chart.yId, chart.yType + 'Axis'),
+                                type: chart.yType,
+                                data: dataArray,
+                                name: seriesName
+                            };
 
-                    entry.marker = {
-                        enabled: false
-                    };
-                    if (chart.marker) {
-                        entry.marker.enabled = true;
-                    }
-
-                    if (!Ext.isDefined(entry.x) || !Ext.isDefined(entry.y)) {
-                        // There is a undefined value. Skip this line.
-                        return;
+                            Ext.Array.forEach(categories, function () {
+                                dataArray.push(null);
+                            });
+                        }
                     }
 
                     var data = seriesMap[seriesName].data;
-                    if (chart.xType === 'category') {
-                        var categoryIndex = categories.indexOf(entry.x);
-                        delete entry.x;
-                        data[categoryIndex] = entry;
+                    if(chart.pieValue) {
+                        data.push(chart.pieValue(item));
+
                     } else {
-                        data.push(entry);
+                        var entry = {
+                            x: me.getRowFieldValue(chart.xField, item),
+                            y: me.getRowFieldValue(chart.yField, item),
+                            id: index,
+                            marker: {
+                                enabled: (chart.marker ? true : false)
+                            }
+                        };
+                        me.rawData[index] = item;
+                        index = index + 1;
+
+                        if (!Ext.isDefined(entry.x) || !Ext.isDefined(entry.y)) {
+                            // There is a undefined value. Skip this line.
+                            return;
+                        }
+
+                        if (chart.xType === 'category') {
+                            var categoryIndex = categories.indexOf(entry.x);
+                            delete entry.x;
+                            data[categoryIndex] = entry;
+                        } else {
+                            data.push(entry);
+                        }
                     }
                 });
             });
@@ -151,6 +167,11 @@
             var xMap = {};
             var yMap = {};
             Ext.Array.forEach(charts, function (chartConfig) {
+                if (chartConfig.pieValue) {
+                    // This is a pie. No x or y applied.
+                    return;
+                }
+
                 var xType = Ext.valueFrom(chartConfig.xType, 'datetime');
 
                 var yType = Ext.valueFrom(chartConfig.yType, 'line');
@@ -181,16 +202,16 @@
                     };
 
                     var yConfig = me.yConfigs[yId];
-                    if(yConfig) {
-                        if(yConfig.formatter) {
+                    if (yConfig) {
+                        if (yConfig.formatter) {
                             yMap[yId].labels = {
-                                formatter: function() {
+                                formatter: function () {
                                     return yConfig.formatter(this.value);
                                 }
                             };
                         }
 
-                        if(yConfig.right) {
+                        if (yConfig.right) {
                             yMap[yId].opposite = true;
                         }
                     }
@@ -243,15 +264,16 @@
         showChart: function (params) {
             var me = this;
 
-            if(params && params.delay) {
-                if(me.showChartTask) {
+            if (params && params.delay) {
+                if (me.showChartTask) {
                     me.showChartTask.cancel();
                 } else {
-                    me.showChartTask = new Ext.util.DelayedTask(function() {
+                    me.showChartTask = new Ext.util.DelayedTask(function () {
                         me.showChart();
                     });
                 }
                 me.showChartTask.delay(params.delay);
+                return;
             }
 
             if (!me.rendered) {
@@ -273,7 +295,7 @@
             // preparing the 'tooltip' object that HighCharts understands.
             if (me.tooltip) {
                 config.tooltip.enabled = true;
-                if(Ext.isFunction(me.tooltip)) {
+                if (Ext.isFunction(me.tooltip)) {
                     config.tooltip.shared = true;
                     config.tooltip.useHTML = true;
                     config.tooltip.formatter = function () {
@@ -289,18 +311,18 @@
             }
 
 
-            if(me.legend) {
+            if (me.legend) {
                 config.legend.enabled = true;
-                if(me.legend === 'bottom') {
+                if (me.legend === 'bottom') {
                     // nothing special to do. Apply defaults.
 
-                } else if(me.legend === 'right') {
+                } else if (me.legend === 'right') {
                     config.legend.layout = 'vertical';
                     config.legend.verticalAlign = 'middle';
                     config.legend.align = 'right';
 
                 } else {
-                    throw 'Invalid legend position. "' + me.legend + '"' ;
+                    throw 'Invalid legend position. "' + me.legend + '"';
                 }
             }
 
@@ -312,7 +334,7 @@
                 var me = this;
                 me.showChart();
             },
-            resize: function() {
+            resize: function () {
                 var me = this;
                 me.showChart({
                     delay: 500

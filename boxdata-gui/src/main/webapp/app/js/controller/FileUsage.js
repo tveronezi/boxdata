@@ -16,27 +16,40 @@
  *  limitations under the License.
  */
 
-package boxdata.data.dto
+(function () {
+    'use strict';
 
-import javax.xml.bind.annotation.XmlAccessType
-import javax.xml.bind.annotation.XmlAccessorType
-import javax.xml.bind.annotation.XmlElement
-import javax.xml.bind.annotation.XmlRootElement
+    Ext.define('boxdata.controller.FileUsage', {
+        extend: 'Ext.app.Controller',
 
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement
-class DiskUsageDto {
+        views: [
+            'ApplicationContainer',
+            'FileUsage'
+        ],
 
-    @XmlElement
-    String path
+        stores: [
+            'FileUsage'
+        ],
 
-    @XmlElement
-    Long total
+        loadData: function () {
+            var self = this;
+            this.getFileUsageStore().load();
+        },
 
-    @XmlElement
-    Long free
+        init: function () {
+            var self = this;
 
-    @XmlElement
-    Long usable
+            self.control({
+                'boxdata-file-usage-panel': {
+                    render: function () {
+                        self.loadData();
+                    },
+                    refreshpanel: function () {
+                        self.getFileUsageStore().load();
+                    }
+                }
+            });
+        }
+    });
 
-}
+}());

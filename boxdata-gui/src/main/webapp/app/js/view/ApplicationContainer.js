@@ -31,12 +31,22 @@
         items: [
             {
                 xtype: 'panel',
-                layout: 'fit',
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch',
+                    pack: 'start'
+                },
                 border: false,
                 items: [
                     {
+                        padding: '5 5 0 5',
+                        xtype: 'panel', // 'boxdata-disk-usage-panel',
+                        flex: 1
+                    },
+                    {
                         padding: '5 5 5 5',
-                        xtype: 'boxdata-disk-usage-panel'
+                        xtype: 'boxdata-file-usage-panel',
+                        flex: 1
                     }
                 ],
                 width: 250
@@ -52,17 +62,17 @@
                 items: [
                     {
                         padding: '5 5 0 0',
-                        xtype: 'boxdata-system-load-panel',
+                        xtype: 'panel', // 'boxdata-system-load-panel',
                         flex: 1
                     },
                     {
                         padding: '5 5 0 0',
-                        xtype: 'boxdata-jvm-mem-panel',
+                        xtype: 'panel', // 'boxdata-jvm-mem-panel',
                         flex: 1
                     },
                     {
                         padding: '5 5 5 0',
-                        xtype: 'boxdata-threads-panel',
+                        xtype: 'panel', // 'boxdata-threads-panel',
                         flex: 1
                     }
                 ],
