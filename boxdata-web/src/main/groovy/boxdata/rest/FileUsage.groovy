@@ -18,8 +18,9 @@
 
 package boxdata.rest
 
-import boxdata.data.dto.DirectoryUsageDto
+import boxdata.data.dto.FileUsageDto
 import boxdata.ejb.DiskUsageEjb
+import boxdata.ejb.FileUsageEjb
 
 import javax.ejb.EJB
 import javax.ws.rs.GET
@@ -29,11 +30,11 @@ import javax.ws.rs.Produces
 @Path("/file-usage")
 class FileUsage {
     @EJB
-    private DiskUsageEjb usage
+    private FileUsageEjb file
 
     @GET
     @Produces("application/json")
-    List<DirectoryUsageDto> get() {
-        return this.usage.getDirectoryUsage()
+    List<FileUsageDto> get() {
+        return this.file.getUsage()
     }
 }

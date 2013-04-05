@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement
-class DirectoryUsageDto {
+class FileUsageDto {
 
     @XmlElement
     String path

@@ -40,7 +40,7 @@
                 items: [
                     {
                         padding: '5 5 0 5',
-                        xtype: 'panel', // 'boxdata-disk-usage-panel',
+                        xtype: 'boxdata-disk-usage-panel',
                         flex: 1
                     },
                     {
@@ -62,17 +62,17 @@
                 items: [
                     {
                         padding: '5 5 0 0',
-                        xtype: 'panel', // 'boxdata-system-load-panel',
+                        xtype: 'boxdata-system-load-panel',
                         flex: 1
                     },
                     {
                         padding: '5 5 0 0',
-                        xtype: 'panel', // 'boxdata-jvm-mem-panel',
+                        xtype: 'boxdata-jvm-mem-panel',
                         flex: 1
                     },
                     {
                         padding: '5 5 5 0',
-                        xtype: 'panel', // 'boxdata-threads-panel',
+                        xtype: 'boxdata-threads-panel',
                         flex: 1
                     }
                 ],

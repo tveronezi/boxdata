@@ -19,7 +19,7 @@
 package boxdata.ejb
 
 import boxdata.cdi.util.DtoBuilder
-import boxdata.data.dto.DirectoryUsageDto
+import boxdata.data.dto.FileUsageDto
 import boxdata.data.dto.DiskUsageDto
 
 import javax.ejb.Stateless
@@ -30,7 +30,7 @@ class DiskUsageEjb {
     @Inject
     DtoBuilder builder;
 
-    List<DiskUsageDto> getDiskUsage() {
+    List<DiskUsageDto> getUsage() {
         return File.listRoots().collect { File root ->
             return this.builder.buildDiskUsageDto(
                     root.absolutePath,
@@ -38,17 +38,5 @@ class DiskUsageEjb {
                     root.freeSpace
             )
         }
-    }
-
-    List<DirectoryUsageDto> getDirectoryUsage() {
-        def home = new File(System.getProperty("user.home"))
-        def result = []
-        home.eachFileRecurse { File file ->
-            result << new DirectoryUsageDto(
-                    path: file.absolutePath,
-                    size: file.length()
-            )
-        }
-        return result
     }
 }

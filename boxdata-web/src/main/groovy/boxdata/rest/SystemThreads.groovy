@@ -34,6 +34,6 @@ class SystemThreads {
     @GET
     @Produces("application/json")
     List<ThreadDto> get() {
-        return this.threads.threadsInfo
+        return this.threads.getThreadsInfo()
     }
 }

@@ -18,37 +18,47 @@
 
 package boxdata.ejb
 
-import boxdata.data.dto.DirectoryUsageDto
+import boxdata.data.dto.FileUsageDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import javax.annotation.PostConstruct
 import javax.ejb.Lock
 import javax.ejb.LockType
 import javax.ejb.Schedule
+import javax.ejb.Startup
+import javax.ejb.Singleton
 
 @Singleton
+@Startup
 class FileUsageEjb {
     private static final Logger LOG = LoggerFactory.getLogger(FileUsageEjb)
 
-    private List<DirectoryUsageDto> data = []
+    private List<FileUsageDto> fileUsage = []
 
     @Schedule(minute = "*/15", hour = "*", persistent = false)
     @Lock(LockType.WRITE)
     void readData() {
-        LOG.debug("Reading system information (file usage)...")
+        LOG.info("Reading system information (file usage)...")
         def home = new File(System.getProperty("user.home"))
         Integer index = home.absolutePath.size()
-        this.data.clear()
+        this.fileUsage.clear()
         home.eachFileRecurse { File file ->
-            this.data << new DirectoryUsageDto(
+            this.fileUsage << new FileUsageDto(
                     path: file.absolutePath.substring(index),
                     size: file.length()
             )
         }
     }
 
+
+    @PostConstruct
+    void postConstruct() {
+        readData();
+    }
+
     @Lock(LockType.READ)
-    List<DirectoryUsageDto> getDirectoryUsage() {
-        return this.data
+    List<FileUsageDto> getUsage() {
+        return this.fileUsage
     }
 }

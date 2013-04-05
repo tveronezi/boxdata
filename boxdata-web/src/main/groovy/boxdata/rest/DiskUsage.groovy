@@ -29,11 +29,11 @@ import javax.ws.rs.Produces
 @Path("/disk-usage")
 class DiskUsage {
     @EJB
-    private DiskUsageEjb usage
+    private DiskUsageEjb disk
 
     @GET
     @Produces("application/json")
     List<DiskUsageDto> get() {
-        return this.usage.getDiskUsage()
+        return this.disk.getUsage()
     }
 }

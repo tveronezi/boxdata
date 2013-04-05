@@ -29,11 +29,11 @@ import javax.ws.rs.Produces
 @Path("/system-load")
 class SystemLoad {
     @EJB
-    private SystemLoadEjb usage
+    private SystemLoadEjb system
 
     @GET
     @Produces("application/json")
     List<SystemLoadDto> get() {
-        return this.usage.systemLoad
+        return this.system.getSystemLoad()
     }
 }
