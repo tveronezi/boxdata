@@ -17,33 +17,9 @@
             }
         ],
 
-        /**
-         * It holds the configuration of all the charts shown by this component.
-         *
-         * {
-         *      xType: 'datetime',
-         *      xField: 'timestamp',
-         *      yType: 'line',
-         *      yField: function (row) {
-         *          var value = row.get('load');
-         *          if (value < 0) {
-         *              return undefined;
-         *          }
-         *          return value;
-         *      },
-         *      seriesName: 'load'
-         * }
-         */
+        // configurable values
         charts: [],
-
-        /**
-         * It can be an array or a function with no parameters that builds an array of series.
-         */
         series: [],
-
-        /**
-         * It is the function that formats the series tooltips.
-         */
         tooltip: undefined,
 
         setSeries: function (series) {
