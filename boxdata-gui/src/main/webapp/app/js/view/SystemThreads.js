@@ -51,6 +51,14 @@
             }
         },
 
+        getTimeValue: function (row, column) {
+            var value = row.get(column);
+            if (value < 1) {
+                return null;
+            }
+            return value;
+        },
+
         charts: [
             {
                 xType: 'category',
@@ -60,7 +68,7 @@
                 yType: 'column',
                 yId: 'count-axis',
                 yField: 'blockedCount',
-                seriesName: function(row) {
+                seriesName: function (row) {
                     return this.buildSeriesName(row, 'blockedCount');
                 }
             },
@@ -71,8 +79,10 @@
                 },
                 yType: 'column',
                 yId: 'time-axis',
-                yField: 'blockedTime',
-                seriesName: function(row) {
+                yField: function (row) {
+                    return this.getTimeValue(row, 'blockedTime');
+                },
+                seriesName: function (row) {
                     return this.buildSeriesName(row, 'blockedTime');
                 }
             },
@@ -84,7 +94,7 @@
                 yType: 'column',
                 yId: 'count-axis',
                 yField: 'waitedCount',
-                seriesName: function(row) {
+                seriesName: function (row) {
                     return this.buildSeriesName(row, 'waitedCount');
                 }
             },
@@ -95,8 +105,10 @@
                 },
                 yType: 'column',
                 yId: 'time-axis',
-                yField: 'waitedTime',
-                seriesName: function(row) {
+                yField: function (row) {
+                    return this.getTimeValue(row, 'waitedTime');
+                },
+                seriesName: function (row) {
                     return this.buildSeriesName(row, 'waitedTime');
                 }
             }
