@@ -21,6 +21,7 @@
         charts: [],
         series: [],
         tooltip: undefined,
+        legend: undefined,  // 'bottom' or 'right'
 
         setSeries: function (series) {
             this.series = series;
@@ -68,18 +69,37 @@
                 xAxesMap[axis.id] = axis;
             });
 
+            // build the categories array
+            Ext.Array.forEach(data, function (item) {
+                Ext.Array.forEach(me.charts, function (chart) {
+                    var x = me.getRowFieldValue(chart.xField, item);
+                    if(x) {
+                        if (chart.xType === 'category') {
+                            Ext.Array.include(xAxesMap['categoryAxis'].categories, x);
+                        }
+                    }
+                });
+            });
+
+            var categories = (Ext.isDefined(xAxesMap['categoryAxis']) ? xAxesMap['categoryAxis'].categories : []);
+
             var seriesMap = {};
             Ext.Array.forEach(data, function (item) {
                 Ext.Array.forEach(me.charts, function (chart) {
                     var seriesName = me.getSeriesName(chart, item);
                     if (!seriesMap[seriesName]) {
+                        var dataArray = [];
                         seriesMap[seriesName] = {
                             xAxis: chart.xType + 'Axis',
                             yAxis: chart.yType + 'Axis',
                             type: chart.yType,
-                            data: [],
+                            data: dataArray,
                             name: seriesName
                         };
+
+                        Ext.Array.forEach(categories, function() {
+                            dataArray.push(null);
+                        });
                     }
 
                     var entry = {
@@ -104,15 +124,13 @@
 
                     var data = seriesMap[seriesName].data;
                     if (chart.xType === 'category') {
-                        var categories = xAxesMap['categoryAxis'].categories;
-                        Ext.Array.include(categories, entry.x);
+                        var categoryIndex = categories.indexOf(entry.x);
                         delete entry.x;
-                        data.push(entry);
+                        data[categoryIndex] = entry;
                     } else {
                         data.push(entry);
                     }
                 });
-
             });
 
             var result = Ext.Object.getValues(seriesMap);
@@ -181,6 +199,12 @@
                 xAxis: axes.xAxis,
                 yAxis: axes.yAxis,
                 series: data,
+                credits: {
+                    enabled: false
+                },
+                legend: {
+                    enabled: false
+                },
                 plotOptions: {
                     column: {
                         stacking: 'normal'
@@ -226,6 +250,22 @@
                     var formatter = me.tooltip;
                     return formatter.call(me, rows);
                 };
+            }
+
+
+            if(me.legend) {
+                config.legend.enabled = true;
+                if(me.legend === 'bottom') {
+                    // nothing special to do. Apply defaults.
+
+                } else if(me.legend === 'right') {
+                    config.legend.layout = 'vertical';
+                    config.legend.verticalAlign = 'middle';
+                    config.legend.align = 'right';
+
+                } else {
+                    throw 'Invalid legend position. "' + me.legend + '"' ;
+                }
             }
 
             me.chart = new Highcharts.Chart(config);

@@ -38,6 +38,13 @@
             return 't' + row.get('id');
         },
 
+        buildSeriesName: function (row, field) {
+            var threadName = this.getCategoryName(row);
+            return threadName + ' - ' + field;
+        },
+
+        legend: 'right',
+
         charts: [
             {
                 xType: 'category',
@@ -46,7 +53,9 @@
                 },
                 yType: 'column',
                 yField: 'blockedCount',
-                seriesName: 'blockedCount'
+                seriesName: function(row) {
+                    return this.buildSeriesName(row, 'blockedCount');
+                }
             },
             {
                 xType: 'category',
@@ -55,7 +64,9 @@
                 },
                 yType: 'column',
                 yField: 'blockedTime',
-                seriesName: 'blockedTime'
+                seriesName: function(row) {
+                    return this.buildSeriesName(row, 'blockedTime');
+                }
             },
             {
                 xType: 'category',
@@ -64,7 +75,9 @@
                 },
                 yType: 'column',
                 yField: 'waitedCount',
-                seriesName: 'waitedCount'
+                seriesName: function(row) {
+                    return this.buildSeriesName(row, 'waitedCount');
+                }
             },
             {
                 xType: 'category',
@@ -73,7 +86,9 @@
                 },
                 yType: 'column',
                 yField: 'waitedTime',
-                seriesName: 'waitedTime'
+                seriesName: function(row) {
+                    return this.buildSeriesName(row, 'waitedTime');
+                }
             }
         ],
 
