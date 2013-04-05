@@ -55,6 +55,8 @@
             }())
         },
 
+        legend: 'bottom',
+
         charts: [
             {
                 xType: 'datetime',
