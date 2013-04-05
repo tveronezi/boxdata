@@ -42,12 +42,22 @@
             return path;
         },
 
+        yConfigs: {
+            'disk-usage-axis': {
+                formatter: function (value) {
+                    var number = Ext.util.Format.number((value / 1024 / 1024 / 1024), '0,000.00');
+                    return number + boxdata.i18n.get('gigabyte');
+                }
+            }
+        },
+
         charts: [
             {
                 xType: 'category',
                 xField: function (rec) {
                     return this.getPath(rec);
                 },
+                yId: 'disk-usage-axis',
                 yType: 'column',
                 yField: 'free',
                 seriesName: 'free'
@@ -57,6 +67,7 @@
                 xField: function (rec) {
                     return this.getPath(rec);
                 },
+                yId: 'disk-usage-axis',
                 yType: 'column',
                 yField: function (rec) {
                     var used = rec.get('total') - rec.get('free');
@@ -65,25 +76,6 @@
                 seriesName: 'used'
             }
         ],
-
-
-        getValueInGB: function (v) {
-            var number = Ext.util.Format.number((v / 1024 / 1024 / 1024), '0,000.00');
-            return number + ' ' + boxdata.i18n.get('gigabyte');
-        },
-
-        tooltipFormatter: function (points) {
-            var point = points[0];
-            return point.series.name + ' - ' + this.getValueInGB(point.y);
-        },
-
-        dataLabelsFormatter: function (v) {
-            return this.getValueInGB(v);
-        },
-
-        axisLabelsFormatter: function (v) {
-            return this.getValueInGB(v);
-        },
 
         beforeInit: function () {
             var me = this;

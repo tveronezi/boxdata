@@ -39,7 +39,7 @@
                         xtype: 'boxdata-disk-usage-panel'
                     }
                 ],
-                width: 200
+                width: 250
             },
             {
                 xtype: 'panel',

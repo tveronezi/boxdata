@@ -45,6 +45,12 @@
 
         legend: 'right',
 
+        yConfigs: {
+            'count-axis': {
+                right: true
+            }
+        },
+
         charts: [
             {
                 xType: 'category',
@@ -52,6 +58,7 @@
                     return this.getCategoryName(row);
                 },
                 yType: 'column',
+                yId: 'count-axis',
                 yField: 'blockedCount',
                 seriesName: function(row) {
                     return this.buildSeriesName(row, 'blockedCount');
@@ -63,6 +70,7 @@
                     return this.getCategoryName(row);
                 },
                 yType: 'column',
+                yId: 'time-axis',
                 yField: 'blockedTime',
                 seriesName: function(row) {
                     return this.buildSeriesName(row, 'blockedTime');
@@ -74,6 +82,7 @@
                     return this.getCategoryName(row);
                 },
                 yType: 'column',
+                yId: 'count-axis',
                 yField: 'waitedCount',
                 seriesName: function(row) {
                     return this.buildSeriesName(row, 'waitedCount');
@@ -85,6 +94,7 @@
                     return this.getCategoryName(row);
                 },
                 yType: 'column',
+                yId: 'time-axis',
                 yField: 'waitedTime',
                 seriesName: function(row) {
                     return this.buildSeriesName(row, 'waitedTime');

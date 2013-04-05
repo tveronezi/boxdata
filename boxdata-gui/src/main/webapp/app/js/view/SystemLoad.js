@@ -34,9 +34,11 @@
             }
         ],
 
-        yFormatters: {
-            'used-mem-axis': function (value) {
-                return (value * 100) + '%';
+        yConfigs: {
+            'used-mem-axis': {
+                formatter: function (value) {
+                    return (value * 100) + '%';
+                }
             }
         },
 

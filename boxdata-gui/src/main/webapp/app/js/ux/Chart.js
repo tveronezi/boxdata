@@ -18,6 +18,7 @@
         ],
 
         // configurable values
+        yConfigs: {},
         charts: [],
         series: [],
         tooltip: undefined,
@@ -178,13 +179,19 @@
                         id: yId
                     };
 
-                    if(me.yFormatters && me.yFormatters[yId]) {
-                        var formatter = me.yFormatters[yId];
-                        yMap[yId].labels = {
-                            formatter: function() {
-                                return formatter(this.value);
-                            }
-                        };
+                    var yConfig = me.yConfigs[yId];
+                    if(yConfig) {
+                        if(yConfig.formatter) {
+                            yMap[yId].labels = {
+                                formatter: function() {
+                                    return yConfig.formatter(this.value);
+                                }
+                            };
+                        }
+
+                        if(yConfig.right) {
+                            yMap[yId].opposite = true;
+                        }
                     }
                 }
             });
