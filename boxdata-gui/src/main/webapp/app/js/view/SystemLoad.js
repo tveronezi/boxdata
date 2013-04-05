@@ -42,6 +42,8 @@
             }
         },
 
+        tooltip: true,
+
         charts: [
             {
                 xType: 'datetime',

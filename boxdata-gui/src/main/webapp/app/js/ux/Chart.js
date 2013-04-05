@@ -223,6 +223,9 @@
                 legend: {
                     enabled: false
                 },
+                tooltip: {
+                    enabled: false
+                },
                 plotOptions: {
                     column: {
                         stacking: 'normal'
@@ -256,18 +259,20 @@
 
             // preparing the 'tooltip' object that HighCharts understands.
             if (me.tooltip) {
-                config.tooltip = config.tooltip || {};
-                config.tooltip.shared = true;
-                config.tooltip.useHTML = true;
-                config.tooltip.formatter = function () {
-                    var points = this.points;
-                    var rows = [];
-                    Ext.Array.forEach(points, function (item) {
-                        rows.push(me.rawData[item.point.id]);
-                    });
-                    var formatter = me.tooltip;
-                    return formatter.call(me, rows);
-                };
+                config.tooltip.enabled = true;
+                if(Ext.isFunction(me.tooltip)) {
+                    config.tooltip.shared = true;
+                    config.tooltip.useHTML = true;
+                    config.tooltip.formatter = function () {
+                        var points = this.points;
+                        var rows = [];
+                        Ext.Array.forEach(points, function (item) {
+                            rows.push(me.rawData[item.point.id]);
+                        });
+                        var formatter = me.tooltip;
+                        return formatter.call(me, rows);
+                    };
+                }
             }
 
 
