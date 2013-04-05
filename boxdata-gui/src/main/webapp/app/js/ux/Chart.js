@@ -10,6 +10,7 @@
     Ext.define('boxdata.ux.Chart', {
         extend: 'Ext.panel.Panel',
         layout: 'fit',
+        requires: ['Ext.util.DelayedTask'],
         items: [
             {
                 xtype: 'panel',
@@ -239,8 +240,20 @@
         },
 
         // private
-        showChart: function () {
+        showChart: function (params) {
             var me = this;
+
+            if(params && params.delay) {
+                if(me.showChartTask) {
+                    me.showChartTask.cancel();
+                } else {
+                    me.showChartTask = new Ext.util.DelayedTask(function() {
+                        me.showChart();
+                    });
+                }
+                me.showChartTask.delay(params.delay);
+            }
+
             if (!me.rendered) {
                 return; // wait until it is rendered.
             }
@@ -298,6 +311,12 @@
             afterrender: function () {
                 var me = this;
                 me.showChart();
+            },
+            resize: function() {
+                var me = this;
+                me.showChart({
+                    delay: 500
+                });
             }
         }
     });

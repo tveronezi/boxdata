@@ -36,6 +36,7 @@
 
         yConfigs: {
             'used-mem-axis': {
+                right: true,
                 formatter: function (value) {
                     return (value * 100) + '%';
                 }
