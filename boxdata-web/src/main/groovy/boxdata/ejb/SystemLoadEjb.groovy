@@ -44,8 +44,8 @@ class SystemLoadEjb {
 
     @SuppressWarnings("unused")
     @Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
-    void readSystemLoadData() {
-        LOG.info("Reading system information (load)...")
+    void readData() {
+        LOG.debug("Reading system information (load)...")
 
         def free = Runtime.getRuntime().freeMemory()
         def total = Runtime.getRuntime().totalMemory()

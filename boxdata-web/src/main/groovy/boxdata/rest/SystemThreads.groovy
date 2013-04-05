@@ -18,22 +18,22 @@
 
 package boxdata.rest
 
-import boxdata.data.dto.DiskUsageDto
-import boxdata.ejb.DiskUsageEjb
+import boxdata.data.dto.ThreadDto
+import boxdata.ejb.SystemThreadsEjb
 
 import javax.ejb.EJB
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
 
-@Path("/disk-usage")
-class DiskUsage {
+@Path("/system-threads")
+class SystemThreads {
     @EJB
-    private DiskUsageEjb usage
+    private SystemThreadsEjb threads
 
     @GET
     @Produces("application/json")
-    List<DiskUsageDto> get() {
-        return this.usage.getDiskUsage()
+    List<ThreadDto> get() {
+        return this.threads.threadsInfo
     }
 }

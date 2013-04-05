@@ -20,12 +20,26 @@ package boxdata.cdi.util
 
 import boxdata.data.dto.DiskUsageDto
 import boxdata.data.dto.SystemLoadDto
+import boxdata.data.dto.ThreadDto
 
 import javax.enterprise.context.ApplicationScoped
 import java.lang.management.MemoryUsage
+import java.lang.management.ThreadInfo
 
 @ApplicationScoped
 class DtoBuilder {
+
+    ThreadDto buildThreadDto(ThreadInfo info) {
+        return new ThreadDto(
+                id: info.threadId,
+                name: info.threadName,
+                blockedCount: info.blockedCount,
+                blockedTime: info.blockedTime,
+                waitedCount: info.waitedCount,
+                waitedTime: info.waitedTime,
+                state: info.threadState.name()
+        )
+    }
 
     DiskUsageDto buildDiskUsageDto(String path, Long total, Long free) {
         def resourcePath = path.replaceAll('[^A-Za-z0-9]', '')

@@ -16,24 +16,31 @@
  *  limitations under the License.
  */
 
-package boxdata.rest
+package boxdata.ejb
 
-import boxdata.data.dto.DiskUsageDto
-import boxdata.ejb.DiskUsageEjb
+import boxdata.cdi.util.DtoBuilder
+import boxdata.data.dto.ThreadDto
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-import javax.ejb.EJB
-import javax.ws.rs.GET
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+import javax.ejb.Stateless
+import javax.inject.Inject
+import java.lang.management.ManagementFactory
 
-@Path("/disk-usage")
-class DiskUsage {
-    @EJB
-    private DiskUsageEjb usage
+@Stateless
+class SystemThreadsEjb {
+    private static final Logger LOG = LoggerFactory.getLogger(SystemThreadsEjb)
 
-    @GET
-    @Produces("application/json")
-    List<DiskUsageDto> get() {
-        return this.usage.getDiskUsage()
+    private def threadBean = ManagementFactory.getThreadMXBean()
+
+    @Inject
+    private DtoBuilder builder
+
+    public List<ThreadDto> getThreadsInfo() {
+        def uids = this.threadBean.allThreadIds
+        return uids.collect { id ->
+            def info = this.threadBean.getThreadInfo(id)
+            return this.builder.buildThreadDto(info)
+        }
     }
 }

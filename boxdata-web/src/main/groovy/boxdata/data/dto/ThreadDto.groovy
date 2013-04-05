@@ -16,24 +16,36 @@
  *  limitations under the License.
  */
 
-package boxdata.rest
+package boxdata.data.dto
 
-import boxdata.data.dto.DiskUsageDto
-import boxdata.ejb.DiskUsageEjb
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlElement
+import javax.xml.bind.annotation.XmlRootElement
 
-import javax.ejb.EJB
-import javax.ws.rs.GET
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement
+class ThreadDto {
 
-@Path("/disk-usage")
-class DiskUsage {
-    @EJB
-    private DiskUsageEjb usage
+    @XmlElement
+    Long id
 
-    @GET
-    @Produces("application/json")
-    List<DiskUsageDto> get() {
-        return this.usage.getDiskUsage()
-    }
+    @XmlElement
+    String name
+
+    @XmlElement
+    Long blockedCount
+
+    @XmlElement
+    Long blockedTime
+
+    @XmlElement
+    Long waitedCount
+
+    @XmlElement
+    Long waitedTime
+
+    @XmlElement
+    String state
+
 }

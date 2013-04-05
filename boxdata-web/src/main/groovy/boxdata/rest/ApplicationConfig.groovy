@@ -24,6 +24,6 @@ import javax.ws.rs.core.Application
 @ApplicationPath("/rest")
 class ApplicationConfig extends Application {
     public Set<Class<?>> getClasses() {
-        return [DiskUsage, SystemLoad];
+        return [DiskUsage, SystemLoad, SystemThreads];
     }
 }

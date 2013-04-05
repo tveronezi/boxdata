@@ -34,6 +34,6 @@ class SystemLoad {
     @GET
     @Produces("application/json")
     List<SystemLoadDto> get() {
-        return usage.systemLoad
+        return this.usage.systemLoad
     }
 }
