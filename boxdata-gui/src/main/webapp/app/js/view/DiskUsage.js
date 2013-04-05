@@ -51,6 +51,8 @@
             }
         },
 
+        legend: 'bottom',
+
         charts: [
             {
                 xType: 'category',

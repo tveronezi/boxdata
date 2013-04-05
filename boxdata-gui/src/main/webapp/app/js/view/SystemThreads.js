@@ -45,6 +45,8 @@
 
         legend: 'right',
 
+        tooltip: true,
+
         yConfigs: {
             'count-axis': {
                 right: true
