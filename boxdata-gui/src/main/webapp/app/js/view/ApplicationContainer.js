@@ -39,7 +39,7 @@
                         xtype: 'boxdata-disk-usage-panel'
                     }
                 ],
-                flex: 1
+                width: 200
             },
             {
                 xtype: 'panel',
@@ -56,12 +56,17 @@
                         flex: 1
                     },
                     {
-                        padding: '5 5 5 0',
+                        padding: '5 5 0 0',
                         xtype: 'boxdata-jvm-mem-panel',
+                        flex: 1
+                    },
+                    {
+                        padding: '5 5 5 0',
+                        xtype: 'boxdata-threads-panel',
                         flex: 1
                     }
                 ],
-                flex: 2
+                flex: 1
             }
         ]
     });

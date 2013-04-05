@@ -25,6 +25,7 @@
         'application.name': 'boxdata',
         'gigabyte': 'GB',
         'megabyte': 'MB',
+        'application.threads': 'System Threads',
         'application.disk.usage': 'Disk Usage',
         'application.mem.usage': 'Memory Usage',
         'application.system.load': 'System Load',

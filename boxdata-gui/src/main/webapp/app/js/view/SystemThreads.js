@@ -16,14 +16,14 @@
  *  limitations under the License.
  */
 
-
 (function () {
     'use strict';
 
-    Ext.define('boxdata.view.SystemLoad', {
-        title: boxdata.i18n.get('application.system.load'),
+    Ext.define('boxdata.view.SystemThreads', {
+        title: boxdata.i18n.get('application.threads'),
         extend: 'boxdata.ux.Chart',
-        alias: 'widget.boxdata-system-load-panel',
+        alias: 'widget.boxdata-threads-panel',
+
         tools: [
             {
                 itemId: 'refresh',
@@ -34,42 +34,57 @@
             }
         ],
 
+        getCategoryName: function (row) {
+            return 't' + row.get('id');
+        },
+
         charts: [
             {
-                xType: 'datetime',
-                xField: 'timestamp',
-                yType: 'line',
-                yField: function (row) {
-                    var value = row.get('load');
-                    if (value < 0) {
-                        return undefined;
-                    }
-                    return value;
+                xType: 'category',
+                xField: function (row) {
+                    return this.getCategoryName(row);
                 },
-                seriesName: 'system load'
+                yType: 'column',
+                yField: 'blockedCount',
+                seriesName: 'blockedCount'
             },
             {
-                xType: 'datetime',
-                xField: 'timestamp',
-                yType: 'line',
-                yField: 'used-mem',
-                seriesName: 'used memory'
+                xType: 'category',
+                xField: function (row) {
+                    return this.getCategoryName(row);
+                },
+                yType: 'column',
+                yField: 'blockedTime',
+                seriesName: 'blockedTime'
+            },
+            {
+                xType: 'category',
+                xField: function (row) {
+                    return this.getCategoryName(row);
+                },
+                yType: 'column',
+                yField: 'waitedCount',
+                seriesName: 'waitedCount'
+            },
+            {
+                xType: 'category',
+                xField: function (row) {
+                    return this.getCategoryName(row);
+                },
+                yType: 'column',
+                yField: 'waitedTime',
+                seriesName: 'waitedTime'
             }
         ],
 
-        columnLabelsFormatter: function (value) {
-            return (value * 100) + '%';
-        },
-
         beforeInit: function () {
             var me = this;
-            var store = Ext.getStore('SystemLoad');
+            var store = Ext.getStore('SystemThreads');
             store.on('load', function (thisStore, records) {
                 me.setSeries(records);
             });
         }
+
     });
 
 }());
-
-

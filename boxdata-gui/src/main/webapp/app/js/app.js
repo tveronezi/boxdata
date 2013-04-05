@@ -56,7 +56,8 @@
 
         controllers: [
             'DiskUsage',
-            'SystemLoad'
+            'SystemLoad',
+            'SystemThreads'
         ],
 
         launch: function () {
