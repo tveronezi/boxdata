@@ -34,6 +34,12 @@
             }
         ],
 
+        yFormatters: {
+            'used-mem-axis': function (value) {
+                return (value * 100) + '%';
+            }
+        },
+
         charts: [
             {
                 xType: 'datetime',
@@ -51,15 +57,12 @@
             {
                 xType: 'datetime',
                 xField: 'timestamp',
+                yId: 'used-mem-axis',
                 yType: 'line',
                 yField: 'used-mem',
                 seriesName: 'used memory'
             }
         ],
-
-        columnLabelsFormatter: function (value) {
-            return (value * 100) + '%';
-        },
 
         beforeInit: function () {
             var me = this;

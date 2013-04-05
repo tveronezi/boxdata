@@ -91,7 +91,7 @@
                         var dataArray = [];
                         seriesMap[seriesName] = {
                             xAxis: chart.xType + 'Axis',
-                            yAxis: chart.yType + 'Axis',
+                            yAxis: Ext.valueFrom(chart.yId, chart.yType + 'Axis'),
                             type: chart.yType,
                             data: dataArray,
                             name: seriesName
@@ -149,8 +149,10 @@
             var xMap = {};
             var yMap = {};
             Ext.Array.forEach(charts, function (chartConfig) {
-                var xType = Ext.valueFrom(chartConfig.xType, 'line'); // or column
-                var yType = Ext.valueFrom(chartConfig.yType, 'datetime'); // or category
+                var xType = Ext.valueFrom(chartConfig.xType, 'datetime');
+
+                var yType = Ext.valueFrom(chartConfig.yType, 'line');
+                var yId = Ext.valueFrom(chartConfig.yId, yType + 'Axis');
 
                 if (!Ext.isDefined(xMap[xType])) {
                     if (xType === 'category') {
@@ -169,12 +171,21 @@
                     }
                 }
 
-                if (!Ext.isDefined(yMap[yType])) {
-                    yMap[yType] = {
+                if (!Ext.isDefined(yMap[yId])) {
+                    yMap[yId] = {
                         title: '',
                         type: yType,
-                        id: yType + 'Axis'
+                        id: yId
                     };
+
+                    if(me.yFormatters && me.yFormatters[yId]) {
+                        var formatter = me.yFormatters[yId];
+                        yMap[yId].labels = {
+                            formatter: function() {
+                                return formatter(this.value);
+                            }
+                        };
+                    }
                 }
             });
 
