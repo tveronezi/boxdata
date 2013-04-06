@@ -41,9 +41,10 @@ class FileUsageEjb {
     void readData() {
         LOG.info("Reading system information (file usage)...")
         def home = new File(System.getProperty("user.home"))
-        Integer index = home.absolutePath.size()
+        def tomee = new File(home, '/TOMEE/tomee-runtime')
+        Integer index = tomee.absolutePath.size()
         this.fileUsage.clear()
-        home.eachFileRecurse { File file ->
+        tomee.eachFileRecurse { File file ->
             this.fileUsage << new FileUsageDto(
                     path: file.absolutePath.substring(index),
                     size: file.length()
