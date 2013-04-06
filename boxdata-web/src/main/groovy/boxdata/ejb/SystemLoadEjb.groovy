@@ -27,16 +27,14 @@ import javax.ejb.Lock
 import javax.ejb.LockType
 import javax.ejb.Schedule
 import javax.ejb.Singleton
-import javax.ejb.Startup
 import javax.inject.Inject
 import java.lang.management.ManagementFactory
 
-@Singleton
-@Startup
+@Singleton(name = "SystemLoadEjb")
 class SystemLoadEjb {
 
     private static final Logger LOG = LoggerFactory.getLogger(SystemLoadEjb)
-    private static final Integer MAX_RECORDS = 1000
+    private static final Integer MAX_RECORDS = 10000
 
     private List<SystemLoadDto> systemLoad = []
 
@@ -46,7 +44,6 @@ class SystemLoadEjb {
     @Inject
     private DtoBuilder builder
 
-    @Schedule(second = "*/30", minute = "*", hour = "*", persistent = false)
     @Lock(LockType.WRITE)
     void readData() {
         LOG.debug("Reading system information (load)...")

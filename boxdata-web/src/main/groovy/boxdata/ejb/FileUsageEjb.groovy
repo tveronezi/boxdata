@@ -22,40 +22,33 @@ import boxdata.data.dto.FileUsageDto
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import javax.annotation.PostConstruct
 import javax.ejb.Lock
 import javax.ejb.LockType
-import javax.ejb.Schedule
-import javax.ejb.Startup
 import javax.ejb.Singleton
 
-@Singleton
-@Startup
+@Singleton(name = "FileUsageEjb")
 class FileUsageEjb {
     private static final Logger LOG = LoggerFactory.getLogger(FileUsageEjb)
 
+    private static final long MIN_SIZE = 1024 * 1024 * 1
     private List<FileUsageDto> fileUsage = []
 
-    @Schedule(minute = "*/15", hour = "*", persistent = false)
     @Lock(LockType.WRITE)
     void readData() {
         LOG.debug("Reading system information (file usage)...")
 
         def home = new File(System.getProperty("user.home"))
-        def tomee = new File(home, '/TOMEE/tomee-runtime')
-        def index = tomee.absolutePath.size()
+        def index = home.absolutePath.size()
         this.fileUsage.clear()
-        tomee.eachFileRecurse { File file ->
-            this.fileUsage << new FileUsageDto(
-                    path: file.absolutePath.substring(index),
-                    size: file.length()
-            )
+        home.eachFileRecurse { File file ->
+            def size = file.length()
+            if (size >= MIN_SIZE) {
+                this.fileUsage << new FileUsageDto(
+                        path: file.absolutePath.substring(index),
+                        size: file.length()
+                )
+            }
         }
-    }
-
-    @PostConstruct
-    void postConstruct() {
-        readData();
     }
 
     @Lock(LockType.READ)
