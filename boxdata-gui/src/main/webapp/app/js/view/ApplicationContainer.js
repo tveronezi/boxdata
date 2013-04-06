@@ -30,26 +30,9 @@
         border: false,
         items: [
             {
-                xtype: 'panel',
-                layout: {
-                    type: 'vbox',
-                    align: 'stretch',
-                    pack: 'start'
-                },
-                border: false,
-                items: [
-                    {
-                        padding: '5 5 0 5',
-                        xtype: 'boxdata-disk-usage-panel',
-                        flex: 1
-                    },
-                    {
-                        padding: '5 5 5 5',
-                        xtype: 'boxdata-file-usage-panel',
-                        flex: 1
-                    }
-                ],
-                width: 250
+                padding: '5 5 5 5',
+                xtype: 'boxdata-device-usage-panel',
+                flex: 1
             },
             {
                 xtype: 'panel',

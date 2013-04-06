@@ -53,12 +53,20 @@
             }
         },
 
-        getTimeValue: function (row, column) {
+        getNonEmpty: function (row, column) {
             var value = row.get(column);
             if (value < 1) {
                 return null;
             }
             return value;
+        },
+
+        getCountValue: function (row, column) {
+            return this.getNonEmpty(row, column);
+        },
+
+        getTimeValue: function (row, column) {
+            return this.getNonEmpty(row, column);
         },
 
         charts: [
@@ -69,7 +77,9 @@
                 },
                 yType: 'column',
                 yId: 'count-axis',
-                yField: 'blockedCount',
+                yField: function (row) {
+                    return this.getCountValue(row, 'blockedCount');
+                },
                 seriesName: function (row) {
                     return this.buildSeriesName(row, 'blockedCount');
                 }
@@ -95,7 +105,9 @@
                 },
                 yType: 'column',
                 yId: 'count-axis',
-                yField: 'waitedCount',
+                yField: function (row) {
+                    return this.getCountValue(row, 'waitedCount');
+                },
                 seriesName: function (row) {
                     return this.buildSeriesName(row, 'waitedCount');
                 }

@@ -16,7 +16,24 @@
  *  limitations under the License.
  */
 
-Ext.define('boxdata.store.DiskUsage', {
-    extend: 'Ext.data.Store',
-    model: 'boxdata.model.DiskUsage'
-});
+package boxdata.rest
+
+import boxdata.data.dto.DeviceUsageDto
+import boxdata.ejb.DeviceUsageEjb
+
+import javax.ejb.EJB
+import javax.ws.rs.GET
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
+
+@Path("/device-usage")
+class DeviceUsage {
+    @EJB
+    private DeviceUsageEjb device
+
+    @GET
+    @Produces("application/json")
+    DeviceUsageDto get() {
+        return this.device.getUsage()
+    }
+}

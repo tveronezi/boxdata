@@ -19,6 +19,7 @@
         ],
 
         // configurable values
+        xConfigs: {},
         yConfigs: {},
         charts: [],
         series: [],
@@ -74,6 +75,8 @@
             // build the categories array
             Ext.Array.forEach(data, function (item) {
                 Ext.Array.forEach(me.charts, function (chart) {
+                    var chartId = Ext.valueFrom(chart.xId, chart.xType + 'Axis');
+
                     if (chart.pieValue) {
                         // This is a pie. No x or y applied.
                         return;
@@ -81,17 +84,22 @@
                     var x = me.getRowFieldValue(chart.xField, item);
                     if (x) {
                         if (chart.xType === 'category') {
-                            Ext.Array.include(xAxesMap['categoryAxis'].categories, x);
+                            Ext.Array.include(xAxesMap[chartId].categories, x);
                         }
                     }
                 });
             });
 
-            var categories = (Ext.isDefined(xAxesMap['categoryAxis']) ? xAxesMap['categoryAxis'].categories : []);
+
 
             var seriesMap = {};
             Ext.Array.forEach(data, function (item) {
                 Ext.Array.forEach(me.charts, function (chart) {
+                    var chartId = Ext.valueFrom(chart.xId, chart.xType + 'Axis');
+                    var categories = [];
+                    if(Ext.isDefined(xAxesMap[chartId]) && Ext.isDefined(xAxesMap[chartId].categories)) {
+                        categories = xAxesMap[chartId].categories;
+                    }
                     var seriesName = me.getSeriesName(chart, item);
                     if (!seriesMap[seriesName]) {
                         var dataArray = [];
@@ -106,7 +114,7 @@
 
                         } else {
                             seriesMap[seriesName] = {
-                                xAxis: chart.xType + 'Axis',
+                                xAxis: chartId,
                                 yAxis: Ext.valueFrom(chart.yId, chart.yType + 'Axis'),
                                 type: chart.yType,
                                 data: dataArray,
@@ -120,8 +128,11 @@
                     }
 
                     var data = seriesMap[seriesName].data;
-                    if(chart.pieValue) {
-                        data.push(chart.pieValue(item));
+                    if (chart.pieValue) {
+                        var pieResult = chart.pieValue(item);
+                        if (Ext.isDefined(pieResult)) {
+                            data.push(pieResult);
+                        }
 
                     } else {
                         var entry = {
@@ -173,24 +184,34 @@
                 }
 
                 var xType = Ext.valueFrom(chartConfig.xType, 'datetime');
+                var xId = Ext.valueFrom(chartConfig.xId, xType + 'Axis');
 
                 var yType = Ext.valueFrom(chartConfig.yType, 'line');
                 var yId = Ext.valueFrom(chartConfig.yId, yType + 'Axis');
 
-                if (!Ext.isDefined(xMap[xType])) {
+                if (!Ext.isDefined(xMap[xId])) {
                     if (xType === 'category') {
-                        xMap[xType] = {
+                        xMap[xId] = {
                             title: '',
                             categories: [],
-                            id: xType + 'Axis'
+                            id: xId
                         };
 
                     } else {
-                        xMap[xType] = {
+                        xMap[xId] = {
                             title: '',
                             type: xType,
-                            id: xType + 'Axis'
+                            id: xId
                         };
+                    }
+
+                    var xConfig = me.xConfigs[xId];
+                    if (xConfig) {
+                        if (Ext.isDefined(xConfig.labels)) {
+                            xMap[xId].labels = {
+                                enabled: (xConfig.labels ? true : false)
+                            };
+                        }
                     }
                 }
 

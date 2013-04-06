@@ -16,22 +16,28 @@
  *  limitations under the License.
  */
 
-Ext.define('boxdata.model.FileUsage', {
-    extend: 'Ext.data.Model',
-    fields: [
-        'path',
-        {
-            name: 'size',
-            type: 'long'
-        }
-    ],
+package boxdata.ejb
 
-    proxy: {
-        type: 'rest',
-        reader: {
-            type: 'json',
-            root: 'fileUsageDto'
-        },
-        url: 'rest/file-usage'
+import boxdata.data.dto.DeviceUsageDto
+
+import javax.ejb.EJB
+import javax.ejb.Stateless
+
+@Stateless
+class DeviceUsageEjb {
+    @EJB
+    private DiskUsageEjb disk
+
+    @EJB
+    private FileUsageEjb file
+
+    DeviceUsageDto getUsage() {
+        def diskUsage = this.disk.getUsage()
+        def fileUsage = this.file.getUsage()
+
+        return new DeviceUsageDto(
+                diskUsageList: diskUsage,
+                fileUsageList: fileUsage
+        )
     }
-});
+}

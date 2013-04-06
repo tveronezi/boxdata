@@ -39,10 +39,11 @@ class FileUsageEjb {
     @Schedule(minute = "*/15", hour = "*", persistent = false)
     @Lock(LockType.WRITE)
     void readData() {
-        LOG.info("Reading system information (file usage)...")
+        LOG.debug("Reading system information (file usage)...")
+
         def home = new File(System.getProperty("user.home"))
         def tomee = new File(home, '/TOMEE/tomee-runtime')
-        Integer index = tomee.absolutePath.size()
+        def index = tomee.absolutePath.size()
         this.fileUsage.clear()
         tomee.eachFileRecurse { File file ->
             this.fileUsage << new FileUsageDto(
@@ -51,7 +52,6 @@ class FileUsageEjb {
             )
         }
     }
-
 
     @PostConstruct
     void postConstruct() {

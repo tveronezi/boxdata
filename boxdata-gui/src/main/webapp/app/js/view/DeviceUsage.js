@@ -19,10 +19,10 @@
 (function () {
     'use strict';
 
-    Ext.define('boxdata.view.DiskUsage', {
+    Ext.define('boxdata.view.DeviceUsage', {
         title: boxdata.i18n.get('application.disk.usage'),
         extend: 'boxdata.ux.Chart',
-        alias: 'widget.boxdata-disk-usage-panel',
+        alias: 'widget.boxdata-device-usage-panel',
 
         tools: [
             {
@@ -34,14 +34,6 @@
             }
         ],
 
-        getPath: function (rec) {
-            var path = rec.get('path');
-            if ('' === path) {
-                path = '\\';
-            }
-            return path;
-        },
-
         yConfigs: {
             'disk-usage-axis': {
                 formatter: function (value) {
@@ -51,42 +43,46 @@
             }
         },
 
-        legend: 'bottom',
+        xConfigs: {
+            'file-name-axis' : {
+                labels: false
+            }
+        },
+
+        tooltip: true,
 
         charts: [
+//            {
+//                pieValue: function (rec) {
+//                    if (rec.isDiskUsage) {
+//                        return ['used', (rec.total - rec.free)];
+//                    }
+//                    return null;
+//                }
+//            },
+//            {
+//                pieValue: function (rec) {
+//                    if (rec.isDiskUsage) {
+//                        return ['free', rec.free];
+//                    }
+//                    return null;
+//                }
+//            },
             {
+                xId: 'file-name-axis',
                 xType: 'category',
-                xField: function (rec) {
-                    return this.getPath(rec);
-                },
-                yId: 'disk-usage-axis',
-                yType: 'column',
-                yField: 'free',
-                seriesName: 'free'
-            },
-            {
-                xType: 'category',
-                xField: function (rec) {
-                    return this.getPath(rec);
-                },
+                xField: 'path',
                 yId: 'disk-usage-axis',
                 yType: 'column',
                 yField: function (rec) {
-                    var used = rec.get('total') - rec.get('free');
-                    return used;
+                    if (!rec.isDiskUsage) {
+                        return rec.size;
+                    }
+                    return null;
                 },
-                seriesName: 'used'
+                seriesName: 'file-usage'
             }
-        ],
-
-        beforeInit: function () {
-            var me = this;
-            var store = Ext.getStore('DiskUsage');
-            store.on('load', function (thisStore, records) {
-                me.setSeries(records);
-            });
-        }
-
+        ]
     });
 
 }());

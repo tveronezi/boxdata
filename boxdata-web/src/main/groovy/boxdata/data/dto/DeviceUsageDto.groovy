@@ -16,25 +16,21 @@
  *  limitations under the License.
  */
 
-package boxdata.rest
+package boxdata.data.dto
 
-import boxdata.data.dto.FileUsageDto
-import boxdata.ejb.DiskUsageEjb
-import boxdata.ejb.FileUsageEjb
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlElement
+import javax.xml.bind.annotation.XmlRootElement
 
-import javax.ejb.EJB
-import javax.ws.rs.GET
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement
+class DeviceUsageDto {
 
-@Path("/file-usage")
-class FileUsage {
-    @EJB
-    private FileUsageEjb file
+    @XmlElement
+    List<DiskUsageDto> diskUsageList
 
-    @GET
-    @Produces("application/json")
-    List<FileUsageDto> get() {
-        return this.file.getUsage()
-    }
+    @XmlElement
+    List<FileUsageDto> fileUsageList
+
 }
