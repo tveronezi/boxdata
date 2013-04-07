@@ -63,6 +63,10 @@
                     }
                 }
             });
+
+            self.getSystemLoadStore().on('load', function(thisStore, records) {
+                window.console.log('SystemLoadStore -> ' + records.length + ' items');
+            });
         }
     });
 

@@ -44,7 +44,7 @@
         },
 
         xConfigs: {
-            'file-name-axis' : {
+            'file-name-axis': {
                 labels: false
             }
         },
@@ -52,22 +52,6 @@
         tooltip: true,
 
         charts: [
-//            {
-//                pieValue: function (rec) {
-//                    if (rec.isDiskUsage) {
-//                        return ['used', (rec.total - rec.free)];
-//                    }
-//                    return null;
-//                }
-//            },
-//            {
-//                pieValue: function (rec) {
-//                    if (rec.isDiskUsage) {
-//                        return ['free', rec.free];
-//                    }
-//                    return null;
-//                }
-//            },
             {
                 xId: 'file-name-axis',
                 xType: 'category',

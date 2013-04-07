@@ -18,6 +18,9 @@
 
 package boxdata.ejb
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 import javax.annotation.PostConstruct
 import javax.ejb.*
 
@@ -25,6 +28,7 @@ import javax.ejb.*
 @DependsOn(['SystemLoadEjb', 'FileUsageEjb'])
 @Startup
 class SchedulerEjb {
+    private static final Logger LOG = LoggerFactory.getLogger(SchedulerEjb)
 
     @EJB
     private FileUsageEjb file
@@ -44,6 +48,7 @@ class SchedulerEjb {
 
     @PostConstruct
     void postConstruct() {
+        LOG.info("boxdata SCHEDULER started...")
         this.readFileUsage()
         this.readSystemLoad()
     }

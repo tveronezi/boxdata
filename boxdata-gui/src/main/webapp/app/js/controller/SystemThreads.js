@@ -49,6 +49,10 @@
                     }
                 }
             });
+
+            self.getSystemThreadsStore().on('load', function(thisStore, records) {
+                window.console.log('SystemThreadsStore -> ' + records.length + ' items');
+            });
         }
     });
 

@@ -59,6 +59,7 @@
                     Ext.Array.push(data, rawData.deviceUsageDto.fileUsageList);
                 }
             }
+            window.console.log('device-usage -> ' + data.length + ' items');
             self.getMyView().setSeries(data);
         },
 
