@@ -60,6 +60,9 @@
             'count-axis': {
                 right: true,
                 type: 'column'
+            },
+            'time-axis': {
+                type: 'column'
             }
         },
 
@@ -89,22 +92,18 @@
                 yField: function (row) {
                     return this.getCountValue(row, 'blockedCount');
                 },
-                seriesName: function (row) {
-                    return this.buildSeriesName(row, 'blockedCount');
-                }
+                seriesName: 'blockedCount'
             },
             {
                 xId: 'category-axis',
-                yId: 'count-axis',
+                yId: 'time-axis',
                 xField: function (row) {
                     return this.getCategoryName(row);
                 },
                 yField: function (row) {
                     return this.getTimeValue(row, 'blockedTime');
                 },
-                seriesName: function (row) {
-                    return this.buildSeriesName(row, 'blockedTime');
-                }
+                seriesName: 'blockedTime'
             },
             {
                 xId: 'category-axis',
@@ -115,22 +114,18 @@
                 yField: function (row) {
                     return this.getCountValue(row, 'waitedCount');
                 },
-                seriesName: function (row) {
-                    return this.buildSeriesName(row, 'waitedCount');
-                }
+                seriesName: 'waitedCount'
             },
             {
                 xId: 'category-axis',
-                yId: 'count-axis',
+                yId: 'time-axis',
                 xField: function (row) {
                     return this.getCategoryName(row);
                 },
                 yField: function (row) {
                     return this.getTimeValue(row, 'waitedTime');
                 },
-                seriesName: function (row) {
-                    return this.buildSeriesName(row, 'waitedTime');
-                }
+                seriesName: 'waitedTime'
             }
         ],
 

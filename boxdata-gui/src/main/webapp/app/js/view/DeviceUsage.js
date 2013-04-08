@@ -38,8 +38,12 @@
             'disk-usage-axis': {
                 type: 'column',
                 formatter: function (value) {
-                    var number = Ext.util.Format.number((value / 1024 / 1024 / 1024), '0,000.00');
-                    return number + boxdata.i18n.get('gigabyte');
+                    var number = value / 1024 / 1024;
+                    if (number < 1000) {
+                        return Ext.util.Format.number(number, '0,000.00') + boxdata.i18n.get('megabyte');
+                    } else {
+                        return Ext.util.Format.number((number / 1024), '0,000.00') + boxdata.i18n.get('gigabyte');
+                    }
                 }
             }
         },

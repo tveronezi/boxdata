@@ -93,7 +93,6 @@
                         x: me.getRowFieldValue(chart.xField, item),
                         y: me.getRowFieldValue(chart.yField, item),
                         id: index,
-                        type: me.yConfigs[chart.yId].type,
                         marker: {
                             enabled: (chart.marker ? true : false)
                         }
@@ -114,6 +113,7 @@
                         seriesMap[seriesName] = {
                             xAxis: xAxisId,
                             yAxis: chart.yId,
+                            type: me.yConfigs[chart.yId].type,
                             data: dataArray,
                             name: seriesName
                         };
