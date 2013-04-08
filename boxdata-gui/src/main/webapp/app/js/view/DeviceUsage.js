@@ -36,6 +36,7 @@
 
         yConfigs: {
             'disk-usage-axis': {
+                type: 'column',
                 formatter: function (value) {
                     var number = Ext.util.Format.number((value / 1024 / 1024 / 1024), '0,000.00');
                     return number + boxdata.i18n.get('gigabyte');
@@ -45,7 +46,8 @@
 
         xConfigs: {
             'file-name-axis': {
-                labels: false
+                labels: false,
+                type: 'category'
             }
         },
 
@@ -54,10 +56,8 @@
         charts: [
             {
                 xId: 'file-name-axis',
-                xType: 'category',
                 xField: 'path',
                 yId: 'disk-usage-axis',
-                yType: 'column',
                 yField: function (rec) {
                     if (!rec.isDiskUsage) {
                         return rec.size;

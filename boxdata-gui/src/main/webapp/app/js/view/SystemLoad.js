@@ -34,7 +34,19 @@
             }
         ],
 
+
+        tooltip: true,
+
+        xConfigs: {
+            'datetime-axis': {
+                type: 'datetime'
+            }
+        },
+
         yConfigs: {
+            'load-axis': {
+                type: 'line'
+            },
             'used-mem-axis': {
                 right: true,
                 formatter: function (value) {
@@ -43,13 +55,11 @@
             }
         },
 
-        tooltip: true,
-
         charts: [
             {
-                xType: 'datetime',
+                xId: 'datetime-axis',
+                yId: 'load-axis',
                 xField: 'timestamp',
-                yType: 'line',
                 yField: function (row) {
                     var value = row.get('load');
                     if (value < 0) {
@@ -60,10 +70,9 @@
                 seriesName: 'system load'
             },
             {
-                xType: 'datetime',
-                xField: 'timestamp',
+                xId: 'datetime-axis',
                 yId: 'used-mem-axis',
-                yType: 'line',
+                xField: 'timestamp',
                 yField: 'used-mem',
                 seriesName: 'used memory'
             }

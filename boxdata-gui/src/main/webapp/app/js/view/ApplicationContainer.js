@@ -31,7 +31,7 @@
         items: [
             {
                 padding: '5 5 5 5',
-                xtype: 'boxdata-device-usage-panel',
+                xtype: 'panel', //'boxdata-device-usage-panel',
                 flex: 1
             },
             {
@@ -45,12 +45,12 @@
                 items: [
                     {
                         padding: '5 5 0 0',
-                        xtype: 'boxdata-system-load-panel',
+                        xtype: 'panel', //'boxdata-system-load-panel',
                         flex: 1
                     },
                     {
                         padding: '5 5 0 0',
-                        xtype: 'boxdata-jvm-mem-panel',
+                        xtype: 'panel', //'boxdata-jvm-mem-panel',
                         flex: 1
                     },
                     {

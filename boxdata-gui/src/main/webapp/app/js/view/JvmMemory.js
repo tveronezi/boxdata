@@ -57,39 +57,51 @@
 
         legend: 'bottom',
 
+        xConfigs: {
+            'datetime-axis': {
+                type: 'datetime'
+            }
+        },
+
+        yConfigs: {
+            'value-axis': {
+                type: 'area'
+            }
+        },
+
         charts: [
             {
-                xType: 'datetime',
+                xId: 'datetime-axis',
+                yId: 'value-axis',
                 xField: 'timestamp',
-                yType: 'area',
                 yField: 'heapCommitted',
                 seriesName: 'heapCommitted'
             },
             {
-                xType: 'datetime',
+                xId: 'datetime-axis',
+                yId: 'value-axis',
                 xField: 'timestamp',
-                yType: 'area',
                 yField: 'heapUsed',
                 seriesName: 'heapUsed'
             },
             {
-                xType: 'datetime',
+                xId: 'datetime-axis',
+                yId: 'value-axis',
                 xField: 'timestamp',
-                yType: 'area',
                 yField: 'nonHeapCommitted',
                 seriesName: 'nonHeapCommitted'
             },
             {
-                xType: 'datetime',
+                xId: 'datetime-axis',
+                yId: 'value-axis',
                 xField: 'timestamp',
-                yType: 'area',
                 yField: 'nonHeapUsed',
                 seriesName: 'nonHeapUsed'
             },
             {
-                xType: 'datetime',
+                xId: 'datetime-axis',
+                yId: 'value-axis',
                 xField: 'timestamp',
-                yType: 'line',
                 yField: function (row) {
                     var value = row.get('load');
                     if (value < 0) {

@@ -75,167 +75,119 @@
             // build the categories array
             Ext.Array.forEach(data, function (item) {
                 Ext.Array.forEach(me.charts, function (chart) {
-                    var chartId = Ext.valueFrom(chart.xId, chart.xType + 'Axis');
-
-                    if (chart.pieValue) {
-                        // This is a pie. No x or y applied.
-                        return;
-                    }
+                    var axisId = chart.xId;
                     var x = me.getRowFieldValue(chart.xField, item);
                     if (x) {
-                        if (chart.xType === 'category') {
-                            Ext.Array.include(xAxesMap[chartId].categories, x);
+                        if (me.xConfigs[axisId].type === 'category') {
+                            Ext.Array.include(xAxesMap[axisId].categories, x);
                         }
                     }
                 });
             });
-
 
 
             var seriesMap = {};
             Ext.Array.forEach(data, function (item) {
                 Ext.Array.forEach(me.charts, function (chart) {
-                    var chartId = Ext.valueFrom(chart.xId, chart.xType + 'Axis');
-                    var categories = [];
-                    if(Ext.isDefined(xAxesMap[chartId]) && Ext.isDefined(xAxesMap[chartId].categories)) {
-                        categories = xAxesMap[chartId].categories;
+                    var entry = {
+                        x: me.getRowFieldValue(chart.xField, item),
+                        y: me.getRowFieldValue(chart.yField, item),
+                        id: index,
+                        type: me.yConfigs[chart.yId].type,
+                        marker: {
+                            enabled: (chart.marker ? true : false)
+                        }
+                    };
+                    me.rawData[index] = item;
+                    index = index + 1;
+
+                    if (Ext.isEmpty(entry.x) || Ext.isEmpty(entry.y)) {
+                        // There is a undefined value. Skip this line.
+                        return;
                     }
+
+                    var xAxisId = chart.xId;
+                    var categories = Ext.valueFrom(xAxesMap[xAxisId].categories, []);
                     var seriesName = me.getSeriesName(chart, item);
                     if (!seriesMap[seriesName]) {
                         var dataArray = [];
-
-                        if (chart.pieValue) {
-                            // This is a pie. No x or y applied.
-                            seriesMap[seriesName] = {
-                                type: 'pie',
-                                data: dataArray,
-                                name: seriesName
-                            };
-
-                        } else {
-                            seriesMap[seriesName] = {
-                                xAxis: chartId,
-                                yAxis: Ext.valueFrom(chart.yId, chart.yType + 'Axis'),
-                                type: chart.yType,
-                                data: dataArray,
-                                name: seriesName
-                            };
-
-                            Ext.Array.forEach(categories, function () {
-                                dataArray.push(null);
-                            });
-                        }
+                        seriesMap[seriesName] = {
+                            xAxis: xAxisId,
+                            yAxis: chart.yId,
+                            data: dataArray,
+                            name: seriesName
+                        };
+                        Ext.Array.forEach(categories, function () {
+                            dataArray.push(null);
+                        });
                     }
 
                     var data = seriesMap[seriesName].data;
-                    if (chart.pieValue) {
-                        var pieResult = chart.pieValue(item);
-                        if (Ext.isDefined(pieResult)) {
-                            data.push(pieResult);
-                        }
-
+                    if (me.xConfigs[xAxisId].type === 'category') {
+                        var categoryIndex = categories.indexOf(entry.x);
+                        delete entry.x;
+                        data[categoryIndex] = entry;
                     } else {
-                        var entry = {
-                            x: me.getRowFieldValue(chart.xField, item),
-                            y: me.getRowFieldValue(chart.yField, item),
-                            id: index,
-                            marker: {
-                                enabled: (chart.marker ? true : false)
-                            }
-                        };
-                        me.rawData[index] = item;
-                        index = index + 1;
-
-                        if (!Ext.isDefined(entry.x) || !Ext.isDefined(entry.y)) {
-                            // There is a undefined value. Skip this line.
-                            return;
-                        }
-
-                        if (chart.xType === 'category') {
-                            var categoryIndex = categories.indexOf(entry.x);
-                            delete entry.x;
-                            data[categoryIndex] = entry;
-                        } else {
-                            data.push(entry);
-                        }
+                        data.push(entry);
                     }
                 });
             });
 
             var result = Ext.Object.getValues(seriesMap);
+            var removeMe = [];
             Ext.Array.forEach(result, function (series) {
                 if (Ext.isEmpty(series.data)) {
-                    series.showInLegend = false;
+                    removeMe.push(series);
                 }
             });
-            return result;
+            return Ext.Array.difference(result, removeMe);
         },
 
         // private
         prepareAxes: function () {
             var me = this;
-            var charts = me.charts;
             var xMap = {};
             var yMap = {};
-            Ext.Array.forEach(charts, function (chartConfig) {
-                if (chartConfig.pieValue) {
-                    // This is a pie. No x or y applied.
-                    return;
-                }
-
-                var xType = Ext.valueFrom(chartConfig.xType, 'datetime');
-                var xId = Ext.valueFrom(chartConfig.xId, xType + 'Axis');
-
-                var yType = Ext.valueFrom(chartConfig.yType, 'line');
-                var yId = Ext.valueFrom(chartConfig.yId, yType + 'Axis');
-
-                if (!Ext.isDefined(xMap[xId])) {
-                    if (xType === 'category') {
-                        xMap[xId] = {
-                            title: '',
-                            categories: [],
-                            id: xId
-                        };
-
-                    } else {
-                        xMap[xId] = {
-                            title: '',
-                            type: xType,
-                            id: xId
-                        };
-                    }
-
-                    var xConfig = me.xConfigs[xId];
-                    if (xConfig) {
-                        if (Ext.isDefined(xConfig.labels)) {
-                            xMap[xId].labels = {
-                                enabled: (xConfig.labels ? true : false)
-                            };
-                        }
-                    }
-                }
-
-                if (!Ext.isDefined(yMap[yId])) {
-                    yMap[yId] = {
+            Ext.Object.each(me.xConfigs, function (xId, config) {
+                var xType = Ext.valueFrom(config.type, 'datetime');
+                if (xType === 'category') {
+                    xMap[xId] = {
                         title: '',
-                        type: yType,
-                        id: yId
+                        categories: [],
+                        id: xId
                     };
 
-                    var yConfig = me.yConfigs[yId];
-                    if (yConfig) {
-                        if (yConfig.formatter) {
-                            yMap[yId].labels = {
-                                formatter: function () {
-                                    return yConfig.formatter(this.value);
-                                }
-                            };
-                        }
+                } else {
+                    xMap[xId] = {
+                        title: '',
+                        type: xType,
+                        id: xId
+                    };
+                }
+                if (Ext.isDefined(config.labels)) {
+                    xMap[xId].labels = {
+                        enabled: (config.labels ? true : false)
+                    };
+                }
+            });
 
-                        if (yConfig.right) {
-                            yMap[yId].opposite = true;
+            Ext.Object.each(me.yConfigs, function (yId, config) {
+                var yType = Ext.valueFrom(config.type, 'line');
+                yMap[yId] = {
+                    title: '',
+                    type: yType,
+                    id: yId
+                };
+                if (config.formatter) {
+                    yMap[yId].labels = {
+                        formatter: function () {
+                            return config.formatter(this.value);
                         }
-                    }
+                    };
+                }
+
+                if (config.right) {
+                    yMap[yId].opposite = true;
                 }
             });
 

@@ -47,9 +47,19 @@
 
         tooltip: true,
 
+
+
+
+        xConfigs: {
+            'category-axis': {
+                type: 'category'
+            }
+        },
+
         yConfigs: {
             'count-axis': {
-                right: true
+                right: true,
+                type: 'column'
             }
         },
 
@@ -71,12 +81,11 @@
 
         charts: [
             {
-                xType: 'category',
+                xId: 'category-axis',
+                yId: 'count-axis',
                 xField: function (row) {
                     return this.getCategoryName(row);
                 },
-                yType: 'column',
-                yId: 'count-axis',
                 yField: function (row) {
                     return this.getCountValue(row, 'blockedCount');
                 },
@@ -85,12 +94,11 @@
                 }
             },
             {
-                xType: 'category',
+                xId: 'category-axis',
+                yId: 'count-axis',
                 xField: function (row) {
                     return this.getCategoryName(row);
                 },
-                yType: 'column',
-                yId: 'time-axis',
                 yField: function (row) {
                     return this.getTimeValue(row, 'blockedTime');
                 },
@@ -99,12 +107,11 @@
                 }
             },
             {
-                xType: 'category',
+                xId: 'category-axis',
+                yId: 'count-axis',
                 xField: function (row) {
                     return this.getCategoryName(row);
                 },
-                yType: 'column',
-                yId: 'count-axis',
                 yField: function (row) {
                     return this.getCountValue(row, 'waitedCount');
                 },
@@ -113,12 +120,11 @@
                 }
             },
             {
-                xType: 'category',
+                xId: 'category-axis',
+                yId: 'count-axis',
                 xField: function (row) {
                     return this.getCategoryName(row);
                 },
-                yType: 'column',
-                yId: 'time-axis',
                 yField: function (row) {
                     return this.getTimeValue(row, 'waitedTime');
                 },
