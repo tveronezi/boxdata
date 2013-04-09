@@ -199,6 +199,10 @@
                     xMap[xId].labels = {
                         enabled: (config.labels ? true : false)
                     };
+                    if(!xMap[xId].labels.enabled) {
+                        xMap[xId].minorTickLength = 0;
+                        xMap[xId].tickLength = 0;
+                    }
                 }
             });
 
