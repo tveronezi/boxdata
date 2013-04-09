@@ -64,6 +64,11 @@
         },
 
         yConfigs: {
+//            'disk-usage-pie': {
+//                type: 'pie',
+//                center: [80, 100],
+//                size: 100
+//            },
             'disk-usage-axis': {
                 type: 'column',
                 formatter: function (value) {
@@ -97,6 +102,33 @@
                 },
                 seriesName: 'file-usage'
             }
+//            ,
+//            {
+//                yId: 'disk-usage-pie',
+//                yField: function (rec) {
+//                    if (rec.isDiskUsage) {
+//                        return rec.free;
+//                    }
+//                    return null;
+//                },
+//                xField: function (rec) {
+//                    return 'free';
+//                },
+//                seriesName: 'disk-usage'
+//            },
+//            {
+//                yId: 'disk-usage-pie',
+//                yField: function (rec) {
+//                    if (rec.isDiskUsage) {
+//                        return rec.total - rec.free;
+//                    }
+//                    return null;
+//                },
+//                xField: function (rec) {
+//                    return 'used';
+//                },
+//                seriesName: 'disk-usage'
+//            }
         ]
     });
 
