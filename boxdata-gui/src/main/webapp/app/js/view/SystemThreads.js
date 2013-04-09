@@ -40,8 +40,8 @@
 
         legend: 'right',
 
-        tooltip: function (rec, seriesName) {
-            return '<b>' + seriesName + '</b>: ' + rec.get(seriesName);
+        tooltip: function (params) {
+            return '<b>' + params.seriesName + '</b>: ' + params.dataItem.get(params.seriesName);
         },
 
         xConfigs: {

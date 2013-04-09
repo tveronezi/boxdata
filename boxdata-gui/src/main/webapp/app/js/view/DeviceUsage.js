@@ -67,7 +67,11 @@
             'disk-usage-pie': {
                 type: 'pie',
                 center: [80, 100],
-                size: 100
+                size: 100,
+                tooltip: function (value) {
+                    var size = value.yField(value.dataItem);
+                    return this.getSizeString(size);
+                }
             },
             'disk-usage-axis': {
                 type: 'column',
@@ -75,7 +79,8 @@
                     return this.getSizeString(value);
                 },
                 tooltip: function (value) {
-                    return '<b>' + this.getPath(value.path) + '</b>: ' + this.getSizeString(value.size);
+                    var data = value.dataItem;
+                    return '<b>' + this.getPath(data.path) + '</b>: ' + this.getSizeString(data.size);
                 }
             }
         },

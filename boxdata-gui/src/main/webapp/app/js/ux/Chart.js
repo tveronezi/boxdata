@@ -64,11 +64,6 @@
                 data = me.seriesData;
             }
 
-            delete me.rawData;
-            me.rawData = {};
-
-            var index = 0;
-
             var xAxesMap = {};
             Ext.Array.forEach(axes.xAxis, function (axis) {
                 xAxesMap[axis.id] = axis;
@@ -94,16 +89,24 @@
             var seriesMap = {};
             Ext.Array.forEach(data, function (dataItem) {
                 Ext.Array.forEach(me.series, function (seriesItem) {
+                    var seriesName = me.getSeriesName(seriesItem, dataItem);
                     var entry = {
+                        ux: {
+                            yId: seriesItem.yId,
+                            xId: seriesItem.xId,
+                            xField: seriesItem.xField,
+                            yField: seriesItem.yField,
+                            dataItem: dataItem,
+                            seriesName: seriesName
+                        },
+
                         x: me.getRowFieldValue(seriesItem.xField, dataItem),
                         y: me.getRowFieldValue(seriesItem.yField, dataItem),
-                        id: index,
+
                         marker: {
                             enabled: (seriesItem.marker ? true : false)
                         }
                     };
-                    me.rawData[index] = dataItem;
-                    index = index + 1;
 
                     if (Ext.isEmpty(entry.x) || Ext.isEmpty(entry.y)) {
                         // There is a undefined value. Skip this line.
@@ -111,7 +114,6 @@
                     }
 
                     var yConfig = Ext.valueFrom(me.yConfigs[seriesItem.yId], {});
-                    var seriesName = me.getSeriesName(seriesItem, dataItem);
                     var xAxisId = seriesItem.xId;
                     if (!seriesMap[seriesName]) {
                         var dataArray = [];
@@ -252,16 +254,12 @@
                     shared: false,
                     useHTML: true,
                     formatter: function () {
-                        var key = this.point.series.options.yAxis;
-                        if (!Ext.isDefined(key)) {
-                            return false;
-                        }
-                        var tooltipFormatter = me.yConfigs[key].tooltip;
+                        var pOptions = this.point.options;
+                        var tooltipFormatter = me.yConfigs[pOptions.ux.yId].tooltip;
                         if (!Ext.isDefined(tooltipFormatter)) {
                             return false;
                         }
-                        var row = me.rawData[this.point.id];
-                        return tooltipFormatter.call(me, row, this.point.series.name);
+                        return tooltipFormatter.call(me, pOptions.ux);
                     }
                 },
                 plotOptions: {

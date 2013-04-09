@@ -35,7 +35,7 @@
         ],
 
         getPercent: function (value) {
-            return (value * 100) + '%';
+            return Ext.util.Format.number((value * 100), '0,0.00') + '%';
         },
 
         xConfigs: {
@@ -47,8 +47,8 @@
         yConfigs: {
             'load-axis': {
                 type: 'line',
-                tooltip: function (value, seriesName) {
-                    return '<b>' + seriesName + '</b>: ' + value[seriesName];
+                tooltip: function (value) {
+                    return '<b>' + value.seriesName + '</b>: ' + value.yField(value.dataItem);
                 }
             },
             'used-mem-axis': {
@@ -56,8 +56,8 @@
                 formatter: function (value) {
                     return this.getPercent(value);
                 },
-                tooltip: function (value, seriesName) {
-                    return this.getPercent(value[seriesName]);
+                tooltip: function (value) {
+                    return this.getPercent(value.dataItem[value.yField]);
                 }
             }
         },
