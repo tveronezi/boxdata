@@ -103,9 +103,9 @@
                 yId: 'value-axis',
                 xField: 'timestamp',
                 yField: function (row) {
-                    var value = row.get('load');
+                    var value = row.load;
                     if (value < 0) {
-                        return undefined;
+                        return null;
                     }
                     return value;
                 },
@@ -117,28 +117,21 @@
             var first = records[0];
             var template = boxdata.view.JvmMemory.tooltipTemplate;
             var output = template.apply({
-                'heapCommitted': first.get('heapCommitted'),
-                'heapInit': first.get('heapInit'),
-                'heapMax': first.get('heapMax'),
-                'heapUsed': first.get('heapUsed'),
-                'load': first.get('load'),
-                'nonHeapCommitted': first.get('nonHeapCommitted'),
-                'nonHeapInit': first.get('nonHeapInit'),
-                'nonHeapMax': first.get('nonHeapMax'),
-                'nonHeapUsed': first.get('nonHeapUsed'),
-                'timestamp': first.get('timestamp'),
-                'usedmem': first.get('used-mem')
+                'heapCommitted': first.heapCommitted,
+                'heapInit': first.heapInit,
+                'heapMax': first.heapMax,
+                'heapUsed': first.heapUsed,
+                'load': first.load,
+                'nonHeapCommitted': first.nonHeapCommitted,
+                'nonHeapInit': first.nonHeapInit,
+                'nonHeapMax': first.nonHeapMax,
+                'nonHeapUsed': first.nonHeapUsed,
+                'timestamp': first.timestamp,
+                'usedmem': first['used-mem']
             });
             return output;
-        },
-
-        beforeInit: function () {
-            var me = this;
-            var store = Ext.getStore('SystemLoad');
-            store.on('load', function (thisStore, records) {
-                me.setSeries(records);
-            });
         }
+
     });
 
 }());

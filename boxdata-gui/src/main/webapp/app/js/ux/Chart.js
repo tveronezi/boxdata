@@ -231,6 +231,9 @@
                     }
                 },
                 plotOptions: {
+                    series: {
+                        turboThreshold: 10000
+                    },
                     column: {
                         stacking: 'normal'
                     },

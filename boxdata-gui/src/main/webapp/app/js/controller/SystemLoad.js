@@ -30,19 +30,39 @@
             'JvmMemory'
         ],
 
-        stores: [
-            'SystemLoad'
+        refs: [
+            {
+                ref: 'loadView',
+                selector: 'boxdata-system-load-panel'
+            },
+            {
+                ref: 'memoryView',
+                selector: 'boxdata-jvm-mem-panel'
+            }
         ],
 
         loadData: function () {
             var self = this;
-            self.getSystemLoadStore().load({
-                callback: function () {
-                    window.setTimeout(function () {
-                        self.loadData();
-                    }, TIMEOUT);
-                }
-            });
+            if (!self.currentRequest) {
+                self.currentRequest = Ext.Ajax.request({
+                    url: 'rest/system-load',
+                    callback: function () {
+                        delete self.currentRequest;
+                    },
+                    success: function (response) {
+                        var text = response.responseText;
+                        var json = Ext.JSON.decode(text);
+                        self.setData(json);
+                    }
+                });
+            }
+        },
+
+        setData: function (rawData) {
+            var self = this;
+            window.console.log('system-load -> ' + rawData.systemLoadDto.length + ' items');
+            self.getLoadView().setSeries(rawData.systemLoadDto);
+            self.getMemoryView().setSeries(rawData.systemLoadDto);
         },
 
         init: function () {
@@ -54,18 +74,14 @@
                         self.loadData();
                     },
                     refreshpanel: function () {
-                        self.getSystemLoadStore().load();
+                        self.loadData();
                     }
                 },
                 'boxdata-jvm-mem-panel': {
                     refreshpanel: function () {
-                        self.getSystemLoadStore().load();
+                        self.loadData();
                     }
                 }
-            });
-
-            self.getSystemLoadStore().on('load', function(thisStore, records) {
-                window.console.log('SystemLoadStore -> ' + records.length + ' items');
             });
         }
     });

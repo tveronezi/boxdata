@@ -58,9 +58,9 @@
                 yId: 'load-axis',
                 xField: 'timestamp',
                 yField: function (row) {
-                    var value = row.get('load');
+                    var value = row.load;
                     if (value < 0) {
-                        return undefined;
+                        return null;
                     }
                     return value;
                 },
@@ -73,15 +73,8 @@
                 yField: 'used-mem',
                 seriesName: 'used memory'
             }
-        ],
+        ]
 
-        beforeInit: function () {
-            var me = this;
-            var store = Ext.getStore('SystemLoad');
-            store.on('load', function (thisStore, records) {
-                me.setSeries(records);
-            });
-        }
     });
 
 }());

@@ -38,11 +38,6 @@
             return 't' + row.get('id');
         },
 
-        buildSeriesName: function (row, field) {
-            var threadName = this.getCategoryName(row);
-            return threadName + ' - ' + field;
-        },
-
         legend: 'right',
 
         tooltip: function (rec, seriesName) {
