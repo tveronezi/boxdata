@@ -24,6 +24,10 @@
         extend: 'boxdata.ux.Chart',
         alias: 'widget.boxdata-device-usage-panel',
 
+        statics: {
+            MAX_PATH_LENGTH: 50
+        },
+
         tools: [
             {
                 itemId: 'refresh',
@@ -34,16 +38,39 @@
             }
         ],
 
+        getSizeString: function (value) {
+            var number = value / 1024 / 1024;
+            if (number < 1000) {
+                return Ext.util.Format.number(number, '0,000.00') + boxdata.i18n.get('megabyte');
+            } else {
+                return Ext.util.Format.number((number / 1024), '0,000.00') + boxdata.i18n.get('gigabyte');
+            }
+        },
+
+        getPath: function (path) {
+            if (path.length > boxdata.view.DeviceUsage.MAX_PATH_LENGTH) {
+                var arr = path.split('\\');
+                if (arr.length === 1) {
+                    arr = path.split('/');
+                }
+                if (arr.length === 1) {
+                    return Ext.String.ellipsis(path, boxdata.view.DeviceUsage.MAX_PATH_LENGTH);
+                } else {
+                    return this.getPath(path.substr(arr[0].length + 1));
+                }
+            } else {
+                return path;
+            }
+        },
+
         yConfigs: {
             'disk-usage-axis': {
                 type: 'column',
                 formatter: function (value) {
-                    var number = value / 1024 / 1024;
-                    if (number < 1000) {
-                        return Ext.util.Format.number(number, '0,000.00') + boxdata.i18n.get('megabyte');
-                    } else {
-                        return Ext.util.Format.number((number / 1024), '0,000.00') + boxdata.i18n.get('gigabyte');
-                    }
+                    return this.getSizeString(value);
+                },
+                tooltip: function (value) {
+                    return '<b>' + this.getPath(value.path) + '</b>: ' + this.getSizeString(value.size);
                 }
             }
         },

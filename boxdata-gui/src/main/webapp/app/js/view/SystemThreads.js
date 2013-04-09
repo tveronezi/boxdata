@@ -45,10 +45,9 @@
 
         legend: 'right',
 
-        tooltip: true,
-
-
-
+        tooltip: function (rec, seriesName) {
+            return '<b>' + seriesName + '</b>: ' + rec.get(seriesName);
+        },
 
         xConfigs: {
             'category-axis': {
@@ -59,10 +58,16 @@
         yConfigs: {
             'count-axis': {
                 right: true,
-                type: 'column'
+                type: 'column',
+                tooltip: function (value) {
+                    return this.tooltip.apply(this, arguments);
+                }
             },
             'time-axis': {
-                type: 'column'
+                type: 'column',
+                tooltip: function (value) {
+                    return this.tooltip.apply(this, arguments);
+                }
             }
         },
 

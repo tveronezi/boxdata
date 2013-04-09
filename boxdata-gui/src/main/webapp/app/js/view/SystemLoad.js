@@ -34,9 +34,6 @@
             }
         ],
 
-
-        tooltip: true,
-
         xConfigs: {
             'datetime-axis': {
                 type: 'datetime'

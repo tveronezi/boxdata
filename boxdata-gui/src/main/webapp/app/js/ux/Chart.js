@@ -23,7 +23,6 @@
         yConfigs: {},
         charts: [],
         series: [],
-        tooltip: undefined,
         legend: undefined,  // 'bottom' or 'right'
 
         setSeries: function (series) {
@@ -181,7 +180,7 @@
                 if (config.formatter) {
                     yMap[yId].labels = {
                         formatter: function () {
-                            return config.formatter(this.value);
+                            return config.formatter.call(me, this.value);
                         }
                     };
                 }
@@ -219,7 +218,17 @@
                     enabled: false
                 },
                 tooltip: {
-                    enabled: false
+                    enabled: true,
+                    shared: false,
+                    useHTML: true,
+                    formatter: function () {
+                        var tooltipFormatter = me.yConfigs[this.point.series.options.yAxis].tooltip;
+                        if (!Ext.isDefined(tooltipFormatter)) {
+                            return false;
+                        }
+                        var row = me.rawData[this.point.id];
+                        return tooltipFormatter.call(me, row, this.point.series.name);
+                    }
                 },
                 plotOptions: {
                     column: {
@@ -264,25 +273,6 @@
 
             config.chart = config.chart || {};
             config.chart.renderTo = container.id;
-
-            // preparing the 'tooltip' object that HighCharts understands.
-            if (me.tooltip) {
-                config.tooltip.enabled = true;
-                if (Ext.isFunction(me.tooltip)) {
-                    config.tooltip.shared = true;
-                    config.tooltip.useHTML = true;
-                    config.tooltip.formatter = function () {
-                        var points = this.points;
-                        var rows = [];
-                        Ext.Array.forEach(points, function (item) {
-                            rows.push(me.rawData[item.point.id]);
-                        });
-                        var formatter = me.tooltip;
-                        return formatter.call(me, rows);
-                    };
-                }
-            }
-
 
             if (me.legend) {
                 config.legend.enabled = true;
