@@ -61,8 +61,8 @@
         setData: function (rawData) {
             var self = this;
             window.console.log('system-load -> ' + rawData.systemLoadDto.length + ' items');
-            self.getLoadView().setSeries(rawData.systemLoadDto);
-            self.getMemoryView().setSeries(rawData.systemLoadDto);
+            self.getLoadView().setData(rawData.systemLoadDto);
+            self.getMemoryView().setData(rawData.systemLoadDto);
         },
 
         init: function () {

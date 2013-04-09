@@ -133,7 +133,7 @@
             var me = this;
             var store = Ext.getStore('SystemThreads');
             store.on('load', function (thisStore, records) {
-                me.setSeries(records);
+                me.setData(records);
             });
         }
 

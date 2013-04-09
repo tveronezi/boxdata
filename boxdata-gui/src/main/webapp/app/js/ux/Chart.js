@@ -22,11 +22,11 @@
         xConfigs: {},
         yConfigs: {},
         charts: [],
-        series: [],
+        seriesData: [],
         legend: undefined,  // 'bottom' or 'right'
 
-        setSeries: function (series) {
-            this.series = series;
+        setData: function (data) {
+            this.seriesData = data;
             this.showChart();
         },
 
@@ -55,10 +55,10 @@
         prepareData: function (axes) {
             var me = this;
             var data;
-            if (Ext.isFunction(me.series)) {
-                data = me.series();
+            if (Ext.isFunction(me.seriesData)) {
+                data = me.seriesData();
             } else {
-                data = me.series;
+                data = me.seriesData;
             }
 
             delete me.rawData;

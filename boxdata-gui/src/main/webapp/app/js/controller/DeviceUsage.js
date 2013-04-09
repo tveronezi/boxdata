@@ -60,7 +60,7 @@
                 }
             }
             window.console.log('device-usage -> ' + data.length + ' items');
-            self.getMyView().setSeries(data);
+            self.getMyView().setData(data);
         },
 
         loadData: function () {
