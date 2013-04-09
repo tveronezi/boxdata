@@ -34,6 +34,10 @@
             }
         ],
 
+        getPercent: function (value) {
+            return (value * 100) + '%';
+        },
+
         xConfigs: {
             'datetime-axis': {
                 type: 'datetime'
@@ -42,12 +46,18 @@
 
         yConfigs: {
             'load-axis': {
-                type: 'line'
+                type: 'line',
+                tooltip: function (value, seriesName) {
+                    return '<b>' + seriesName + '</b>: ' + value[seriesName];
+                }
             },
             'used-mem-axis': {
                 right: true,
                 formatter: function (value) {
-                    return (value * 100) + '%';
+                    return this.getPercent(value);
+                },
+                tooltip: function (value, seriesName) {
+                    return this.getPercent(value[seriesName]);
                 }
             }
         },
@@ -64,14 +74,14 @@
                     }
                     return value;
                 },
-                seriesName: 'system load'
+                seriesName: 'load'
             },
             {
                 xId: 'datetime-axis',
                 yId: 'used-mem-axis',
                 xField: 'timestamp',
                 yField: 'used-mem',
-                seriesName: 'used memory'
+                seriesName: 'used-mem'
             }
         ]
 
