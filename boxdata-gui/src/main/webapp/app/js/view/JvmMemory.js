@@ -69,7 +69,7 @@
             }
         },
 
-        charts: [
+        series: [
             {
                 xId: 'datetime-axis',
                 yId: 'value-axis',

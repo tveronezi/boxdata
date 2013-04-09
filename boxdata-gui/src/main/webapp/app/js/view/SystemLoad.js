@@ -62,7 +62,7 @@
             }
         },
 
-        charts: [
+        series: [
             {
                 xId: 'datetime-axis',
                 yId: 'load-axis',

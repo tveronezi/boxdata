@@ -82,7 +82,7 @@
             return this.getNonEmpty(row, column);
         },
 
-        charts: [
+        series: [
             {
                 xId: 'category-axis',
                 yId: 'count-axis',
@@ -127,15 +127,7 @@
                 },
                 seriesName: 'waitedTime'
             }
-        ],
-
-        beforeInit: function () {
-            var me = this;
-            var store = Ext.getStore('SystemThreads');
-            store.on('load', function (thisStore, records) {
-                me.setData(records);
-            });
-        }
+        ]
 
     });
 

@@ -31,6 +31,13 @@
             'SystemThreads'
         ],
 
+        refs: [
+            {
+                ref: 'threadsView',
+                selector: 'boxdata-threads-panel'
+            }
+        ],
+
         loadData: function () {
             var self = this;
             this.getSystemThreadsStore().load();
@@ -50,9 +57,15 @@
                 }
             });
 
-            self.getSystemThreadsStore().on('load', function(thisStore, records) {
-                window.console.log('SystemThreadsStore -> ' + records.length + ' items');
+            self.getSystemThreadsStore().on('load', function (thisStore, records) {
+                var data = records;
+                if (!data) {
+                    data = [];
+                }
+                window.console.log('SystemThreadsStore -> ' + data.length + ' items');
+                self.getThreadsView().setData(data);
             });
+
         }
     });
 

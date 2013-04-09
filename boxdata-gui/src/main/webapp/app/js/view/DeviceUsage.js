@@ -84,7 +84,7 @@
 
         tooltip: true,
 
-        charts: [
+        series: [
             {
                 xId: 'file-name-axis',
                 xField: 'path',

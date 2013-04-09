@@ -21,7 +21,7 @@
         // configurable values
         xConfigs: {},
         yConfigs: {},
-        charts: [],
+        series: [],
         seriesData: [],
         legend: undefined,  // 'bottom' or 'right'
 
@@ -73,7 +73,7 @@
 
             // build the categories array
             Ext.Array.forEach(data, function (item) {
-                Ext.Array.forEach(me.charts, function (chart) {
+                Ext.Array.forEach(me.series, function (chart) {
                     var axisId = chart.xId;
                     var x = me.getRowFieldValue(chart.xField, item);
                     if (x) {
@@ -87,7 +87,7 @@
 
             var seriesMap = {};
             Ext.Array.forEach(data, function (item) {
-                Ext.Array.forEach(me.charts, function (chart) {
+                Ext.Array.forEach(me.series, function (chart) {
                     var entry = {
                         x: me.getRowFieldValue(chart.xField, item),
                         y: me.getRowFieldValue(chart.yField, item),
