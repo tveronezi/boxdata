@@ -112,6 +112,7 @@
 
                     var yConfig = Ext.valueFrom(me.yConfigs[seriesItem.yId], {});
                     var seriesName = me.getSeriesName(seriesItem, dataItem);
+                    var xAxisId = seriesItem.xId;
                     if (!seriesMap[seriesName]) {
                         var dataArray = [];
                         seriesMap[seriesName] = {
@@ -120,23 +121,37 @@
                             name: seriesName
                         };
 
-                        var xAxisId = seriesItem.xId;
+                        if (yConfig.type === 'pie') {
+                            if (Ext.isDefined(yConfig.center)) {
+                                seriesMap[seriesName].center = yConfig.center;
+                            }
+                            if (Ext.isDefined(yConfig.size)) {
+                                seriesMap[seriesName].size = yConfig.size;
+                            }
+                        }
+
                         if (!Ext.isEmpty(xAxisId)) {
                             seriesMap[seriesName].xAxis = xAxisId;
                             seriesMap[seriesName].yAxis = seriesItem.yId;
 
-                            var categories = Ext.valueFrom(xAxesMap[xAxisId].categories, []);
-                            Ext.Array.forEach(categories, function () {
-                                dataArray.push(null);
-                            });
+                            (function () {
+                                var categories = Ext.valueFrom(xAxesMap[xAxisId].categories, []);
+                                Ext.Array.forEach(categories, function () {
+                                    dataArray.push(null);
+                                });
+                            }());
                         }
                     }
 
                     var data = seriesMap[seriesName].data;
                     if (!Ext.isEmpty(xAxisId) && me.xConfigs[xAxisId].type === 'category') {
-                        var categoryIndex = categories.indexOf(entry.x);
-                        delete entry.x;
-                        data[categoryIndex] = entry;
+                        (function () {
+                            var categories = xAxesMap[xAxisId].categories;
+                            var categoryIndex = categories.indexOf(entry.x);
+                            delete entry.x;
+                            data[categoryIndex] = entry;
+                        }());
+
                     } else if (yConfig.type === 'pie') {
                         entry.name = entry.x;
                         delete entry.x;
