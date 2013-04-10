@@ -199,7 +199,7 @@
                     xMap[xId].labels = {
                         enabled: (config.labels ? true : false)
                     };
-                    if(!xMap[xId].labels.enabled) {
+                    if (!xMap[xId].labels.enabled) {
                         xMap[xId].minorTickLength = 0;
                         xMap[xId].tickLength = 0;
                     }
@@ -281,9 +281,22 @@
 
         },
 
+        mask: function (msg) {
+            if (Ext.isDefined(this.body)) {
+                this.body.mask(msg);
+            }
+        },
+
+        unmask: function () {
+            if (Ext.isDefined(this.body)) {
+                this.body.unmask();
+            }
+        },
+
         // private
         showChart: function (params) {
             var me = this;
+            me.mask(boxdata.i18n.get('preparing.chart'));
 
             if (params && params.delay) {
                 if (me.showChartTask) {
@@ -341,6 +354,8 @@
             }
 
             me.chart = new Highcharts.Chart(config);
+
+            me.unmask();
         },
 
         listeners: {

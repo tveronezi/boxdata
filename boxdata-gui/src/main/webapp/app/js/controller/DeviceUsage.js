@@ -65,11 +65,13 @@
 
         loadData: function () {
             var self = this;
+            self.getMyView().mask(boxdata.i18n.get('loading.data'));
             if (!self.currentRequest) {
                 self.currentRequest = Ext.Ajax.request({
                     url: 'rest/device-usage',
                     callback: function () {
                         delete self.currentRequest;
+                        self.getMyView().unmask();
                     },
                     success: function (response) {
                         var text = response.responseText;

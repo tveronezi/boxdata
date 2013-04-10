@@ -43,11 +43,15 @@
 
         loadData: function () {
             var self = this;
+            self.getLoadView().mask(boxdata.i18n.get('loading.data'));
+            self.getMemoryView().mask(boxdata.i18n.get('loading.data'));
             if (!self.currentRequest) {
                 self.currentRequest = Ext.Ajax.request({
                     url: 'rest/system-load',
                     callback: function () {
                         delete self.currentRequest;
+                        self.getLoadView().unmask();
+                        self.getMemoryView().unmask();
                     },
                     success: function (response) {
                         var text = response.responseText;

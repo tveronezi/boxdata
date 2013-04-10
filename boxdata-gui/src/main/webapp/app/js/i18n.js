@@ -25,6 +25,8 @@
         'application.name': 'boxdata',
         'gigabyte': 'GB',
         'megabyte': 'MB',
+        'preparing.chart': 'Preparing chart...',
+        'loading.data': 'Loading data...',
         'application.threads': 'System Threads',
         'application.disk.usage': 'Disk Usage',
         'application.file.usage': 'File Usage',

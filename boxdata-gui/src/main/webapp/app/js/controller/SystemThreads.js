@@ -57,12 +57,17 @@
                 }
             });
 
-            self.getSystemThreadsStore().on('load', function (thisStore, records) {
+            var store = self.getSystemThreadsStore();
+            store.on('beforeload', function () {
+                self.getThreadsView().mask(boxdata.i18n.get('loading.data'));
+            });
+            store.on('load', function (thisStore, records) {
                 var data = records;
                 if (!data) {
                     data = [];
                 }
                 window.console.log('SystemThreadsStore -> ' + data.length + ' items');
+                self.getThreadsView().unmask();
                 self.getThreadsView().setData(data);
             });
 
