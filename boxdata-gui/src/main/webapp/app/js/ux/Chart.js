@@ -278,7 +278,6 @@
                     }
                 }
             };
-
         },
 
         mask: function (msg) {
