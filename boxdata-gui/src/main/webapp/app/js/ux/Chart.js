@@ -19,8 +19,8 @@
         ],
 
         // configurable values
-        xConfigs: {},
-        yConfigs: {},
+        xAxis: {},
+        yAxis: {},
         series: [],
         seriesData: [],
         legend: undefined,  // 'bottom' or 'right'
@@ -76,7 +76,7 @@
                     if (!axisId) {
                         return; // pies have no xId
                     }
-                    if (me.xConfigs[axisId].type !== 'category') {
+                    if (me.xAxis[axisId].type !== 'category') {
                         return; // no-op
                     }
                     var x = me.getRowFieldValue(seriesItem.xField, dataItem);
@@ -113,7 +113,7 @@
                         return;
                     }
 
-                    var yConfig = Ext.valueFrom(me.yConfigs[seriesItem.yId], {});
+                    var yConfig = Ext.valueFrom(me.yAxis[seriesItem.yId], {});
                     var xAxisId = seriesItem.xId;
                     if (!seriesMap[seriesName]) {
                         var dataArray = [];
@@ -146,7 +146,7 @@
                     }
 
                     var data = seriesMap[seriesName].data;
-                    if (!Ext.isEmpty(xAxisId) && me.xConfigs[xAxisId].type === 'category') {
+                    if (!Ext.isEmpty(xAxisId) && me.xAxis[xAxisId].type === 'category') {
                         (function () {
                             var categories = xAxesMap[xAxisId].categories;
                             var categoryIndex = categories.indexOf(entry.x);
@@ -179,7 +179,7 @@
             var me = this;
             var xMap = {};
             var yMap = {};
-            Ext.Object.each(me.xConfigs, function (xId, config) {
+            Ext.Object.each(me.xAxis, function (xId, config) {
                 var xType = Ext.valueFrom(config.type, 'datetime');
                 if (xType === 'category') {
                     xMap[xId] = {
@@ -206,7 +206,7 @@
                 }
             });
 
-            Ext.Object.each(me.yConfigs, function (yId, config) {
+            Ext.Object.each(me.yAxis, function (yId, config) {
                 var yType = Ext.valueFrom(config.type, 'line');
                 yMap[yId] = {
                     title: '',
@@ -259,7 +259,7 @@
                     useHTML: true,
                     formatter: function () {
                         var pOptions = this.point.options;
-                        var tooltipFormatter = me.yConfigs[pOptions.ux.yId].tooltip;
+                        var tooltipFormatter = me.yAxis[pOptions.ux.yId].tooltip;
                         if (!Ext.isDefined(tooltipFormatter)) {
                             return false;
                         }

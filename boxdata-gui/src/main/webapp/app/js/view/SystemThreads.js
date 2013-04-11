@@ -44,13 +44,13 @@
             return '<b>' + params.seriesName + '</b>: ' + params.dataItem.get(params.seriesName);
         },
 
-        xConfigs: {
+        xAxis: {
             'category-axis': {
                 type: 'category'
             }
         },
 
-        yConfigs: {
+        yAxis: {
             'count-axis': {
                 right: true,
                 type: 'column',

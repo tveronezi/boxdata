@@ -38,13 +38,13 @@
             return Ext.util.Format.number((value * 100), '0,0.00') + '%';
         },
 
-        xConfigs: {
+        xAxis: {
             'datetime-axis': {
                 type: 'datetime'
             }
         },
 
-        yConfigs: {
+        yAxis: {
             'load-axis': {
                 type: 'line',
                 tooltip: function (value) {

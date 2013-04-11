@@ -57,13 +57,13 @@
 
         legend: 'bottom',
 
-        xConfigs: {
+        xAxis: {
             'datetime-axis': {
                 type: 'datetime'
             }
         },
 
-        yConfigs: {
+        yAxis: {
             'value-axis': {
                 type: 'area'
             }

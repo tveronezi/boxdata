@@ -63,7 +63,7 @@
             }
         },
 
-        yConfigs: {
+        yAxis: {
             'disk-usage-pie': {
                 type: 'pie',
                 center: [80, 100],
@@ -85,7 +85,7 @@
             }
         },
 
-        xConfigs: {
+        xAxis: {
             'file-name-axis': {
                 labels: false,
                 type: 'category'
