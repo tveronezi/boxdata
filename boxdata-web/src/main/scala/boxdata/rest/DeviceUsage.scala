@@ -34,6 +34,6 @@ class DeviceUsage {
     @GET
     @Produces(Array("application/json"))
     def get(): DeviceUsageDto = {
-        device.getUsage()
+        device.getUsage
     }
 }

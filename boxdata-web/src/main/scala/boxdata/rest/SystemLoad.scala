@@ -36,6 +36,6 @@ class SystemLoad {
     @GET
     @Produces(Array("application/json"))
     def get(): java.util.List[SystemLoadDto] = {
-        system.getSystemLoad().asJava
+        system.getSystemLoad.asJava
     }
 }

@@ -35,34 +35,35 @@ class FileUsageEjb {
     val MIN_SIZE = 1024 * 1024 * 1
     val fileUsage: MutableList[FileUsageDto] = MutableList()
 
-    def buildUsage(root: File, index: Int): Unit = {
-        root.listFiles().foreach { file =>
-            if(file.isDirectory()) {
-                buildUsage(file, index)
-            } else {
-                val size = file.length()
-                if (size >= MIN_SIZE) {
-                   val dto = new FileUsageDto()
-                   dto.path = file.getAbsolutePath().substring(index)
-                   dto.size = file.length()
-                   fileUsage += dto
+    def buildUsage(root: File, index: Int) {
+        root.listFiles().foreach {
+            file =>
+                if (file.isDirectory) {
+                    buildUsage(file, index)
+                } else {
+                    val size = file.length()
+                    if (size >= MIN_SIZE) {
+                        val dto = new FileUsageDto()
+                        dto.path = file.getAbsolutePath.substring(index)
+                        dto.size = file.length()
+                        fileUsage += dto
+                    }
                 }
-            }
         }
     }
 
     @Lock(LockType.WRITE)
-    def readData(): Unit = {
+    def readData() {
         LOG.debug("Reading system information (file usage)...")
 
         val home = new File(System.getProperty("user.home"))
-        val index = home.getAbsolutePath().size
+        val index = home.getAbsolutePath.size
         fileUsage.clear()
         buildUsage(home, index)
     }
 
     @Lock(LockType.READ)
-    def getUsage(): List[FileUsageDto] = {
-        fileUsage.elements.toList
+    def getUsage: List[FileUsageDto] = {
+        fileUsage.iterator.toList
     }
 }

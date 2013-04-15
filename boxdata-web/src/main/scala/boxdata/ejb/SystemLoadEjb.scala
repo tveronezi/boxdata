@@ -26,7 +26,6 @@ import collection.mutable.ListBuffer
 
 import javax.ejb.Lock
 import javax.ejb.LockType
-import javax.ejb.Schedule
 import javax.ejb.Singleton
 import javax.inject.Inject
 import java.lang.management.ManagementFactory
@@ -38,29 +37,29 @@ class SystemLoadEjb {
 
     val systemLoad: ListBuffer[SystemLoadDto] = ListBuffer()
 
-    val osBean = ManagementFactory.getOperatingSystemMXBean()
-    val memoryBean = ManagementFactory.getMemoryMXBean()
+    val osBean = ManagementFactory.getOperatingSystemMXBean
+    val memoryBean = ManagementFactory.getMemoryMXBean
 
     @Inject
     var builder: DtoBuilder = _
 
     @Lock(LockType.WRITE)
-    def readData(): Unit = {
+    def readData() {
         LOG.debug("Reading system information (load)...")
 
-        val free = Runtime.getRuntime().freeMemory()
-        val total = Runtime.getRuntime().totalMemory()
+        val free = Runtime.getRuntime.freeMemory()
+        val total = Runtime.getRuntime.totalMemory()
 
-        val heap = memoryBean.getHeapMemoryUsage()
-        val nonHeap = memoryBean.getNonHeapMemoryUsage()
+        val heap = memoryBean.getHeapMemoryUsage
+        val nonHeap = memoryBean.getNonHeapMemoryUsage
 
         systemLoad += builder.buildSystemLoadDto(
-                System.currentTimeMillis(),
-                osBean.getSystemLoadAverage(),
-                total,
-                free,
-                heap,
-                nonHeap
+            System.currentTimeMillis(),
+            osBean.getSystemLoadAverage,
+            total,
+            free,
+            heap,
+            nonHeap
         )
         while (systemLoad.size > MAX_RECORDS) {
             systemLoad -= systemLoad.head
@@ -68,7 +67,7 @@ class SystemLoadEjb {
     }
 
     @Lock(LockType.READ)
-    def getSystemLoad(): List[SystemLoadDto] = {
-        systemLoad.elements.toList
+    def getSystemLoad: List[SystemLoadDto] = {
+        systemLoad.iterator.toList
     }
 }

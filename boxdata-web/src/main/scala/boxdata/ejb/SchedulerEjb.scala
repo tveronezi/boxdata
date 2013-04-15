@@ -36,17 +36,17 @@ class SchedulerEjb {
     var load: SystemLoadEjb = _
 
     @Schedule(minute = "*/15", hour = "*", persistent = false)
-    def readFileUsage(): Unit = {
+    def readFileUsage() {
         file.readData()
     }
 
     @Schedule(second = "*/10", minute = "*", hour = "*", persistent = false)
-    def readSystemLoad(): Unit = {
+    def readSystemLoad() {
         load.readData()
     }
 
     @PostConstruct
-    def postConstruct(): Unit = {
+    def postConstruct() {
         LOG.info("boxdata SCHEDULER started...")
         readFileUsage()
         readSystemLoad()

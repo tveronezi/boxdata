@@ -19,7 +19,6 @@
 package boxdata.ejb
 
 import boxdata.cdi.util.DtoBuilder
-import boxdata.data.dto.FileUsageDto
 import boxdata.data.dto.DiskUsageDto
 
 import java.io.File
@@ -32,15 +31,15 @@ class DiskUsageEjb {
     @Inject
     var builder: DtoBuilder = _
 
-    def getUsage(): List[DiskUsageDto] = {
+    def getUsage: List[DiskUsageDto] = {
         File.listRoots().collect {
             case root: File => {
                 builder.buildDiskUsageDto(
-                        root.getAbsolutePath(),
-                        root.getTotalSpace(),
-                        root.getFreeSpace()
+                    root.getAbsolutePath,
+                    root.getTotalSpace,
+                    root.getFreeSpace
                 )
             }
-        }.elements.toList
+        }.iterator.toList
     }
 }

@@ -29,18 +29,18 @@ import java.lang.management.ManagementFactory
 @Stateless
 class SystemThreadsEjb {
     val LOG = LoggerFactory.getLogger(getClass)
-    val threadBean = ManagementFactory.getThreadMXBean()
+    val threadBean = ManagementFactory.getThreadMXBean
 
     @Inject
     var builder: DtoBuilder = _
 
-    def getThreadsInfo(): List[ThreadDto] = {
-        val uids = threadBean.getAllThreadIds()
+    def getThreadsInfo: List[ThreadDto] = {
+        val uids = threadBean.getAllThreadIds
         uids.collect {
             case id => {
                 val info = threadBean.getThreadInfo(id)
                 builder.buildThreadDto(info)
             }
-        }.elements.toList
+        }.iterator.toList
     }
 }

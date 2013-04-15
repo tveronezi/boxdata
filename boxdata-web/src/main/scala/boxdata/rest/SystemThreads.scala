@@ -31,11 +31,11 @@ import javax.ws.rs.Produces
 @Path("/system-threads")
 class SystemThreads {
     @EJB
-     var threads: SystemThreadsEjb = _
+    var threads: SystemThreadsEjb = _
 
     @GET
     @Produces(Array("application/json"))
     def get(): java.util.List[ThreadDto] = {
-        threads.getThreadsInfo().asJava
+        threads.getThreadsInfo.asJava
     }
 }

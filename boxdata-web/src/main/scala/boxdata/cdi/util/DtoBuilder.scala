@@ -31,19 +31,19 @@ class DtoBuilder {
 
     def buildThreadDto(info: ThreadInfo): ThreadDto = {
         val dto = new ThreadDto()
-        dto.id = info.getThreadId()
-        dto.name = info.getThreadName()
-        dto.blockedCount = info.getBlockedCount()
-        dto.blockedTime = info.getBlockedTime()
-        dto.waitedCount = info.getWaitedCount()
-        dto.waitedTime = info.getWaitedTime()
-        dto.state = info.getThreadState().name()
+        dto.id = info.getThreadId
+        dto.name = info.getThreadName
+        dto.blockedCount = info.getBlockedCount
+        dto.blockedTime = info.getBlockedTime
+        dto.waitedCount = info.getWaitedCount
+        dto.waitedTime = info.getWaitedTime
+        dto.state = info.getThreadState.name()
         dto
     }
 
     def buildDiskUsageDto(path: String, total: Long, free: Long): DiskUsageDto = {
         val resourcePath = path.replaceAll("[^A-Za-z0-9]", "")
-        var dto = new DiskUsageDto()
+        val dto = new DiskUsageDto()
         dto.path = resourcePath
         dto.total = total
         dto.free = free
@@ -51,22 +51,22 @@ class DtoBuilder {
     }
 
     def buildSystemLoadDto(timestamp: Long, value: Double, totalMem: Long, freeMem: Long,
-                                     heap: MemoryUsage, nonHeap: MemoryUsage): SystemLoadDto = {
+                           heap: MemoryUsage, nonHeap: MemoryUsage): SystemLoadDto = {
         val used = (totalMem - freeMem) / totalMem
         val dto = new SystemLoadDto()
         dto.timestamp = timestamp
         dto.load = value
         dto.usedMemory = used
 
-        dto.heapInit = heap.getInit()
-        dto.heapMax = heap.getMax()
-        dto.heapCommitted = heap.getCommitted()
-        dto.heapUsed = heap.getUsed()
+        dto.heapInit = heap.getInit
+        dto.heapMax = heap.getMax
+        dto.heapCommitted = heap.getCommitted
+        dto.heapUsed = heap.getUsed
 
-        dto.nonHeapInit = nonHeap.getInit()
-        dto.nonHeapMax = nonHeap.getMax()
-        dto.nonHeapCommitted = nonHeap.getCommitted()
-        dto.nonHeapUsed = nonHeap.getUsed()
+        dto.nonHeapInit = nonHeap.getInit
+        dto.nonHeapMax = nonHeap.getMax
+        dto.nonHeapCommitted = nonHeap.getCommitted
+        dto.nonHeapUsed = nonHeap.getUsed
         dto
     }
 }
