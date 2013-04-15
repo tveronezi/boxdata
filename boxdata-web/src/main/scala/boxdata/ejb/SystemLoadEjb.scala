@@ -47,8 +47,9 @@ class SystemLoadEjb {
     def readData() {
         LOG.debug("Reading system information (load)...")
 
-        val free = Runtime.getRuntime.freeMemory()
-        val total = Runtime.getRuntime.totalMemory()
+        val runtime = Runtime.getRuntime
+        val free = runtime.freeMemory()
+        val total = runtime.totalMemory()
 
         val heap = memoryBean.getHeapMemoryUsage
         val nonHeap = memoryBean.getNonHeapMemoryUsage

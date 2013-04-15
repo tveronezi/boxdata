@@ -20,8 +20,16 @@ package boxdata.rest
 
 import javax.ws.rs.ApplicationPath
 import javax.ws.rs.core.Application
+import java.util
+import scala.collection.JavaConverters._
 
 @ApplicationPath("/rest")
 class ApplicationConfig extends Application {
-
+    override def getClasses: util.Set[Class[_]] = {
+        Set[Class[_]](
+            classOf[DeviceUsage],
+            classOf[SystemLoad],
+            classOf[SystemThreads]
+        ).asJava
+    }
 }

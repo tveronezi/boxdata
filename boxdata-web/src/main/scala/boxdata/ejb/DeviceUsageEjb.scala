@@ -34,11 +34,9 @@ class DeviceUsageEjb {
     var file: FileUsageEjb = _
 
     def getUsage: DeviceUsageDto = {
-        val diskUsage = disk.getUsage
-        val fileUsage = file.getUsage
         val dto = new DeviceUsageDto
-        dto.diskUsageList = diskUsage.asJava
-        dto.fileUsageList = fileUsage.asJava
+        dto.diskUsageList = disk.getUsage.asJava
+        dto.fileUsageList = file.getUsage.asJava
         dto
     }
 }
