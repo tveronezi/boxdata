@@ -36,7 +36,11 @@ class FileUsageEjb {
     val fileUsage: MutableList[FileUsageDto] = MutableList()
 
     def buildUsage(root: File, index: Int) {
-        root.listFiles().foreach {
+        def files = root.listFiles()
+        if(files == null) {
+          return
+        }
+        files.foreach {
             file =>
                 if (file.isDirectory) {
                     buildUsage(file, index)
