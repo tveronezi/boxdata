@@ -26,6 +26,7 @@
         <tomee.version>1.6.0-SNAPSHOT</tomee.version>
         <openejb.version>4.6.0-SNAPSHOT</openejb.version>
         <scala.version>2.9.2</scala.version>
+        <scala.plugin.version>2.15.2</scala.plugin.version>
         <junit.version>4.10</junit.version>
     </properties>
     <modules>
