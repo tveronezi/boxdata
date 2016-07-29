@@ -13,5 +13,3 @@ You can run the application by following these simple steps.
 
 1. >= Maven 3.x.x 
 2. >= Java 1.6
-
-a
